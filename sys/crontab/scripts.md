@@ -2,7 +2,7 @@
 title: Untitled Page
 description: practice unix users crontabs
 published: true
-date: 2020-11-21T21:34:12.509Z
+date: 2020-11-21T22:49:32.825Z
 tags: crontabs sys unix
 editor: markdown
 dateCreated: 2020-11-20T10:49:49.158Z
@@ -27,6 +27,10 @@ then the  `env` can help us by spawing a new program with an empty environmenent
 ```
  The  first  form  of  this  command is used to install a new crontab from some named file or standard input if the pseudo-filename
        ``-'' is given.
+```
+
+```bash
+env -i sh -c '. crontab.env; myscript.sh'
 ```
 
 
