@@ -2,7 +2,7 @@
 title: Untitled Page
 description: practice unix users crontabs
 published: true
-date: 2020-11-21T00:12:18.201Z
+date: 2020-11-21T21:34:12.509Z
 tags: crontabs sys unix
 editor: markdown
 dateCreated: 2020-11-20T10:49:49.158Z
@@ -19,7 +19,17 @@ these files are considered "internal" to the system and may not be changed to av
 
 # Testing crontab scripts
 who did never made a script working all well and when inside the crontab environment .. it crashes
-This is often because the environment is not all fully initialised. Running a job as cron 
+This is often because the environment is not all fully initialised. To run a script inside the crontab environment you can "extract" the ennvironment inside the cron with a simple :
+```bash
+env > crontab.env
+```
+then the  `env` can help us by spawing a new program with an empty environmenent as said by the manual :
+```
+ The  first  form  of  this  command is used to install a new crontab from some named file or standard input if the pseudo-filename
+       ``-'' is given.
+```
+
+
 # references
 - https://askubuntu.com/questions/216692/where-is-the-user-crontab-stored
 - https://benohead.com/blog/2012/09/10/linux-simulate-the-cron-environment-to-test-run-your-scripts/
