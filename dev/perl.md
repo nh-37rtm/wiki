@@ -2,7 +2,7 @@
 title: CPAN and building modules
 description: Problem when installing a module via CPAN
 published: true
-date: 2020-11-22T20:48:36.073Z
+date: 2020-11-22T20:49:43.652Z
 tags: perl, cpan, module
 editor: markdown
 dateCreated: 2020-11-22T20:47:53.040Z
