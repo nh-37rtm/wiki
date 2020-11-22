@@ -2,7 +2,7 @@
 title: CPAN and building modules
 description: Problem when installing a module via CPAN
 published: true
-date: 2020-11-22T20:47:53.041Z
+date: 2020-11-22T20:48:36.073Z
 tags: perl, cpan, module
 editor: markdown
 dateCreated: 2020-11-22T20:47:53.040Z
@@ -24,7 +24,7 @@ Warning: No success on command[/usr/bin/perl Makefile.PL INSTALLDIRS=site]
   /usr/bin/perl Makefile.PL INSTALLDIRS=site -- NOT OK
 ````
 
-the module required to install the libperl-dev ubuntu package or to patch the Makefile.pl :
+the module required to install the ``libperl-dev`` ubuntu package or to patch the Makefile.pl :
 ````patch
 diff --git a/Makefile.PL b/Makefile.PL
 index bb72a57..9573cce 100644
