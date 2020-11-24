@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-24T16:10:29.205Z
+date: 2020-11-24T16:11:53.160Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -31,6 +31,8 @@ To have more information on how to build a snapcraft package let's have a look a
 An application can have multiples channels, it's considered as a group of branches witch can contains for exemple the stable channel, the candidate channel etc ...
 
 During packaging and to help you with confinement/interfaces customisation and see in real time the features that are required are required you can use the snappy-debug tool (which is a snap too) ans will let you know whitch calls are blocked by the confinement tool.
+
+to install it let's run ``snap install snappy-debug`` then ``snappy-debug.security scnalog``
 
 references :
 
