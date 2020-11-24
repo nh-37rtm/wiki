@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-24T16:11:53.160Z
+date: 2020-11-24T16:38:14.868Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -28,11 +28,23 @@ Snap is compatible with some others linux distribs
 Snapcraft is a snap application (i like the concept of the application packaged by itself ^^) to build snap package described by a yaml file.
 To have more information on how to build a snapcraft package let's have a look at https://snapcraft.io/docs/creating-snapcraft-yaml
 
+## Installation
+the steps to install it :
+- install the snap package for your distrivution (if not already installed) ``apt install snap``
+- install the snapcraft snap : ``sudo snap install snapcraft --classic``
+- install multipass (the snap version of multipass is required) : ``sudo snap install multipass --classic``
+
 An application can have multiples channels, it's considered as a group of branches witch can contains for exemple the stable channel, the candidate channel etc ...
 
-During packaging and to help you with confinement/interfaces customisation and see in real time the features that are required are required you can use the snappy-debug tool (which is a snap too) ans will let you know whitch calls are blocked by the confinement tool.
+During packaging and to help you with confinement/interfaces customisation and see in real time the features that are required are required you can use the ``snappy-debug`` tool (which is a snap too) ans will let you know whitch calls are blocked by the confinement tool. It can be used as a packager debugging tool.
 
 to install it let's run ``snap install snappy-debug`` then ``snappy-debug.security scnalog``
+
+## the first snap project
+the snapcraft descriptor is a yaml file format called snapcraf.yaml
+
+just type ``snapcraft init`` in the working folder of you project
+
 
 references :
 
