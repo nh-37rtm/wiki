@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-25T12:09:03.252Z
+date: 2020-11-25T12:27:26.241Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -54,6 +54,11 @@ nheim@nheim-virtual-machine:~/src/test$ tree
 
 1 directory, 1 file
 ````
+
+the snapcraft.yml contains a skeleton
+
+to install a package which is not from the store you have to use the option ``--dangerous``
+
 
 ##
 references :
