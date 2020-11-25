@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-24T17:05:07.667Z
+date: 2020-11-25T12:09:03.252Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -45,7 +45,17 @@ the snapcraft descriptor is a yaml file format called snapcraf.yaml
 
 just type ``snapcraft init`` in the working folder of you project
 
+this will build this kind of structure :
+````
+nheim@nheim-virtual-machine:~/src/test$ tree
+.
+└── snap
+    └── snapcraft.yaml
 
+1 directory, 1 file
+````
+
+##
 references :
 
 - https://www.youtube.com/watch?v=BEp_l2oUcD8
