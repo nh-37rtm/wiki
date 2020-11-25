@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-25T12:27:26.241Z
+date: 2020-11-25T12:28:59.815Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -33,6 +33,8 @@ the steps to install it :
 - install the snap package for your distrivution (if not already installed) ``apt install snap``
 - install the snapcraft snap : ``sudo snap install snapcraft --classic``
 - install multipass (the snap version of multipass is required) : ``sudo snap install multipass --classic``
+
+multipass is used to build the snap to start the build from an untainted and clean environment
 
 An application can have multiples channels, it's considered as a group of branches witch can contains for exemple the stable channel, the candidate channel etc ...
 
