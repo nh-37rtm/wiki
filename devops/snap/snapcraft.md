@@ -2,7 +2,7 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-25T12:28:59.815Z
+date: 2020-11-26T23:18:19.815Z
 tags: snap snapcraft openvpn easy-openvpn
 editor: markdown
 dateCreated: 2020-11-24T15:22:24.265Z
@@ -61,6 +61,10 @@ the snapcraft.yml contains a skeleton
 
 to install a package which is not from the store you have to use the option ``--dangerous``
 
+the package can have parameters using :
+````
+sudo snap set easy-openvpn-server push-default-gateway=False
+````
 
 ##
 references :
