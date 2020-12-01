@@ -2,7 +2,7 @@
 title: links to coopalim projects
 description: 
 published: true
-date: 2020-11-29T10:02:30.803Z
+date: 2020-12-01T08:11:31.291Z
 tags: 
 editor: markdown
 dateCreated: 2020-11-29T10:02:30.803Z
@@ -31,3 +31,8 @@ Les scripts utilitaires pour client docker
 Les schémas "swarm" :
 
 ![schémas_cluster_swarm.png](/schémas_cluster_swarm.png)https://chat.coopalimstrasbourg.com/files/tan8jc8ucbrf7g9eqes5kqophr/public?h=N8MzaxB_fSzcSohPFXlPQndpkWemwqPib2CEF_EEwLQ
+
+
+## Docs
+
+passbolt : https://docs.google.com/document/d/15cQyd3DIlfgBm14fTf4izsBtABuDkV43-EPUWI-Aocg/edit
