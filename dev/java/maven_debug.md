@@ -3,8 +3,8 @@ title: debug tests with maven
 description: option of surefire plugin to listen for a IDE debugger
 published: true
 date: 2020-12-05T11:20:37.635Z
-tags: 
-editor: undefined
+tags: java, surefire, debug, maven
+editor: markdown
 dateCreated: 2020-12-01T09:36:22.296Z
 ---
 
@@ -32,6 +32,7 @@ mvn -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspe
 
 ## reference
 - https://maven.apache.org/plugins/maven-surefire-plugin/index.html
+<<<<<<< HEAD
 - https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
 
 # Arquillian
@@ -125,3 +126,5 @@ docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 mvn clean verify -Darquillian=jbossas-managed-7
 
 ````
+=======
+- https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
