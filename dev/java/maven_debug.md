@@ -2,7 +2,11 @@
 title: debug tests with maven
 description: option of surefire plugin to listen for a IDE debugger
 published: true
+<<<<<<< HEAD
 date: 2020-12-05T11:20:37.635Z
+=======
+date: 2020-12-02T11:35:00.414Z
+>>>>>>> docs: update dev/java/maven_debug
 tags: java, surefire, debug, maven
 editor: markdown
 dateCreated: 2020-12-01T09:36:22.296Z
@@ -32,6 +36,7 @@ mvn -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspe
 
 ## reference
 - https://maven.apache.org/plugins/maven-surefire-plugin/index.html
+<<<<<<< HEAD
 <<<<<<< HEAD
 - https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
 
@@ -99,6 +104,10 @@ we can see two profiles in this configuration
 to connect to a remote existing wildfly application server
 
 
+=======
+- https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
+
+>>>>>>> docs: update dev/java/maven_debug
 # Wildfly
 
 ````
@@ -110,6 +119,7 @@ docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 
 docker run -p 8080:8080 jboss/keycloak
 
+<<<<<<< HEAD
 docker run -e JAVA_OPTS_APPEND="-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8787,server=y,suspend=n" -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e ROOT_LOGLEVEL=DEBUG -p 8080:8080 -p 9990:9990 -p 8787:8787 -it jboss/keycloak -b 0.0.0.0 -bmanagement 0.0.0.0
 
 docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
@@ -128,3 +138,7 @@ mvn clean verify -Darquillian=jbossas-managed-7
 ````
 =======
 - https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
+=======
+docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e ROOT_LOGLEVEL=DEBUG -p 8080:8080 -p 9990:9990 -it jboss/keycloak -b 0.0.0.0 -bmanagement 0.0.0.0
+````
+>>>>>>> docs: update dev/java/maven_debug
