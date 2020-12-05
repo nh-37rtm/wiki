@@ -2,9 +2,9 @@
 title: snapcraft and easy-openvpn
 description: Building customized snap package of the easy-openvpn package
 published: true
-date: 2020-11-26T23:19:04.630Z
-tags: snap snapcraft openvpn easy-openvpn
-editor: markdown
+date: 2020-11-26T23:19:09.669Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-24T15:22:24.265Z
 ---
 

@@ -97,7 +97,7 @@ we can see two profiles in this configuration
 
 to connect to a remote existing wildfly application server
 
-- https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
+
 # Wildfly
 
 ````
@@ -123,7 +123,5 @@ docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 
 ````
 mvn clean verify -Darquillian=jbossas-managed-7
-````
-- https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
-docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e ROOT_LOGLEVEL=DEBUG -p 8080:8080 -p 9990:9990 -it jboss/keycloak -b 0.0.0.0 -bmanagement 0.0.0.0
+
 ````

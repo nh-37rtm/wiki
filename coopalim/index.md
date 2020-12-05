@@ -2,10 +2,10 @@
 title: links to coopalim projects
 description: 
 published: true
-date: 2020-12-01T08:58:26.229Z
-tags: coopalim
-editor: markdown
-dateCreated: 2020-11-29T10:02:30.803Z
+date: 2020-12-05T15:26:17.852Z
+tags: 
+editor: undefined
+dateCreated: 2020-12-05T15:26:14.183Z
 ---
 
 # CoopAlim infra

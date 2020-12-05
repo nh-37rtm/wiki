@@ -2,9 +2,9 @@
 title: Easy-openvpn snap package rebuild
 description: let's rebuild the `easy-openvpn` package to customize some parameters
 published: true
-date: 2020-11-21T23:05:02.163Z
-tags: snap snapcraft easy-openvpn openvpn
-editor: markdown
+date: 2020-11-21T23:05:10.410Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-21T23:05:02.163Z
 ---
 

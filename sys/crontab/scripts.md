@@ -2,9 +2,9 @@
 title: Untitled Page
 description: practice unix users crontabs
 published: true
-date: 2020-11-21T22:52:32.207Z
-tags: crontabs sys unix
-editor: markdown
+date: 2020-11-21T22:52:46.486Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-20T10:49:49.158Z
 ---
 

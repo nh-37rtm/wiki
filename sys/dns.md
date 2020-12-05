@@ -2,9 +2,9 @@
 title: DNS configuration
 description: Modification of the auto generated resolvconf configuration file
 published: true
-date: 2020-11-24T14:51:16.185Z
-tags: dns, opendns, configuration, resolvconf
-editor: markdown
+date: 2020-11-24T14:51:20.064Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-24T14:39:06.205Z
 ---
 
