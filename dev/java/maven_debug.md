@@ -2,7 +2,7 @@
 title: debug tests with maven
 description: option of surefire plugin to listen for a IDE debugger
 published: true
-date: 2020-12-05T11:10:58.765Z
+date: 2020-12-05T11:20:34.912Z
 tags: java, surefire, debug, maven
 editor: markdown
 dateCreated: 2020-12-01T09:36:22.296Z
@@ -39,6 +39,9 @@ mvn -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspe
 Arquillian is a debbugging tool for JavaEE. It manage a protocol to connect to an application server (or just spawn a temporary local managed application server for the test) and run whatever tests you would like, using the application server environement !
 
 it use a configuration file positionned in ``src/test/resources/arquillian.xml`` for exemple it can be :
+
+the specification of this file can be found (depending on the adapter used) at https://docs.jboss.org/author/index.html
+
 
 ````xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -111,6 +114,10 @@ docker run -e JAVA_OPTS_APPEND="-agentlib:jdwp=transport=dt_socket,address=0.0.0
 docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
     -e KEYCLOAK_IMPORT=/tmp/quickstart-realm.json -v ./quickstart-realm.json:/tmp/quickstart-realm.json jboss/keycloak
 ````
+
+## reference
+- https://docs.wildfly.org/20/Testsuite.html
+- https://github.com/wildfly/wildfly/blob/master/testsuite/integration/manualmode/src/test/config/arq/arquillian.xml
 
 # Maven
 
