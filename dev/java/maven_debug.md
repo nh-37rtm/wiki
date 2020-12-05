@@ -2,9 +2,9 @@
 title: debug tests with maven
 description: option of surefire plugin to listen for a IDE debugger
 published: true
-date: 2020-12-05T11:20:34.912Z
-tags: java, surefire, debug, maven
-editor: markdown
+date: 2020-12-05T11:20:37.635Z
+tags: 
+editor: undefined
 dateCreated: 2020-12-01T09:36:22.296Z
 ---
 
