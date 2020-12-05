@@ -2,7 +2,7 @@
 title: debug tests with maven
 description: option of surefire plugin to listen for a IDE debugger
 published: true
-date: 2020-12-02T11:35:00.414Z
+date: 2020-12-05T11:10:58.765Z
 tags: java, surefire, debug, maven
 editor: markdown
 dateCreated: 2020-12-01T09:36:22.296Z
@@ -34,6 +34,67 @@ mvn -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspe
 - https://maven.apache.org/plugins/maven-surefire-plugin/index.html
 - https://doc.nuxeo.com/corg/how-to-debug-a-test-run-with-maven/
 
+# Arquillian
+
+Arquillian is a debbugging tool for JavaEE. It manage a protocol to connect to an application server (or just spawn a temporary local managed application server for the test) and run whatever tests you would like, using the application server environement !
+
+it use a configuration file positionned in ``src/test/resources/arquillian.xml`` for exemple it can be :
+
+````xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- JBoss, Home of Professional Open Source Copyright 2012, Red Hat, Inc.
+	and/or its affiliates, and individual contributors by the @authors tag. See
+	the copyright.txt in the distribution for a full listing of individual contributors.
+	Licensed under the Apache License, Version 2.0 (the "License"); you may not
+	use this file except in compliance with the License. You may obtain a copy
+	of the License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+	by applicable law or agreed to in writing, software distributed under the
+	License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+	OF ANY KIND, either express or implied. See the License for the specific
+	language governing permissions and limitations under the License. -->
+<arquillian xmlns="http://jboss.org/schema/arquillian"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://jboss.org/schema/arquillian
+        http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
+    <!-- Example configuration for a remote JBoss AS 7 instance -->
+    <defaultProtocol type="jmx-as7" />
+    <container qualifier="wildfly-remote" default="true" >
+        <configuration>
+            <property name="managementAddress">10.0.0.2</property>
+            <property name="managementPort">9990</property>
+            <property name="username">admin</property>
+            <property name="password">admin</property>
+            <property name="allowConnectingToRunningServer">true</property>
+        </configuration>
+    </container>
+    <container qualifier="wildfly-remote2">
+<!--        <protocol type="Servlet 3.0">
+            <property name="host">10.0.0.1</property>
+            <property name="port">9990</property>
+        </protocol>-->
+        <configuration>
+            <property name="managementAddress">10.0.0.1</property>
+            <property name="managementPort">9990</property>
+            <property name="username">admin</property>
+            <property name="password">admin</property>
+            <property name="allowConnectingToRunningServer">true</property>
+        </configuration>
+    </container>
+</arquillian>
+
+````
+
+we can see two profiles in this configuration
+
+
+
+## selecting 
+
+## Arquillian and Wildfly
+
+to connect to a remote existing wildfly application server
+
+
 # Wildfly
 
 ````
@@ -45,5 +106,15 @@ docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
 
 docker run -p 8080:8080 jboss/keycloak
 
-docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e ROOT_LOGLEVEL=DEBUG -p 8080:8080 -p 9990:9990 -it jboss/keycloak -b 0.0.0.0 -bmanagement 0.0.0.0
+docker run -e JAVA_OPTS_APPEND="-agentlib:jdwp=transport=dt_socket,address=0.0.0.0:8787,server=y,suspend=n" -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e ROOT_LOGLEVEL=DEBUG -p 8080:8080 -p 9990:9990 -p 8787:8787 -it jboss/keycloak -b 0.0.0.0 -bmanagement 0.0.0.0
+
+docker run -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin \
+    -e KEYCLOAK_IMPORT=/tmp/quickstart-realm.json -v ./quickstart-realm.json:/tmp/quickstart-realm.json jboss/keycloak
+````
+
+# Maven
+
+````
+mvn clean verify -Darquillian=jbossas-managed-7
+
 ````
