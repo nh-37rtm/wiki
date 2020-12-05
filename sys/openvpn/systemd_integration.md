@@ -2,9 +2,9 @@
 title: openvpn and systemd
 description: openvpn client systemd integration
 published: true
-date: 2020-11-27T00:04:37.820Z
-tags: systemd, openvpn
-editor: markdown
+date: 2020-11-27T00:04:45.320Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-27T00:04:37.820Z
 ---
 

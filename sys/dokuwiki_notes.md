@@ -2,9 +2,9 @@
 title: Dokuwiki install notes
 description: 
 published: true
-date: 2020-11-21T23:12:04.991Z
-tags: dokuwiki docker install
-editor: markdown
+date: 2020-11-21T23:12:18.860Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-21T23:12:04.991Z
 ---
 

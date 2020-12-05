@@ -2,9 +2,9 @@
 title: Windows with multiple tap devices
 description: how to add a tap interface on windows
 published: true
-date: 2020-11-22T15:12:18.541Z
-tags: windows tun tap openvpn
-editor: markdown
+date: 2020-11-22T15:12:25.907Z
+tags: 
+editor: undefined
 dateCreated: 2020-11-22T15:12:18.541Z
 ---
 
