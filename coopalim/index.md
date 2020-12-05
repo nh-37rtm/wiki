@@ -3,7 +3,8 @@ title: links to coopalim projects
 description: 
 published: true
 date: 2020-12-01T08:58:26.229Z
-date: 2020-12-01T08:58:30.408Z
+tags: coopalim
+editor: markdown
 dateCreated: 2020-11-29T10:02:30.803Z
 ---
 
