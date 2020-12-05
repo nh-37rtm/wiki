@@ -2,17 +2,8 @@
 title: links to coopalim projects
 description: 
 published: true
-<<<<<<< HEAD
-<<<<<<< HEAD
-date: 2020-12-01T08:58:30.408Z
-=======
 date: 2020-12-01T08:58:26.229Z
->>>>>>> docs: update coopalim/index
-=======
 date: 2020-12-01T08:58:30.408Z
->>>>>>> docs: add all untracked content
-tags: 
-editor: undefined
 dateCreated: 2020-11-29T10:02:30.803Z
 ---
 
