@@ -87,7 +87,10 @@ the specification of this file can be found (depending on the adapter used) at h
 
 ````
 
-we can see two profiles in this configuration
+we can see two profiles in this configuration, to select an Arquillian profile when running the maven command just use the ``arquillian.launch`` option :
+````
+nheim@nheim-virtual-machine:~/src/javaTest$ mvn test -Parq-wildfly-remote -Darquillian.lauch=wildfly-remote2
+````
 
 
 
