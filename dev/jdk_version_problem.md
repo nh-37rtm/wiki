@@ -2,7 +2,7 @@
 title: yet another jdk version error identification
 description: 
 published: true
-date: 2020-12-18T10:19:02.782Z
+date: 2020-12-18T10:19:56.679Z
 tags: java, openjdk14
 editor: markdown
 dateCreated: 2020-11-30T08:58:38.630Z
@@ -27,19 +27,5 @@ Caused by: java.lang.reflect.InaccessibleObjectException: Unable to make public 
 I felt like (to confirm) the problem was security access to reflexion object.
 I was using the OpenJDK14 version and just changing it to the OpenJDK8 worked.
 
-
-- allo
-	- à l'huile
-		- dfgfdg
-- dfgfdg
-
-  
-
->
-> this is somme info
-> - allo
->  - à l'huile
->    - yop
-{.is-info}
 
 
