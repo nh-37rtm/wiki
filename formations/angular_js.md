@@ -524,6 +524,9 @@ utiliser --prod lors du build pour passer la variable à false
 
 pas de risque pour la prod étant donné que le code non utilisé ne devrai pas apparaitre dans la version de prod (Tree Leaf Shaking)
 
+### guards
+
+https://medium.com/@jacobneterer/angular-authentication-securing-routes-with-route-guards-2be6c51b6a23
 
 ### References
 
@@ -531,3 +534,305 @@ Mazen Gharbi
 https://codepen.io/
 Mazen Gharbi
 https://angular.io/api/common/http/HttpInterceptor
+
+
+
+
+### rappel composant
+
+````
+template : `<app-child [toto]="valeur"></app-child>
+<app-child></app-child>
+<app-child></app-child>`
+
+...
+
+@Input("toto") maProprio : string;
+````
+
+Dans le composant :
+
+ngOnInit()
+ngAfterViewInit()
+ngOnDestroy()
+
+Pouruqoi initialiser dans ngOnInit plutôt que dans le constructor ?
+
+constructeur est appellé avant, trop avant, les données ne sont pas toujours initialisées
+le constructeur n'est utilisé que pour la gestion des dépendances
+
+migration progressive vers angular possible
+
+pas un injecteur par component sauf quand on surcharge un injecteur on à une nouvelle instance
+
+MomentJs librairie DateTime
+librairie Javascript possible de l'utiliser comme une librairie Angular avec un injecteur en template
+
+### modification du dom (@ViewChild)
+
+https://blog.macademia.fr/angular/comprendre-lannotation-viewchild
+
+éviter très fortement d'utiliser document dans le controleur (même si c'est possible)
+il est possible de faire du render côté serveur : Server Side Rendering
+
+````
+<p #myParagraph>
+
+... modele
+
+@ViewChild('myParagraph') variableCoteModele : ElementRef<HTMLParagraphElement>
+
+onChangeTextCalue() {
+  this.variableCoteModele.nativeElement.innerText = "Nouvelle value !";
+}
+````
+
+### Directives
+
+Certaines action sur les styles par exemple ne doivent pas êtres implémenter côté composant, et les pipes sontlimités
+Utilisation des directives
+
+<div appHighLioght color="red">BLABLA</div>
+
+dans le module ...
+````
+@NgModule(
+
+  directives = [ ... ]
+)
+
+@Directive({
+  selector : "[appHighlight]"
+})
+
+// les crochets sont importants
+
+export class HighlightDirective {
+  @Input() color: string;
+  @Ooutput() clickElement = new EventEmitter();
+  constructor(private _element: ElementRef) {}
+
+    // met à jour la div en changeant la couleur
+    @HostListenet("click")
+    onClick() {
+      this.
+      let {nativeElement} = this._element;
+      this._element.nativeElement.style.backgroundColor = this_element.nativeElement.style.bacvkgroundColor ?null : "red";
+    }
+  }
+}
+````
+
+Un composant est une directive avec de l'embalage :
+  - template
+  - templateUrl
+  - styleUrl
+
+Tout ce qu'il est possible de faire avec un compenent on peux le faire avec une directive
+
+#### deux directives supplementaires
+
+avec des @Input param: string;
+
+<div appDir1 appDir2 [param]="'Toto'">
+  BLABLA
+</div>
+
+ça passe dans les deux directive, l'ordre de définition dans le div semble important, mais en fait non.
+l'ordre viens de l'ordre de la définition dans le module
+
+Pour le Output() onclick = new EventEmitter(); le père réagit aux deux EventEmitter
+
+### Routing
+
+Une vue ou page Angular est régie par un composant, une Url par composant
+#### Comment configurer l'appli pour faire le mapping avec les URL  ?
+
+Le changement est toujours fait côté front, jamais côté back
+
+ajouter le module RouterModule.forRoot(APP_ROUTES, {useHash : false})
+
+APP_ROUTES est définit dans un autre fichier ``app.routes.ts`` qui contient 
+export APP_ROUTES = [
+   component : LoginComponent ,
+   path: 'login' // pas de '/' au debut
+  }
+  ...
+  { refirectTo: '/login',
+   path : '**'
+  }
+]
+
+hashbang permet pour la compatibilité < html5
+
+useHash:false
+
+Simplement en faisant ça des pages blanches s'affichent, car nous n'avons pas défini les zones dynamiues
+
+#### Comment définir une zone de contenu dynamique ?
+
+<router-outlet></router-outlet>
+
+de cette façon: 
+````html
+<ul>
+<li>
+  <a href="/contact">Contact</a>
+</li>
+<li>
+  <a href="/contact">Contact</a>
+</li>
+</ul>````
+
+on recharge toute la page, utiliser 
+````html
+<a [routerLink]="['/home']">Home</a>
+````
+
+zone dynamique contenant zone dynamique et zone statique
+
+le routing outlet peux intégrer d'autres routing outlet ce qui permet de gérer une hierarchie de routing outlet
+
+ceéation de deux composants, avec routage,
+
+avec un home.routes.ts
+
+utiliser :   dans la définition principale parente 
+children: [
+      { path: '', redirectTo: 'overview', pathMatch: 'full' },
+      { path: 'overview', component: Overview },
+      { path: 'specs', component: Specs }
+    ]
+
+
+### Parametres dans routes
+
+````
+// injection
+constructor(private activatedRoute: ActivatedRoute) {}
+
+ngOninit() {
+  this.valueToDisplay = this.activatedRoute.snapshot.params.id:
+  // id etant le nom de la variable
+
+
+// parametre variable quand on n'est dans le init  
+this.activatedRoute.params.subscribe( params => {
+  this.valueToDisplay = params.id
+})
+
+}
+
+````
+
+### Lazy loading
+
+défaut du one page 
+- grosse partie/grosse partie, tout sera chargé et donc pas optimisé
+
+association page => module
+
+au moment du rooting
+
+path: 'opportunities',
+loadChildren: () => import( '/lazy/lazyModule' ).then( (m) => m.LandingModule )
+
+ne pas utiliser Module.forRoot mais Module.forChild
+
+### Gardien
+
+utilisation de l'interface CanActivate (methode canActivate())
+
+la vrai sécurité n'est pas côté client mais côté serveur.
+le gardien va permetre de garder une cohérence
+
+canDeactivate va permetre d'éviter la perte de données cf. le êtes vous sur de vouloir quiter la page sans sauvegarder ?
+
+
+### tests unitaires
+
+librairies :
+- Jasmine : enclenche les tests unitaires (équilent JUnit)
+- Karma : résultat visuel des tests unitaires
+````
+ng test
+````
+
+ #### line coverage
+
+````
+ng test --line-coverage
+````
+
+karma.conf.js permet de définir les poucentages de line coverage
+
+describe => thématique
+
+expect(calculator.calculate('3 * 3')).toEqual(9)
+
+Pour tester les entités engular :
+
+Utiliser un module de test
+beforeEach permet d'initialiser chaque test
+partir de TestBed
+
+TestBed.configureTestingModule( {
+  imports: [CalculatorModule]
+})
+
+beforeAll, ne remet pas à zero les instances
+
+#### Test de component
+
+fixture surcouche de test à component
+TestBed.createComponent(HelloComponent)
+fixture.component.name = 'John'
+fixture.
+expect(ficture.debugElement.nativeElement.innerText).toEqual('Hello John!')
+
+#### F.I.R.S.T
+
+- Fast
+- Independant
+- Repeatable : résultat ne dépent pas du nombre d'execution
+- selfChecking : PAs d'intervention humaire
+- Timely : pertinence du test
+
+
+#### Test Long
+
+ajouter un done()
+fakeAsync() => {
+
+};
+tick va accélerer le temps
+
+#### mock
+
+jamine.SpyObj<>
+
+lancer un done() pour indiquer la fin d'un test asynchrone
+
+#### test e2e
+Webdriver, Sélénium => Protractor
+
+### exercice
+
+edition et ajout de tiquet : même composant
+R.O  pour gerer Login + Home
+
+### Conclusion
+
+- Il reste beaucoup et la formation était dense, 
+- Il est possible d'utiliser des outils comme Redux
+- il manque la pratique, le but est de gagner en productiviter
+- Garder en tête le séparation of concern
+- la modularité est la pierre angulaire
+  
+
+tout à fait d'accord sur le point de faire de
+plus petits pas dans l'exercice, mais fil rouge est bien pour 
+rappels javascript j'etais d'accord
+accès aux env du live coding : super
+
+
