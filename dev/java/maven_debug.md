@@ -189,3 +189,16 @@ Caused by: org.h2.jdbc.JdbcSQLException: Wrong user name or password [28000-197]
         at org.jboss.ironjacamar.jdbcadapters@1.4.22.Final//org.jboss.jca.adapters.jdbc.local.LocalManagedConnectionFactory.createLocalManagedConnection(LocalManagedConn
         ... 38 more
 ````
+
+# Debugging springboot 
+
+
+## the debbuger connected
+````
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005"
+````
+
+## only traces
+````
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-Dlogging.level.root=TRACE"
+````

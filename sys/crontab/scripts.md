@@ -23,8 +23,30 @@ This is often because the environment is not all fully initialised. To run a scr
 ```bash
 env > crontab.env
 ```
+in the crontab it gives :
+````
+* * * * * /usr/bin/env > /tmp/crontab.env
+````
+
+my crontab environment contains :
+````
+vps709911:~$ cat /tmp/crontab.env
+HOME=/home/nheim
+LOGNAME=nheim
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+LANG=en_US.UTF-8
+SHELL=/bin/sh
+PWD=/home/nheim
+````
+
+
+
 then the  `env` can help us by spawing a new program with an empty environmenent as said by the manual :
 ```
+...
+      -i, --ignore-environment
+              start with an empty environment
+...
  The  first  form  of  this  command is used to install a new crontab from some named file or standard input if the pseudo-filename
        ``-'' is given.
 ```
