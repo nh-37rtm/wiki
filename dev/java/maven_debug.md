@@ -39,7 +39,7 @@ mvn -Dmaven.surefire.debug="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspe
 Arquillian is a debbugging tool for JavaEE. It manage a protocol to connect to an application server (or just spawn a temporary local managed application server for the test) and run whatever tests you would like, using the application server environement !
 
 
-this link provide detailed informations on the way Arquillian is woking : https://docs.jboss.org/arquillian/reference/1.0.0.Alpha2/en-US/html_single/
+this link provide detailed informations on the way Arquillian is working : https://docs.jboss.org/arquillian/reference/1.0.0.Alpha2/en-US/html_single/
 
 it use a configuration file positionned in ``src/test/resources/arquillian.xml`` for exemple it can be :
 
@@ -92,7 +92,7 @@ the specification of this file can be found (depending on the adapter used) at h
 
 we can see two profiles in this configuration, to select an Arquillian profile when running the maven command just use the ``arquillian.launch`` option :
 ````
-nheim@nheim-virtual-machine:~/src/javaTest$ mvn test -Parq-wildfly-remote -Darquillian.lauch=wildfly-remote2
+nheim@nheim-virtual-machine:~/src/javaTest$ mvn test -Parq-wildfly-remote -Darquillian.launch=wildfly-remote2
 ````
 
 ## selecting 
