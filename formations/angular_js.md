@@ -836,3 +836,9 @@ rappels javascript j'etais d'accord
 accès aux env du live coding : super
 
 
+# Links
+
+- https://github.com/nh-37rtm/formation-angular-tpBillet
+- https://github.com/nh-37rtm/formation-angular-correction
+- desktop de formation : https://noot.macademia.fr/#/room/!TIGmdMUiAzfyPDPJhY:video-chat.macademia.fr
+- env de dev formateur : https://stackblitz.com/@mazengharbi
