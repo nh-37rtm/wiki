@@ -2,7 +2,7 @@
 title: divergences des théories, Lamarck/Darwin et Wallace
 description: 
 published: true
-date: 2021-01-12T14:32:59.142Z
+date: 2021-01-12T14:36:29.351Z
 tags: lamarck, darwin, wallace, evolution
 editor: markdown
 dateCreated: 2021-01-12T14:20:11.633Z
@@ -11,7 +11,9 @@ dateCreated: 2021-01-12T14:20:11.633Z
 # Théorie de Lamarck
 ## Jean-Baptiste Lamarck
 Jean-Baptiste Lamarck est né le 1 er Aout 1744 à Bazentin en picardie (France) et mort en 1918
-![monument lamarck](./images/800px-Bazentin_monument-LAMARCK_(de_face).jpg)
+![monument lamarck](reflexion/evolution/images/800px-Bazentin_monument-LAMARCK_(de_face).jpg)
+![openvpngui.png](/openvpngui.png)
+
 ## Théorie (transformations évolutives)
 Selon ma compréhension Lamarck défendais une théorie de l'évolution qui définissais une évolution plustôt active qui, suite à des contraintes exercées sur déferentes parties du corps ou des organes permétaient de transformer celui-ci. La transformation pouvais, semblerait-il aller jusqu'a un niveau génétique (mémoire épigénétique ou effet transgénérationnel) et ainsi pouvais persister plusieurs générations.
 ## Référence :
