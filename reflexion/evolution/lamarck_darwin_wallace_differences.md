@@ -2,15 +2,16 @@
 title: divergences des théories, Lamarck/Darwin et Wallace
 description: 
 published: true
-date: 2020-12-15T08:03:16.268Z
-tags: Lamarck, Darwin, Wallace, evolution
+date: 2021-01-12T14:32:22.299Z
+tags: lamarck, darwin, wallace, evolution
 editor: markdown
-dateCreated: 2020-12-15T08:03:16.268Z
+dateCreated: 2021-01-12T14:20:11.633Z
 ---
 
 # Théorie de Lamarck
 ## Jean-Baptiste Lamarck
 Jean-Baptiste Lamarck est né le 1 er Aout 1744 à Bazentin en picardie (France) et mort en 1918
+![monument lamarck](./images/800px-Bazentin_monument-LAMARCK_(de_face).jpg)
 ## Théorie (transformations évolutives)
 Selon ma compréhension Lamarck défendais une théorie de l'évolution qui définissais une évolution plustôt active qui, suite à des contraintes exercées sur déferentes parties du corps ou des organes permétaient de transformer celui-ci. La transformation pouvais, semblerait-il aller jusqu'a un niveau génétique (mémoire épigénétique ou effet transgénérationnel) et ainsi pouvais persister plusieurs générations.
 ## Référence :
@@ -19,7 +20,7 @@ Selon ma compréhension Lamarck défendais une théorie de l'évolution qui déf
 # Théorie de Darwin/Wallace
 ## Darwin et Wallace
 Darwin né le 12 Février 1809 en Angleterre et mort le 19 Avril 1882
-![carte angleterre](./200px-Shropshire_UK_locator_map_2010.svg.png)
+![carte angleterre](./images/200px-Shropshire_UK_locator_map_2010.svg.png)
 Wallace (amis proche de Darwin) né le 8 janvier 1823 en Angleterre et mort le 7 Novembre 1913
 ## Théorie  (transformations)
 Pour moi les transformations vues par Darwin et Wallace sont des transformations passives conséquentes à l'élimination d'une souche d'individus (faibles face à leur environnement) seuls les indivudus les plus adaptés survivent et une particularité génétique pourrai être amplifiée suite à une forte adaptation à l'environnement.
