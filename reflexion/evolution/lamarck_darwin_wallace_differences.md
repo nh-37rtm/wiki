@@ -2,7 +2,7 @@
 title: divergences des théories, Lamarck/Darwin et Wallace
 description: 
 published: true
-date: 2021-01-12T14:32:22.299Z
+date: 2021-01-12T14:32:59.142Z
 tags: lamarck, darwin, wallace, evolution
 editor: markdown
 dateCreated: 2021-01-12T14:20:11.633Z
