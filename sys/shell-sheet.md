@@ -10,6 +10,11 @@ dateCreated: 2021-01-20T00:49:57.718Z
 # Disk usage with hidden files 
 
 ````bash
+$ du -sh .* *
+````
+or
+
+````bash
 $ GLOBIGNORE=.:.. du -sh *
 82M     .git
 4,0K    .gitmodules
