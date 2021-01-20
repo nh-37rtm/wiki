@@ -10,7 +10,7 @@ dateCreated: 2021-01-20T00:49:57.718Z
 # Disk usage with hidden files 
 
 ````bash
-nheim@nheim-virtual-machine:/media/nheim/Maxtor/formation-react-native$ GLOBIGNORE=.:.. du -sh *
+$ GLOBIGNORE=.:.. du -sh *
 82M     .git
 4,0K    .gitmodules
 1,3M    reactbnb-final
