@@ -26,6 +26,8 @@ $ GLOBIGNORE=.:.. du -sh *
 
 # Gzip copy files over hosts using cpio
 ````bash
+CPIO_SOURCE_PARAMETERS=${6:-"-ovc"}
+CPIO_DESTINATION_PARAMETERS=${7:-"-ivucdm"}
 SOURCE_COMMAND="set -ex; cd ${SOURCE_DIR}; find ${FIND_PARAMETERS} | cpio ${CPIO_SOURCE_PARAMETERS} | gzip"
 DESTINATION_COMMAND="set -ex; cd ${DESTINATION_DIR}; gunzip | cpio ${CPIO_DESTINATION_PARAMETERS}"
 
