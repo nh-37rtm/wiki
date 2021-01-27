@@ -55,3 +55,14 @@ login=coopalimstrasbourg.com-n.heim
 password='PSrRUU25iWHaLBAqzHm8rivAb41oCjY'
 n-heim.dev.coopalimstrasbourg.com
 ````
+
+
+## windows
+
+fonctionne avec les clef : copiées ici : ``C:\Users\heimn\.docker\machine\certs\coopalim``
+
+````
+set DOCKER_HOST=tcp://188.165.245.14:12378
+set DOCKER_TLS_VERIFY=1
+set DOCKER_CERT_PATH=C:\Users\heimn\.docker\machine\certs\coopalim\test1
+````
