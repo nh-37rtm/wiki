@@ -14,3 +14,14 @@ The problem was that to connect to the docker host with the docker protocol you 
 it exists another way to just install the client using this link : https://github.com/StefanScherer/docker-cli-builder/releases.
 this is perfect no need to install the full engine, then for exemple you can connect vscode to containers hosted on any server publishing the docker engine port. for this just set the ``DOCKER_HOST`` environement variable 
 ````set DOCKER_HOME=tcp://10.0.0.2:2375````
+
+# docker-compose
+
+this is also possible to install the docker-compose command that wrap the docker command this way :
+````
+PS C:\Users\heimn> Invoke-WebRequest "https://github.com/docker/compose/releases/download/1.28.0/docker-compose-Windows-x86_64.exe" -UseBasicParsing -OutFile C:\local\soft\docker-ce-cli\docker-compose.exe
+````
+
+# References
+- https://docs.docker.com/compose/install/
+
