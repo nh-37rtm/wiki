@@ -67,6 +67,16 @@ sudo snap set easy-openvpn-server push-default-gateway=False
 sudo snap get easy-openvpn-server push-default-gateway
 ````
 
+## building easy-openvpn-server
+
+get the sources and run (if like me you dont want to install multipass):
+
+````
+snapcraft --use-lxd
+````
+
+inside the project root
+
 ##
 references :
 

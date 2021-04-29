@@ -49,8 +49,10 @@ it may ask you to configure the ``cpan`` package manager if you never used it be
 now you may know :
 
 ````shell
-cpan -i Perl::LanguageServer
+sudo cpan -i Perl::LanguageServer
 ````
+
+if you do not install Perl::LanguagreServer on the global perl installation you should look ho to source correctly the bash profile modified by cpan, else it's by default not sourced
 
 
 
