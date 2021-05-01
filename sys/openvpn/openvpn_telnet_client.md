@@ -110,3 +110,6 @@ user# apt install netcat-openbsd
 user# nc -U ./uds
 >INFO:OpenVPN Management Interface Version 1 -- type 'help' for more info
 ````
+
+### references
+- https://unix.stackexchange.com/questions/26715/how-can-i-communicate-with-a-unix-domain-socket-via-the-shell-on-debian-squeeze
