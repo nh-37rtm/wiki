@@ -77,6 +77,11 @@ snapcraft --use-lxd
 
 inside the project root
 
+## spawn shell inside snap container
+````
+user# sudo snap run --shell easy-openvpn-server
+user# 
+````
 ##
 references :
 
