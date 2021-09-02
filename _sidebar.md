@@ -1,4 +1,4 @@
 SideBar ...
 
 
-[text](./home2.md)
+[text](./home2)
