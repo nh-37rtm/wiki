@@ -22,6 +22,11 @@ at the moment i see the token expiration date are fixed to something like one mo
 ### more advanced OAuth functionalities
 
 There are some advanced OAuth fonctionalities to use a client_id/secret for authentification and create a long run authentification.
+#### Get a refresh token from Google
+you can use this developer tool to get a refresh token (long run token) https://developers.google.com/oauthplayground/
+##### References
+* https://github.com/ivanvermeyen/laravel-google-drive-demo/blob/master/README/2-getting-your-refresh-token.md
+
 
 #### References
 
