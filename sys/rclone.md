@@ -20,6 +20,7 @@ There are some advanced OAuth fonctionalities to use a client_id/secret for auth
 
 * https://forum.rclone.org/t/onedrive-client-id-secret-not-working/22630/15
 * https://filemanagerpro.io/article/how-can-i-get-my-microsoft-account-client-id-and-client-secret-key/
+* https://portal.azure.com/#blade/Microsoft_AAD_RegisteredApps/ApplicationsListBlade
 ## Exemples
 mounting one drive with rclone :
 
