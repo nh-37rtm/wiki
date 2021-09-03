@@ -7,6 +7,13 @@ the perfect tool to synchronize your cloud drives and more.
 * You can mount each drive as filesystems with the fuse functionalities
 
 the only thing required is to authenticate and configure each access to the storage ressources before using
+
+## Notes
+
+use the ``--fast-list`` parameter to increase speed (if cloud drive support it)
+
+### References
+* https://forum.rclone.org/t/syncing-up-to-google-drive-speed-with-lots-of-files/11999
 ## OAuth and tokens
 
 to authenticate you should use a "desktop" version of the rclone binary (which can run a web browser used to simplify the authentification)
