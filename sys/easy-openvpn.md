@@ -45,6 +45,10 @@ i also would like my servers to have fixed ip address so i created a `~/snap/eas
 ifconfig-push 10.0.0.5 255.255.255.0
 ```
 
-you can now juste build the package with the `snapcraft` without parameter
+you can now just build the package with the `snapcraft` without parameter
 
-
+# installing with snap
+on the server i can now run :
+````
+sudo snap install ./easy-openvpn-server_0.1_amd64.snap --dangerous
+````
