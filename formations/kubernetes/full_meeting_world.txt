@@ -1,0 +1,947 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "kubmaster" do |kub|
+    kub.vm.box = "kwilczynski/ubuntu-16.04-docker"
+    kub.vm.hostname = 'kubmaster'
+
+    kub.vm.network :private_network, ip: "192.168.0.40"
+
+    kub.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 2048]
+      v.customize ["modifyvm", :id, "--name", "kubmaster"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+  end
+
+  config.vm.define "kubnode" do |kubnode|
+    kubnode.vm.box = "kwilczynski/ubuntu-16.04-docker"
+    kubnode.vm.hostname = 'kubnode'
+
+    kubnode.vm.network :private_network, ip: "192.168.0.41"
+
+    kubnode.vm.provider :virtualbox do |v|
+      v.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      v.customize ["modifyvm", :id, "--memory", 2048]
+      v.customize ["modifyvm", :id, "--name", "kubnode"]
+      v.customize ["modifyvm", :id, "--cpus", "2"]
+    end
+  end
+end
+
+===========
+
+vagrant up
+
+==========
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+
+sudo apt-get update && sudo apt-get install vagrant
+
+======
+
+vagrant ssh kubmaster
+
+==== Dockerfile
+
+FROM alpine
+COPY test.txt /
+RUN ls /
+ENTRYPOINT cat /test.txt
+
+=====
+
+docker build -t test .
+
+===== Installation sur tous les noeuds as root
+
+swapoff -a
+
+vim /etc/fstab
+
+apt-get update && apt-get install -y apt-transport-https curl
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+
+sudo add-apt-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+
+sudo apt-get update && sudo apt-get install -y kubelet kubeadm kubectl kubernetes-cni
+
+
+create /etc/docker/daemon.json
+qui contient : 
+```
+{
+"exec-opts": ["native.cgroupdriver=systemd"]
+}
+```
+
+systemctl daemon-reload
+systemctl restart docker
+systemctl restart kubelet
+
+
+
+
+
+
+ 
+https://
+====== uniquement sur le master as root
+
+kubeadm init --apiserver-advertise-address=192.168.0.40 --node-name $HOSTNAME --pod-network-cidr=10.244.0.0/16
+
+====== uniquement sur le master as user
+
+mkdir -p $HOME/.kube
+
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+Si jamais token perdu :
+sudo kubeadm token create --print-join-command
+
+utiliser la commande de join depuis les worker en sudo.
+
+============= A utiliser que si probleme =======
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+====== Sur virtualbox UNIQUEMENT
+
+Editer /etc/hosts 
+remplacer 127.0.1.1 -> ip du node
+
+======== Deployment =======
+
+kubectl create deployment nginx --image nginx
+
+kubectl get deployment
+kubectl describe deployment nginx
+kubectl get pods
+kubectl describe pod <nomdupod>
+kubectl get pods -o wide
+
+
+====
+kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+====
+
+kubectl create service nodeport nginx --tcp=8888:80
+kubectl get service
+kubectl describe service nginx
+
+
+================ JOUR 2 ====================
+
+
+kubectl scale deployment nginx --replicas=2
+
+kubectl exec -ti nginx-xxx -- /bin/bash
+
+modifier /usr/share/nginx/html
+ 
+==== Logs
+
+kubectl get all
+kubectl logs -f <nomdupod> -c <nomducontainer>
+
+kubectl api-resources
+kubectl api-versions
+kubectl explain <resource>
+
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/
+
+
+kubectl get <resource> <nomresouce> -o yaml
+kubectl get <resource> <nomresouce> -o json
+
+kubectl apply -f <fichier.yaml|json> ==create/update resource
+kubectl delete -f <fichier.yaml|json> ==delete resource
+
+kubectl get ns/namespace
+
+
+==== labels et annotations
+
+kubectl delete deployment nginx
+
+------
+
+kubectl create deployment nginx1 --image nginx
+kubectl create deployment nginx2 --image nginx
+kubectl create deployment nginx3 --image nginx
+
+kubectl get pods --show-labels
+kubectl get deployment --show-labels
+
+kubectl label --overwrite deployment nginx3 "usage=front"
+
+kubectl label --overwrite pod nginx-xxx "app=nginx"
+
+
+kubectl get pods --selector "app=nginx" --show-labels
+
+
+
+kubectl get pods --selector "app in (nginx1, nginx2 )" --show-labels
+
+==== Pods
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-test
+spec:
+  containers:
+    - image: nginx
+      name: nginx
+      
+      
+ ===== Fichier Yaml2 (command list)
+ 
+apiVersion: v1
+kind: Pod
+metadata:
+ name: pod-test
+ labels:
+  app: nginx
+spec:
+ containers:
+  - image: nginx
+    name: nginx
+    command: ["echo","toto"]
+
+==== Volume
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: my-hp-volume
+  volumes:cd 
+  - name: my-hp-volume
+    hostPath:
+      path: /tmp/testVolume
+      type: DirectoryOrCreate
+
+==== volume ephemeral
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    # ports:
+    # - containerPort: 8888
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: my-ed-volume
+  - name: busybox
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - sleep 600
+    volumeMounts:
+    - mountPath: /tmp/test
+      name: my-ed-volume
+  volumes:
+  - name: my-ed-volume
+    emptyDir: {}
+
+Shell sur container busybox
+kubectl exec -ti nginx -c busybox -- /bin/bash
+
+==== jobs
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi-wq-1
+spec:
+  completions: 6
+  parallelism: 1
+  template:
+    metadata:
+      name: pi-wq-1
+    spec:
+      containers:
+      - name: pi
+        image: perl
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
+  
+  ---
+
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *" #@hourly
+  startingDeadlineSeconds: 10
+  concurrencyPolicy: Allow
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 5
+  jobTemplate:
+    # -------JOB YAML -------------
+    spec:
+      completions: 6
+      template:
+        # -------POD YAML -------------
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
+---
+ ==== replicaset
+ 
+ # ATTACHED MODE
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-replicaset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  #   matchExpressions:
+  #     - {key: environment, operator: In, values: [dev]}
+  template: #Template of the pod
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx 
+
+==== JOUR 3
+
+--- configmaps/secrets
+
+kubectl create cm test --from-literal=user=admin
+kubectl get cm
+
+kubectl create secret generic testsecret --from-literal=password=admin
+kubectl get secret
+
+
+kubectl create cm testfile --from-file=.bashrc
+
+kubectl edit cm testfile
+kubectl delete cm testfile
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-cm
+data:
+  index.html: |
+    kfhdfhsdf
+    dfSD
+    fSDf
+    fSDf
+  test.html: |
+    sdfjsdfjsdf
+    sdsDgSDfSDf
+    sDfSDfSDF
+  key1: value1
+  test: echo
+  
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: test-secret
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - sleep 600
+    envFrom:
+    - configMapRef:
+        name: my-cm
+----
+
+    env:
+    - name: USER
+      valueFrom:
+        configMapKeyRef:
+          name: my-cm
+          key: test
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  user: dmFsdWUxCg==
+  password: Z3VpbmVhcGlnCg==
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: test-secret
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - sleep 600
+    envFrom: #Use all the Secret as env
+    - secretRef:
+        name: my-secret
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox
+spec:
+  containers:
+  - name: test-secret
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - sleep 600
+    env:
+    - name: USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: my-secret
+          key: user
+    - name: PSSWD
+      valueFrom:
+        secretKeyRef:
+          name: my-secret
+          key: password
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.17
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: my-cm-volume
+  volumes:
+  - name: my-cm-volume
+    configMap:
+      name: my-cm
+      items: # if this is not precised it will be a dir if you create a cm from multiple files
+      - key: test.html
+        path: index.html
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.17
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: my-secret-volume
+  volumes:
+  - name: my-secret-volume
+    secret:
+      secretName: my-secret
+      items: # if this is not precised it will be a dir if you create a cm from multiple files
+      - key: user
+        path: index.html
+      - key: password
+        path: test.html
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.14.2
+        ports:
+        - containerPort: 80
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 8
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 10%
+      maxSurge: 10%
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        kubernetes.io/change-cause: "use 1.14.2"
+    spec:
+      containers:
+      - name: nginx
+        image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.14.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: readiness
+  name: readiness-exec
+spec:
+  containers:
+  - name: readiness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    readinessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: k8s.gcr.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+
+
+---- type : Recreate
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 8
+  strategy:
+    type: Recreate
+#    rollingUpdate:
+ #     maxUnavailable: 10%
+ #     maxSurge: 10%
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+      annotations:
+        kubernetes.io/change-cause: "use 1.14.2"
+    spec:
+      containers:
+      - name: nginx
+        image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.14.2
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 10
+
+---
+kubectl rollout status deploy nginx-deployment
+
+kubectl rollout history deploy nginx-deployment
+
+kubectl rollout pause deploy nginx-deployment
+
+kubectl rollout resume deploy nginx-deployment
+
+kubectl rollout undo deploy nginx-deployment --to-revision X
+
+---
+
+
+==========================================================
+
+We want to create the following manifests for our application: 
+
+All the resources should have the label class=pokemon and be placed in the namespace that we are creating
+
+=> 1 Namespace
+    name: raichu
+
+=> 1 secret
+
+    Name: super-secret
+    At least 3 keys (USER, PASSWORD, TOKEN)
+
+=> 1 ConfigMap
+    Name: super-cm
+    At least 3 keys (index.html(multiline), ENVIRONMENT, config.txt)
+
+=> 1 service type NodePort that targets our label (Leave the port attribution random)
+    name: awesome-service 
+    Expose 9999 redirect to 80
+
+=> 1 Deployment
+    Name: awesome-deployment
+    10 Replicas
+    Strategy RollingUpdate
+        1 Surge
+        2 unavailable
+    1 EmptyDir volume (name: shared-empty-vol)
+    2 containers: 
+        - 1 busybox 
+            name: busy-container
+            Change entrypoint command by "env;while true;do date > /tmp/emptyvolume.html && sleep 1;done"
+            Mount the secrets USER/PASSWORD as Env var -> USERNAME/PASSWD
+            Mount the secret TOKEN as file in /tmp/token.txt
+            1 volume emptyDir mounted in /tmp/emptyvolume.html
+            1 ReadinessProbe
+                -> execCmd cat /tmp/token.txt
+                initial delay 5 s
+                failureThreshold 1
+                every 20 seconds
+        - 1 nginx:1.17
+            name: nginx-container
+            Mount CM index.html as Volume file in /usr/share/nginx/html
+            Mount CM config.txt as Volume file in /home/.config
+            Mount CM ENVIRONMENT as ENV var
+            Use the same emptyDir volume mounted in /usr/share/nginx/html/volume/index.html
+            Expose the port 80 of this container
+            1 LivenessProbe
+                -> HttpGet on /volume/index.html
+                initial delay 20 s
+                successThreshold 2
+                every 6 seonds
+            1 ReadinessProbe
+                -> execCmd cat /home/.config
+                initial delay 10 s
+                failureThreshold 2
+                every 10 seconds
+    
+---
+
+
+FICHIER COMPLET
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    class: pokemon
+  name: raichu
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: super-secret
+  labels:
+    class: pokemon
+  namespace: raichu
+data:
+  USER: dmFsdWUxCg==
+  PASSWORD: Z3VpbmVhcGlnCg==
+  TOKEN: Z3VpbmVhcGlnCg==
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: super-cm
+  labels:
+    class: pokemon
+  namespace: raichu
+data:
+  index.html: |
+    <h1>RAICHU INDEX</h1><br />
+    Ligne2
+  ENVIRONMENT: staging
+  config.txt: |
+    env=staging
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    class: pokemon
+  name: awesome-service
+  namespace: raichu
+spec:
+  ports:
+  - name: 9999-80
+    port: 9999
+    protocol: TCP 
+    targetPort: 80
+  selector:
+    class: pokemon
+  type: NodePort
+---  
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awesome-deployment
+  labels:
+    class: pokemon
+  namespace: raichu
+spec:
+  replicas: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 2
+      maxSurge: 1
+  selector:
+    matchLabels:
+      class: pokemon
+  template:
+    metadata:
+      labels:
+        class: pokemon
+    spec:
+      volumes:
+      - name: shared-empty-vol
+        emptyDir: {}
+      - name: super-secret-vol
+        secret:
+           secretName: super-secret
+           items:
+           - key: TOKEN
+             path: token.txt
+      - name: super-cm-vol
+        configMap:
+          name: super-cm
+          items:
+          - key: index.html
+            path: index.html
+      - name: super-cm-vol2
+        configMap:
+          name: super-cm
+          items:
+          - key: config.txt
+            path: .config
+      containers:
+      - name: busy-container
+        image: k8s.gcr.io/busybox
+        imagePullPolicy: Always
+        command: ["/bin/sh"]
+        args: ["-c", "env; while true; do date > /tmp/emptyvolume.html && sleep 1; done"]
+        volumeMounts:
+        - mountPath: /tmp
+          name: shared-empty-vol
+        - mountPath: /tmp/token
+          name: super-secret-vol
+        env:
+        - name: USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: super-secret
+              key: USER
+        - name: PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: super-secret
+              key: PASSWORD
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /tmp/token/token.txt
+          initialDelaySeconds: 5
+          failureThreshold: 1
+          periodSeconds: 20
+      - name: nginx-container
+        image: registry.gitlab.onlineterroir.com/omega/public-reg/nginx:1.17
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /volume/emptyvolume.html
+            port: 80
+          initialDelaySeconds: 20
+          successThreshold: 1
+          periodSeconds: 6
+        readinessProbe:
+          exec:
+            command:
+            - cat
+            - /home/config/.config
+          initialDelaySeconds: 10
+          failureThreshold: 2
+          periodSeconds: 10
+        volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: super-cm-vol
+        - mountPath: /home/config
+          name: super-cm-vol2
+        - mountPath: /usr/share/nginx/html/volume
+          name: shared-empty-vol
+        env:
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: super-cm
+              key: ENVIRONMENT
+
