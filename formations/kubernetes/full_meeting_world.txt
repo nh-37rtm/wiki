@@ -99,9 +99,9 @@ kubeadm init --apiserver-advertise-address=192.168.0.40 --node-name $HOSTNAME --
 
 mkdir -p $HOME/.kube
 
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+chown $(id -u):$(id -g) $HOME/.kube/config
 
 kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
 kubectl create -f https://docs.projectcalico.org/manifests/custom-resources.yaml
