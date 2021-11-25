@@ -1,6 +1,6 @@
 # Screen essential shortcuts
 
-*`` CTRL+a, ?`` : help
+* `` CTRL+a, ?`` : help
 * ``CTRL+a, c`` : new screen
 * ``CTRL+a, "`` : screen list (and select):
 
