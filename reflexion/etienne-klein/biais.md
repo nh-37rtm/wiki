@@ -13,7 +13,7 @@ dateCreated: 2020-12-15T08:03:16.268Z
 
 # Biais du survivant
 ## Deuxième guerre mondiale
-Lors de la deuxième guerre mondiale les bombardiers anglais qui revennaient avec des impact de balles, des statistiques étaient construites sur ces données puis, dans un but d'amélioration, on renforçais les zones touches les plus souvent. Ceci de diminuait pas le nombre d'avion de retour. Hors le point de d'un jeune Officier, Abrahaml Wald, qui dit 
+Lors de la deuxième guerre mondiale les bombardiers anglais qui revennaient avec des impact de balles, des statistiques étaient construites sur ces données puis, dans un but d'amélioration, on renforçais les zones touches les plus souvent. Ceci ne diminuait pas le nombre d'avion de retour. Hors le point de d'un jeune Officier, Abrahaml Wald, qui dit 
 >Vous faites tous à l'envers !
 
 - les impacts sur les avions qui reviennent ne sont pas les plus dangereux car les avions reviennent, il suggère de faire l'inverse, de renforcer les zonnes qui n'ont pas d'impacts, zone qui pourraient si elle étaient touchée être la cause du non retour de certains avions !
