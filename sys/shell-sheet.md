@@ -42,6 +42,15 @@ exec 2> >(tee -a ${STDERR_FILE})  1>  >(tee -a ${STDOUT_FILE})
 echo "running ${SCRIPT_NAME} with arguments : '$@', output files : ${STDERR_FILE}, ${STDOUT_FILE}"
 ````
 
+# vpn of poor with ssh tunnel
+
+````
+ssh host -L 22:127.0.0.1:22 -fN
+````
+
+- `f` is to run into background (as a daemon)
+- `N` is to keep connection without running any remote command
+
 # References
 - https://askubuntu.com/questions/468901/how-to-show-only-hidden-files-in-terminal
 - https://stackoverflow.com/questions/692000/how-do-i-write-stderr-to-a-file-while-using-tee-with-a-pipe
