@@ -53,8 +53,8 @@ Compiled successfully!
 ? Something is already running on port 3000.
 
 Would you like to run the app on another port instead? » (Y/n)
-
 ````
+
 find the application in background
 
 ````cmd
@@ -70,5 +70,3 @@ PS C:\git\xperience-react\web> taskkill /PID 8968 /F
 Opération réussie : le processus avec PID 8968 a été terminé.
 PS C:\git\xperience-react\web>
 ````
-
-
