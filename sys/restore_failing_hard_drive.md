@@ -48,7 +48,10 @@ the `log file` or zone mapping file help us to detect unreadable zones of the di
 
 
 
+## good links 
 
+a lot of good informations on NTFS including some tools to recover DATA
+- https://www.ntfs.com/index.html
 
 
 
