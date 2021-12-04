@@ -3,7 +3,6 @@
 Html renderer as often implemented for web, for a generated document you can only customize a bit the view to have very good results.
 including with page jump.
 
-
 ## reference
 
 - https://www.nuget.org/packages/HtmlRenderer.PdfSharp/
