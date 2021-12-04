@@ -113,3 +113,32 @@ user# nc -U ./uds
 
 ### references
 - https://unix.stackexchange.com/questions/26715/how-can-i-communicate-with-a-unix-domain-socket-via-the-shell-on-debian-squeeze
+
+
+## status command
+
+the status command return an easily parsable string with clients and daemon infos : 
+
+````text
+status
+TITLE,OpenVPN 2.4.4 x86_64-pc-linux-gnu [SSL (OpenSSL)] [LZO] [LZ4] [EPOLL] [PKCS11] [MH/PKTINFO] [AEAD] built on May 14 2019
+TIME,Sat Dec  4 11:35:28 2021,1638617728
+HEADER,CLIENT_LIST,Common Name,Real Address,Virtual Address,Virtual IPv6 Address,Bytes Received,Bytes Sent,Connected Since,Connected Since (time_t),Username,Client ID,Peer ID
+CLIENT_LIST,kube-ace,80.13.93.113,10.0.0.5,,24504361,23212564,Wed Oct 13 07:41:54 2021,1634110914,UNDEF,173,4
+CLIENT_LIST,vps02,51.91.250.103,10.0.0.2,,221343237,61770357,Wed Oct 13 08:25:25 2021,1634113525,UNDEF,176,5
+CLIENT_LIST,debian001,78.203.52.83,10.0.0.4,,24939939,10314809,Sat Nov 27 02:34:05 2021,1637980445,UNDEF,278,1
+CLIENT_LIST,rasp002,78.203.52.83,10.0.0.102,,340029,321424,Fri Dec  3 18:31:24 2021,1638556284,UNDEF,298,7
+CLIENT_LIST,boulot0,2a01:e34:ecb3:4530:5c0c:b94b:28ff:2ca3,10.0.0.20,,1415881,468483,Fri Dec  3 10:33:41 2021,1638527621,UNDEF,296,0
+CLIENT_LIST,adigitale,80.13.93.113,10.0.0.3,fd1d:cc55:893:1b4c::1001,1587375452,440316391,Wed Oct 13 07:41:50 2021,1634110910,UNDEF,172,3
+CLIENT_LIST,gamingpc001,78.203.52.83,10.0.0.11,,3801481,6655343,Sat Dec  4 00:56:57 2021,1638579417,UNDEF,303,2
+HEADER,ROUTING_TABLE,Virtual Address,Common Name,Real Address,Last Ref,Last Ref (time_t)
+ROUTING_TABLE,10.0.0.102,rasp002,78.203.52.83,Sat Dec  4 11:27:36 2021,1638617256
+ROUTING_TABLE,10.0.0.2,vps02,51.91.250.103,Sat Dec  4 11:35:28 2021,1638617728
+ROUTING_TABLE,10.0.0.3,adigitale,80.13.93.113,Fri Dec  3 00:09:58 2021,1638490198
+ROUTING_TABLE,fd1d:cc55:893:1b4c::1001,adigitale,80.13.93.113,Wed Oct 13 07:41:50 2021,1634110910
+ROUTING_TABLE,10.0.0.11,gamingpc001,78.203.52.83,Sat Dec  4 11:35:28 2021,1638617728
+ROUTING_TABLE,10.0.0.4,debian001,78.203.52.83,Sat Dec  4 11:27:49 2021,1638617269
+ROUTING_TABLE,10.0.0.20,boulot0,2a01:e34:ecb3:4530:5c0c:b94b:28ff:2ca3,Fri Dec  3 10:33:41 2021,1638527621
+GLOBAL_STATS,Max bcast/mcast queue length,1
+END
+````
