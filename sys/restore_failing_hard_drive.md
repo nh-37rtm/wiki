@@ -46,7 +46,13 @@ ddrescue --force --pause-on-error=10 -O /dev/disk/by-id/usb-MAXTOR_S_TM3500320AS
 
 the `log file` or zone mapping file help us to detect unreadable zones of the disk
 
+## The direct access
 
+this option, as said on the website change the access kind of blocks that may be more fine grained and allow to rescue more data in damaged zones. The normal access (using the kernel) seems to be more fast with the disk i'm rescuing.
+
+### Reference 
+
+https://www.electric-spoon.com/doc/gddrescue/html/Direct-disc-access.html
 
 ## good links 
 
