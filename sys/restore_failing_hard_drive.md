@@ -10,6 +10,13 @@ lrwxrwxrwx 1 root root 9 Nov 23 01:26 /dev/disk/by-id/ata-MAXTOR_STM3500320AS_5Q
 
 partition is still visible in linux but windows fails to read this any more. the filesystem to restore is `NTFS`
 
+## NTFS
+
+![alt](images/NTFS-Data-Recovery-Structure.png)
+
+### References
+- https://www.pandorarecovery.com/blog/ntfs-data-recovery/
+
 ## Chkdsk
 
 checking the filesystem integrity is a good idea when the disk has no damages but when the OS is not able to read what it should on the disk, no operation is realy fully safe for data.
