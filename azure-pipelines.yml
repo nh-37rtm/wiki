@@ -6,7 +6,7 @@ trigger: none
 
 resources:
   pipelines:
-    - pipeline: drop
+    - pipeline: drop2
       source: Wiki-CI
       trigger: 
         branches:
