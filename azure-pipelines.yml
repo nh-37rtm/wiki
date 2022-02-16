@@ -8,7 +8,11 @@ resources:
   pipelines:
     - pipeline: drop
       source: Wiki-CI
-      trigger: true
+      trigger: 
+        branches:
+          - develop
+          
+        enabled: true
 
 pool:
   vmImage: ubuntu-latest
