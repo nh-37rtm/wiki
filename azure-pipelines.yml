@@ -5,6 +5,10 @@
 
 trigger: none
 
+resources:
+  pipelines:
+    - pipeline: drop
+
 pool:
   vmImage: ubuntu-latest
 
