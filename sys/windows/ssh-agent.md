@@ -113,6 +113,10 @@ PS C:\Users\heimn\.ssh> icacls .ssh/id_rsa /inheritance:d /grant "heimn:(F)"
 
 It works ! :
 
+## 04/04/2022
+
+it did not worked, i had to delete the rights from the windows IHM
+
 ````
 PS C:\Users\heimn\.ssh> ssh-agent
 PS C:\Users\heimn\.ssh> ssh-add .\id_rsa
