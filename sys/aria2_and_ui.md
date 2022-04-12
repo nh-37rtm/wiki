@@ -48,10 +48,17 @@ using putty or with only ssh command line like
 ssh -L6800:localhost:6800 user@remote.server -N
 ````
 
+### Youtube-dl
+
+you can use aria and youtube-dl together with
+
+````bash
+youtube-dl https://www.youtube.com/watch?v=F57P9C4SAW4 --external-downloader=aria2c
+````
+
 ## Let's download
 
 let's download really fast and with multiple parallel sources if you like!
-
 
 
 
