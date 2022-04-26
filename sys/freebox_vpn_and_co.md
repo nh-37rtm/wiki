@@ -9,7 +9,7 @@ the freebox mini has a cool option to provide a VPN server connection but i had 
 
 The hotel has a cool way of providing the chromecast service to the rooms using the "Otrum" tool you connect to a local URL http://tv.myvinn.com and it serves an interface like ![alt](./images/hotel_inn_chromecast.png) after you enter the pairing code, your devices connected to the hotel wifi can easily see the chromecast equipment to cast to.
 
-http://tv/myvinn.com is 
+http://tv/myvinn.com is sdfdsf
 
 ````shell
 C:\git\wikijs>ping tv.myvinn.com

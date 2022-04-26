@@ -1,5 +1,4 @@
 
-
 # Aria2
 
 Aria2 is a very fast library to download in multiples protocol including Torrent, FTP, HTTP ...
@@ -11,14 +10,13 @@ some websites show many existing UI
 
 my choice at the moment is :
 
-[aria2_remote_control_url] https://sourceforge.net/projects/aria2cremote/ "ARIA2 Remote Control" because of it's robust and clear (to me), ``Transmission Controller`` like's UI.
+[aria2_remote_control_url] <https://sourceforge.net/projects/aria2cremote/> "ARIA2 Remote Control" because of it's robust and clear (to me), ``Transmission Controller`` like's UI.
 
 ## Let's run it with RPC server enabled
 
-````
+````Text
 aria2c --enable-rpc --rpc-listen-all --rpc-allow-origin-all --daemon --load-cookies ~/cookues.txt --dir /APPBOX_DATA/storage/
 ````
-
 
 it gives back control to the shell (as i used the ``--daemon`` switch)
 
@@ -42,7 +40,7 @@ if you are not using a remote server to run Aria2 no need to worry just connect 
 
 Somme time calls the poor man VPN, or SSH tunnels, ssh tunnelling can be usefull in the case your server has no published ports over internet or if you just don't want to publish any.
 
-using putty or with only ssh command line like 
+using putty or with only ssh command line like
 
 ````
 ssh -L6800:localhost:6800 user@remote.server -N
@@ -51,10 +49,3 @@ ssh -L6800:localhost:6800 user@remote.server -N
 ## Let's download
 
 let's download really fast and with multiple parallel sources if you like!
-
-
-
-
-
-
-
