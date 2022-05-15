@@ -77,6 +77,20 @@ icacls.exe 'C:\Windows\System32\OpenSSH' /grant 'BUILTIN\Administrators:(OI)(CI)
 icacls.exe 'C:\Windows\System32\OpenSSH' /grant 'BUILTIN\Administrators:F' /t
 ````
 
+## Download a keyvault key and set permissions
+
+````bat
+REM Installation de la clef
+mkdir %HOMEPATH%\.ssh
+cd %HOMEPATH%\.ssh
+set KEY_NAME=id_rsa_hobdl
+call az login
+call az keyvault secret download --vault-name kv-edl-hodev --name hobdl-test-env --file %KEY_NAME%
+icacls %KEY_NAME% /setowner %username%
+icacls %KEY_NAME% /InheritanceLevel:r 
+icacls %KEY_NAME% /grant "%username%:(F)"
+````
+
 ## Backing up the system files
 
 replace the system files :

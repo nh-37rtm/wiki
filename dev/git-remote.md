@@ -59,3 +59,15 @@ Already up to date.
 git push heimnico refs/remotes/heimnico/main:refs/heads/main
 Everything up-to-date
 ````
+
+## fetch all branches
+
+https://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
+
+git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
+git fetch --all
+git pull --all
+
+to push to (for exemple) another fork =>
+
+git push --all
