@@ -1,0 +1,21 @@
+server_ansible 10.0.2.15/24
+server_ansible 192.168.56.114/24
+server_ansible 192.168.122.1/24
+
+centos2 10.0.2.15/24
+centos2 192.168.56.111/24
+
+centos1 10.0.2.15/24
+centos1 192.168.56.110
+
+debian  192.168.56.112
+
+192.168.56.114 serveur_ansible
+192.168.56.111 centos2
+192.168.56.110 centos1
+192.168.56.112 debian
+
+
+
+
+

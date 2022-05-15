@@ -1,0 +1,23 @@
+# Fichier des hosts
+# Liste de la filiale
+# Mise a jour de juin
+#
+
+# site planetes
+mars 10.10.10.10
+terre 10.10.10.11
+lune 10.10.10.112  # commentaire 1
+pluton 10.10.10.13 # commentaire 2
+   
+# site noms
+baranger   20.20.20.20 # jean-marc
+schomaker  20.20.20.21 # theo
+ 	 
+		
+# site bd
+asterix 30.30.30.30
+obelix  30.30.30.31   
+panoramix 30.30.30.32 # druide
+
+ 
+# FIN du fichier hosts

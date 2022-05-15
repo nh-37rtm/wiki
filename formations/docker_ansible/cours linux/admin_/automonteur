@@ -1,0 +1,208 @@
+
+
+AUTOMONTEUR
+le 26
+
+/etc/auto.master
+
+[root@cm-15 ~]# useradd -d /users/pim -m -u 10001 -g100 pim
+[root@cm-15 ~]# useradd -d /users/pam -m -u 10002 -g100 pam
+[root@cm-15 ~]# useradd -d /users/poum -m -u 10003 -g100 poum
+[root@cm-15 ~]# 
+[root@cm-15 ~]# passwd^C
+[root@cm-15 ~]# for u in pim pam poum; do passwd $u; done
+Changement de mot de passe pour l'utilisateur pim.
+
+[root@cm-15 ~]# showmount -e theo
+Export list for theo:
+/users       *
+/export/rep4 *
+/export/rep3 *
+/export/rep2 *
+/export/rep1 *
+
+-L [bind_address:]port:host:hostport
+
+
+[root@cm-15 ora2]# df -h
+Sys. de fichiers        Taille Utilisé Dispo Uti% Monté sur
+/dev/mapper/centos-root   6,0G    1,7G  4,3G  29% /
+devtmpfs                  484M       0  484M   0% /dev
+tmpfs                     496M       0  496M   0% /dev/shm
+tmpfs                     496M    6,9M  489M   2% /run
+tmpfs                     496M       0  496M   0% /sys/fs/cgroup
+/dev/sda2                1014M    124M  891M  13% /boot
+/dev/sda1                 200M     12M  189M   6% /boot/efi
+tmpfs                     100M       0  100M   0% /run/user/0
+antoine:/export/rep1       28G    5,1G   23G  19% /exports_antoine/rep1
+antoine:/export/rep2       28G    5,1G   23G  19% /exports_antoine/rep2
+antoine:/export/rep3       28G    5,1G   23G  19% /exports_antoine/rep3
+antoine:/export/rep4       28G    5,1G   23G  19% /exports_antoine/rep4
+tristan:/export/rep4       26G    5,0G   22G  20% /net/tristan/export/rep4
+theo:/oracle/ora2          26G    4,7G   22G  18% /opt/ora2
+
+
+pour config autofs :
+/etc/autofs.conf
+
+SSH
+
+
+Enter file in which to save the key (/users/pim/.ssh/id_rsa): 
+Created directory '/users/pim/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /users/pim/.ssh/id_rsa.
+Your public key has been saved in /users/pim/.ssh/id_rsa.pub.
+The key fingerprint is:
+
+stagiaire@cm-15:~$ ssh-copy-id root@192.168.1.202
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@192.168.1.202's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@192.168.1.202'"
+and check to make sure that only the key(s) you wanted were added.
+
+stagiaire@cm-15:~$ 
+stagiaire@cm-15:~$ 
+stagiaire@cm-15:~$ ssh root@192.168.1.202
+Last login: Tue Jun 25 13:04:54 2019 from yves
+[root@cm-15 ~]# 
+[root@cm-15 ~]# déconnexion
+Connection to 192.168.1.202 closed.
+stagiaire@cm-15:~$ 
+
+[root@cm-15 ora1]# ssh-copy-id antoine^C
+[root@cm-15 ora1]# ssh antoine
+Last login: Wed Jun 26 10:23:48 2019
+[root@centos7 ~]# déconnexion
+Connection to antoine closed.
+[root@cm-15 ora1]# ssh -v antoine
+OpenSSH_7.4p1, OpenSSL 1.0.2k-fips  26 Jan 2017
+debug1: Reading configuration data /etc/ssh/ssh_config
+debug1: /etc/ssh/ssh_config line 58: Applying options for *
+debug1: Connecting to antoine [192.168.1.201] port 22.
+debug1: Connection established.
+debug1: permanently_set_uid: 0/0
+debug1: identity file /root/.ssh/id_rsa type 1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_rsa-cert type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_dsa type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_dsa-cert type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_ecdsa type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_ecdsa-cert type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_ed25519 type -1
+debug1: key_load_public: No such file or directory
+debug1: identity file /root/.ssh/id_ed25519-cert type -1
+debug1: Enabling compatibility mode for protocol 2.0
+debug1: Local version string SSH-2.0-OpenSSH_7.4
+debug1: Remote protocol version 2.0, remote software version OpenSSH_7.4
+debug1: match: OpenSSH_7.4 pat OpenSSH* compat 0x04000000
+debug1: Authenticating to antoine:22 as 'root'
+debug1: SSH2_MSG_KEXINIT sent
+debug1: SSH2_MSG_KEXINIT received
+debug1: kex: algorithm: curve25519-sha256
+debug1: kex: host key algorithm: ecdsa-sha2-nistp256
+debug1: kex: server->client cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: kex: client->server cipher: chacha20-poly1305@openssh.com MAC: <implicit> compression: none
+debug1: kex: curve25519-sha256 need=64 dh_need=64
+debug1: kex: curve25519-sha256 need=64 dh_need=64
+debug1: expecting SSH2_MSG_KEX_ECDH_REPLY
+debug1: Server host key: ecdsa-sha2-nistp256 SHA256:aFbyacqW2K/3LRAjaL3YEmXDXWXDZfgNNmDUawLSoLw
+debug1: Host 'antoine' is known and d
+debug1: SSH2_MSG_NEWKEYS sent
+debug1: expecting SSH2_MSG_NEWKEYS
+debug1: SSH2_MSG_NEWKEYS received
+debug1: rekey after 134217728 blocks
+debug1: SSH2_MSG_EXT_INFO received
+debug1: kex_input_ext_info: server-sig-algs=<rsa-sha2-256,rsa-sha2-512>
+debug1: SSH2_MSG_SERVICE_ACCEPT received
+debug1: Authentications that can continue: publickey,gssapi-keyex,gssapi-with-mic,password
+debug1: Next authentication method: gssapi-keyex
+debug1: No valid Key exchange context
+debug1: Next authentication method: gssapi-with-mic
+debug1: Unspecified GSS failure.  Minor code may provide more information
+No Kerberos credentials available (default cache: KEYRING:persistent:0)
+
+debug1: Unspecified GSS failure.  Minor code may provide more information
+No Kerberos credentials available (default cache: KEYRING:persistent:0)
+
+debug1: Next authentication method: publickey
+debug1: Offering RSA public key: /root/.ssh/id_rsa
+debug1: Server accepts key: pkalg rsa-sha2-512 blen 279
+debug1: Authentication succeeded (publickey).
+Authenticated to antoine ([192.168.1.201]:22).
+debug1: channel 0: new [client-session]
+debug1: Requesting no-more-sessions@openssh.com
+debug1: Entering interactive session.
+debug1: pledge: network
+debug1: client_input_global_request: rtype hostkeys-00@openssh.com want_reply 0
+debug1: Sending environment.
+debug1: Sending env LANG = fr_FR.UTF-8
+Last login: Wed Jun 26 11:19:31 2019 from 192.168.1.102
+[root@centos7 ~]# 
+
+[root@cm-15 ~]# ls /etc/ssh
+moduli       ssh_host_ecdsa_key      ssh_host_ed25519_key.pub
+ssh_config(client)   ssh_host_ecdsa_key.pub  ssh_host_rsa_key
+sshd_config(serveur)  ssh_host_ed25519_ke
+
+sshd
+StrictMode=yes verif droits pour les clefs
+
+messages 
+
+/etc/motd
+
+sftpd
+
+ssh -p 2222
+scp -P 2222
+sftp -P 2222
+
+remote open("/root/~/mon_passwd"): No such file or directory
+sftp> put /etc/passwd /root/monfichier_passwd
+Uploading /etc/passwd to /root/monfichier_passwd
+/etc/passwd                                                                                  100% 1229    78.3KB/s   00
+
+
+
+logrotate
+
+
+/etc/logrotate.conf
+
+
+APACHE
+
+voir page 386
+
+https://lalibrerie-solidaire.org/
+https://letsencrypt.org/
+
+httpd -t => syntaxe
+
+/usr/sbin/apachectl config-test
+
+exo p 387
+
+
+
+
+
+
+
+
+
+
+
+
+
