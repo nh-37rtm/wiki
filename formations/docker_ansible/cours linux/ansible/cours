@@ -1,0 +1,435 @@
+/etc/ansible/
+hosts
+
+
+[root@server_ansible ~]# yum install -y ansible
+
+for server in serveur_ansible centos1 centos2 debian; do ssh-copy-id -i /home/stagiaire/.ssh/id_rsa.pub root@${server}; done
+
+
+[root@server_ansible ~]# subl /etc/ansible/ansible.cfg 
+/etc/ansible/hosts
+
+
+ex module :
+copy
+win_copy
+fetch
+template
+
+
+sections examples
+
+ansible galaxy
+ansible-doc -s
+
+[root@server_ansible ~]# ansible -m ping debian_servers
+ [WARNING]: Platform linux on host debian1 is using the discovered Python interpreter at
+/usr/bin/python, but future installation of another Python interpreter could change this. See
+https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more
+information.
+
+debian1 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false, 
+    "ping": "pong"
+}
+[root@server_ansible ~]# 
+
+[root@server_ansible ~]# ansible -m ping debian_servers --one-line
+debian1 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong", "warnings": ["Platform linux on host debian1 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information."]}
+[root@server_ansible ~]# 
+
+[root@server_ansible ~]# ansible -m ping '!debian_servers' --one-line
+centos1 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong", "warnings": ["Platform linux on host centos1 is using the discovered Python interpreter at /usr/bin/python, but future installation of another Python interpreter could change this. See https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more information."]}
+centos2 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python"}, "changed": false, "ping": "pong"}
+[root@server_ansible ~]# 
+p26 inventaires => equivalent du hosts mais "temporaire"
+
+p29 exemple de host plus complet
+
+p35
+module par defaut => command
+
+p38 module copy
+p41
+
+module yum 
+	state=present = installation
+	state=lastest = mise à jour
+	state=absent = desinstaller
+
+p47 installation package
+
+ansible-doc file
+
+[root@server_ansible ~]# ansible all -m setup -a 'filter=ansible_user_id'
+ [WARNING]: Platform linux on host debian1 is using the discovered Python interpreter at
+/usr/bin/python, but future installation of another Python interpreter could change this. See
+https://docs.ansible.com/ansible/2.8/reference_appendices/interpreter_discovery.html for more
+information.
+
+debian1 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_user_id": "root", 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+centos2 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_user_id": "root", 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+centos1 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_user_id": "root", 
+        "discovered_interpreter_python": "/usr/bin/python"
+    }, 
+    "changed": false
+}
+
+
+ansible-playbook --syntax-check xxx.yml
+ansible-playbook --check xx.yml
+yamllint fic.yml
+ansible-lint xx.yml hints sur optimisations du playbook
+
+p54
+exemple playbook
+
+recapitulatif du playbook en fin d'action
+
+
+ansible-playbook xx.yml
+
+generation d'un playbook.retry pour les machines en erreur (pas celles innaccessibles)
+
+ansible-playbook xx.yml --limit @xxx.retry
+ansible-playbook xx.yml --limit machine1
+
+vars:
+	nom_variable : valeur variable
+xx :
+	"@Outils de développement"
+	{{nom_variable}}
+
+yum grouplist
+
+variables p61
+
+vars:
+	variable: valeur
+	variable2: valeur
+
+syntaxe inventaire p62
+
+
+vars: element=valeur
+ou 
+
+"{{addr_ip}}"/24 et pas {{addr_ip}}/21
+
+
+var_files:
+	- var_file1
+	- var_file2
+
+voir p63
+
+
+p65
+
+variables
+dossier du playbook :
+
+group_vars/[all]
+group_vars/[centos_servers]
+
+host_vars/[centos1]
+
+extra vars en ligne de commande
+
+play vars vars => playbook vars
+
+exemples p66
+
+ansible :
+
+playbook : ne pas voir uniquement l'installation par le playbook mais aussi comme de la maintenance. on applique les delta. maintenance d'un état au sein du parc.
+
+par defaut la version est lastest pour les paquets
+priorité à gérer en fonction de l'infra et des standards de l'entreprise
+
+pour avoir des infos sur le fichier de variable pris en charge utiliser l'option -v 
+
+
+template jinja2
+
+register: resultat
+
+resultat de l'execution du module
+
+resultat.stdout_lines[-1]
+
+p77
+
+un handler n'est pas une fonction
+handlers:
+ - name: redemarage
+
+execution des handler à la fin du playbook de toutes les tâches en fonction du resultat du changed,
+une seule fois quelque soit le nombre de notification
+execution si changed à true
+
+
+notify: [ handler1, handler2, handler3 ]
+p82
+dans loop
+index_id
+
+
+when
+p87
+
+when: url is match(regexp)
+when: url is search("chaine") => recherche une chaine 
+existance de and et or
+
+p88
+test type de fichiers
+when item is directory
+when item is exists
+when result is faild
+
+p89
+
+ignore_errors: true
+
+
+EXO
+
+Commandes Ad.Hoc -> Manip indépendantes
+	ne pas passer trop de temps, passer au suivant si bloqué
+
+Playbooks
+1 -> fait
+2 -> Variables (Indépendant) => faire à la fin
+3 -> Template
+4 -> debug ( Indépendant )
+5 -> handler - Apache ( ne pas tenir compte de la condition sur le firewall )
+6 -> boucles
+
+
+
+Lundi 8
+
+p106
+
+role : 
+	equivalent structuré du playbook, réutilisabilité
+	le playbook utilise un role
+	le role est un objet ?
+	le role est standardisé, industrialisé
+
+include_role permet d'inclure un role à  la façon inline
+
+
+voir arbo p107
+
+defaults/main.yml => éventuellement description des var avec valeurs par defaut sera écrasé par vars/main.yml
+
+files/ => emplacement des fichiers à utiliser dans les différentes tâches
+
+positionnement des rôles dans
+
+/etc/ansible/role
+ou dans le sous dossier roles dans le chemin courant d'exécution du playbook
+
+p117
+
+erreur : pas de vars car on n'est dans le fichier var
+
+ansible-galaxy search crontab
+
+ansible-galaxy init perso
+	suivre la structure et installer 
+
+[root@server_ansible ~]# ansible-galaxy info linuxhq.cronie
+
+ansible-galaxy install --roles-path galaxy/Roles linuxhq.cronie ansi
+
+        -p,   --roles-path
+              The path to the directory containing your roles. The default is the roles_path  con‐
+              figured in your ansible.cfg file (/etc/ansible/roles if not configured)
+
+depuis ansible 2.8 plus de include_tasks
+
+main.yml exécuté automatiquement lors de l'accès au rôle
+
+--check dès fois des erreurs mais passe en execution
+
+role deploement apache => ok
+role BDD => ok
+
+ne pas tout mélanger
+
+role injection bdd
+
+ANSIBLE AVANCEE
+
+p124
+
+--tags ex : tag debug
+--skip 
+--list-tags liste les tags disponible
+--list-hosts
+
+p128
+
+delegate_to
+
+centralisation des retours sur l'execution d'une commande par exemple
+
+fetch : reccupération d'un fichier 
+pre_tasks:
+post_tasks:
+
+run_once: yes => lancer sur une des machines de hosts de pair avec delegate_to pour definir la machine
+
+paralélisme par defaut par 5 machines
+/etc/ansible/ansible.cfg passer forks à 5
+(niveau tasks)
+
+ou quantité de serveur ciblés avec l'option -f
+
+serial groupé :
+serial : 20%
+serial : [1, 5, 50]
+serial : [1, 100%]
+
+erreurs
+
+p138
+any_errors_fatal: true
+1 seule erreur sur un client => fin
+
+--limit @inventaire réduit
+--limit client1,client2 ...
+
+p141
+block: regroupement de tasks
+rescue:
+always:
+
+comparaison avec try catch
+
+possibilité d'enchainer les blocks
+
+AUTHENTIF avec ansible
+p143
+
+créer un compte de service sur les machines
+ajouter remote_user: user_ansible
+metre a jour fichier sudoers
+
+ajouter become:yes => soit au niveau du playbook, soit au niveau de la task
+become_user:apache
+
+vars_prompt pour initialiser les variables au lancement du playbook
+
+Inventaire dynamique
+
+p168
+
+voir les regroupements de machines
+
+
+
+LOOKUP
+
+lookup( 'pipe', 'xxxx') execution d'une commande sur le serveur ansible
+lookup( 'env', env sur serveur
+
+p151
+jouer avec les noms de variables
+lookup( 'vars', 
+lookup( 'file', 'nom_fichier' );
+
+set_fact:
+	affectation de valeur dans une nouvelle variable
+
+p158
+assert:
+  that:
+
+arret au premier test faux
+
+fail:
+	inverse
+
+
+option --step
+option --diff
+
+voir compléments pour la création d'un module ansible
+ansible vault
+
+
+différents emplacements du fichier de configuration 
+
+debuggage avec les options -v -vv -vvv -vvv
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+

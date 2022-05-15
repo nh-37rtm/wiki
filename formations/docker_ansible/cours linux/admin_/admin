@@ -1,0 +1,470 @@
+ADMIN USER
+
+groupmod
+groupdel
+
+usermod
+userdel
+
+libcontainer
+
+
+stagiaire@cm-15:~$ useradd -D
+GROUP=100
+HOME=/home
+INACTIVE=-1
+EXPIRE=
+SHELL=/bin/sh
+SKEL=/etc/skel
+CREATE_MAIL_SPOOL=no
+stagiaire@cm-15:~$ cat /etc/skel/
+.bash_logout      .bashrc           examples.desktop  .profile          
+
+
+/etc/skel
+... /etc/skel_apache
+
+
+
+at, atq, atrm => exécution ponctuelle
+/etc/at.deny
+/etc/at.allow
+
+cron
+
+/etc/cron.deny
+/etc/cron.allow
+
+
+
+Lundi 16
+
+watch ls -lh xxxx
+
+system exploitation le noyau peux être le même
+
+man -L en ls
+man -s 1,5
+
+yum grouplist
+yum groupinstall
+
+yum update
+
+
+rpm -qf /etc/passwd savoir quels fichiers sont 
+rpm -ql lister contenu d'un paquet
+rpm -i informations sur le paquet 
+rpm sans gestion de paquet
+yum gestion des paquets
+
+apt surcouche à apt-get
+
+rpm -i ksh-20120801-139.el7.x86_64.rpm
+[root@poste Packages]# rpm -qa | grep ksh
+ksh-20120801-139.el7.x86_64
+
+YUM :
+
+/etc/yum.conf
+less /etc/yum.repos.d/CentOS-Base.repo
+yum install epel-release.noarch
+yum priority
+yum provide
+
+dpkg -i/-r -P (Purge)
+dpkg -s information du package
+
+netstat remplacé par ss (sa fait furreur)
+/etc/sources.list.d/
+apt show bash
+dpkg -L nmap
+nmap localhost 
+Starting Nmap 6.40 ( http://nmap.org ) at 2019-06-17 08:34 EDT
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00055s latency).
+Other addresses for localhost (not scanned): 127.0.0.1
+Not shown: 996 closed ports
+PORT    STATE SERVICE
+22/tcp  open  ssh
+25/tcp  open  smtp
+111/tcp open  rpcbind
+631/tcp open  ipp
+
+make -j12 => 12 coeurs
+
+CENTOS
+firewall-cmd --list-all
+firewall-cmd --add-port=10000/tcp --permanent
+
+UBUNTU
+ufw => gestion du firewall
+
+stty -a
+stty erase e => e deviens la touche de suppression
+
+!$NUM_COMMANDE de l'historique pour executer la commande de l'historique
+
+
+dependances d'un binaire : 
+stagiaire@cm-15:~$ ldd /bin/ls
+	linux-vdso.so.1 (0x00007ffld2ed98000)
+	libselinux.so.1 => /lib/x86_64-linux-gnu/libselinux.so.1 (0x00007f90b3a9b000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f90b38b1000)
+	libpcre.so.3 => /lib/x86_64-linux-gnu/libpcre.so.3 (0x00007f90b383d000)
+	libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007f90b3837000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007f90b3d02000)
+	libpthread.so.0 => /lib/x86_64-linux-gnu/libpthread.so.0 (0x00007f90b3816000)
+
+[nheim@poste ~]$ lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sda               8:0    0   21G  0 disk 
+├─sda1            8:1    0    1G  0 part /boot
+└─sda2            8:2    0   20G  0 part 
+  ├─centos-root 253:0    0   18G  0 lvm  /
+  └─centos-swap 253:1    0    2G  0 lvm  [SWAP]
+sdb               8:16   0    8G  0 disk 
+sdc               8:32   0    8G  0 disk 
+sdd               8:48   0    8G  0 disk 
+sde               8:64   0    8G  0 disk 
+sdf               8:80   0    8G  0 disk 
+sr0              11:0    1 1024M  0 rom  
+
+DISQUE :
+partition étendue : enveloppe qui contient une ou plusieurs partitions logiques
+15 partitions maximum
+hexdump
+
+<MBR title="MBR" size="512 bytes"> 
+<GEO title="geometrie disque" size="446"/>
+<TAB title="table des partitions" size="64" />
+</MBR>
+
+pour chaque peripherique numéro de majeur pour déterminer le driver à utiliser par le noyeau
+l'instance particulière est le mineur
+
+GPT 128 partitions par disque
+cat /proc/partitions
+
+[nheim@poste ~]$ findfs UUID=c1d9edc0-72f9-479f-863a-d0357e93aab4
+/dev/sda1
+
+[nheim@poste ~]$ sudo blkid /dev/sda1
+[sudo] Mot de passe de nheim : 
+/dev/sda1: UUID="c1d9edc0-72f9-479f-863a-d0357e93aab4" TYPE="xfs" 
+
+LBA : logical block addressing, c'est un genre d'index pour atteindre des régions de disque
+version negative existe : LBA-1, LBA-2 etc ...
+
+
+ext3 = ext2 + journalisation
+lors d'un check verification seulement du journal
+sans journal + performant
+
+XFS: cilicon graphics (gros fichiers)
+
+stagiaire@cm-15:~$ lsblk -fs
+NAME      FSTYPE   LABEL  UUID                                 MOUNTPOINT
+loop0     squashfs                                             /snap/gnome-calculator/406
+loop1     squashfs                                             /snap/gnome-logs/61
+loop2     squashfs                                             /snap/gnome-3-26-1604/86
+loop3     squashfs                                             /snap/core/6531
+loop4     squashfs                                             /snap/gnome-3-26-1604/82
+loop5     squashfs                                             /snap/gnome-3-28-1804/55
+loop6     squashfs                                             /snap/gnome-calculator/260
+loop7     squashfs                                             /snap/gnome-system-monitor/83
+loop8     squashfs                                             /snap/gnome-characters/280
+loop9     squashfs                                             /snap/teatime/115
+loop10    squashfs                                             /snap/core18/970
+loop12    squashfs                                             /snap/gnome-characters/284
+loop13    squashfs                                             /snap/gnome-logs/45
+loop14    squashfs                                             /snap/core/6964
+loop15    squashfs                                             /snap/gnome-3-28-1804/51
+loop16    squashfs                                             /snap/core/6405
+loop17    squashfs                                             /snap/node/2276
+loop18    squashfs                                             /snap/gnome-system-monitor/87
+loop19    squashfs                                             /snap/gtk-common-themes/1198
+loop20    squashfs                                             /snap/node/2273
+sda       ext4            b4860da2-4126-42b4-b0a4-e544ca7db455 /media/stagiaire/b4860da2-4126-42b4-b0a4-e544ca7db455
+nvme0n1p1 vfat     ESP    9A0B-473E                            /boot/efi
+└─nvme0n1                                                      
+nvme0n1p2 vfat     OS     103C-0D04                            
+└─nvme0n1                                                      
+nvme0n1p3 ext4     UBUNTU 08b09db8-bd78-4816-a810-8023725b1640 /
+└─nvme0n1                                                      
+nvme0n1p4 swap            dcff2aad-44d7-4269-9ca2-e53c183fe2cf [SWAP]
+└─nvme0n1  
+
+reiserfs : optimisé très petit fichiers mais plus maintenu
+UFS : Unix file system
+JFS : Aix (JFS2 pour gestion courantes)
+ZFS : Oracle Sun (pas GPL contre ce que souhaitais Sun)
+
+
+fragment de de blocs
+meme groupe de cylindre pour optimisation
+
+Superblocs de secours stockés sur les blocs : 
+	32768, 98304, 163840, 229376, 294912
+
+meta données du systeme de fichier copier à différents endroits du disque, (au début de chaque block de cynlindre par exemple)
+
+tune2fs /dev/sdba ajustement, infos
+dumpe2fs /dev/sda détails partition
+
+[nheim@poste ~]$ lsblk --fs /dev/sdb
+NAME   FSTYPE LABEL UUID                                 MOUNTPOINT
+sdb                                                      
+├─sdb1 ext2         b9dcbcf3-53a1-4e60-9e64-60f96a53c00f 
+├─sdb2                                                   
+├─sdb3                                                   
+├─sdb4                                                   
+└─sdb5                                                   
+[nheim@poste ~]$ 
+
+[nheim@poste ~]$ mkfs -t ext3 /dev/sdb2 
+tune2fs -s /dev/sdc1
+
+[nheim@poste ~]$ for fs in "ext2" "ext2" "ext3" "ext3" "ext4" "ext4" "xfs" "xfs"; do ((i++)); echo sudo mkfs -t ${fs} /dev/sdc${i}; done
+
+sudo mkfs -t ext2 /dev/sdc5
+sudo mkfs -t ext2 /dev/sdc6
+sudo mkfs -t ext3 /dev/sdc7
+sudo mkfs -t ext3 /dev/sdc8
+sudo mkfs -t ext4 /dev/sdc9
+sudo mkfs -t ext4 /dev/sdc10
+sudo mkfs -t xfs /dev/sdc11
+sudo mkfs -t xfs /dev/sdc12
+
+modifie taille d'addressage par defaut inode
+mkfs.ext4 -b 1024 -i 4096 /dev/sdc1
+
+
+bloc reservé par le super utilisateur reservation à 0 :
+mkfs xxx -m0
+
+[nheim@poste ~]$ sudo mount /dev/sdc5 /mnt/data1/
+[nheim@poste ~]$ 
+[nheim@poste ~]$ ls /mnt/data1/
+lost+found
+[nheim@poste ~]$ lsblk /dev/sdc
+NAME    MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+sdc       8:32   0    8G  0 disk 
+├─sdc1    8:33   0    1K  0 part 
+├─sdc5    8:37   0 1000M  0 part /mnt/data1
+
+https://serverfault.com/questions/185553/what-does-it-mean-if-inode-usage-is-high
+
+tune2fs -O dir_index /dev/sda1 : externalise l'index d'un dossier !?
+
+mount -o rw,noexec,
+
+[nheim@poste ora2]$ fuser .
+/ora2:               12974c
+[nheim@poste ora2]$ fuser -cu .
+/ora2:               12974c(nheim)
+
+kill du process :
+[nheim@poste ora2]$ fuser -ck  . 
+
+findmnt [-l]
+
+
+fast erase partitions :
+dd if=/dev/zero of=/dev/sdd bs=512 count=1
+
+
+LVM
+transforme tout les disques en PV
+VG volumegroup
+VE
+
+vgcreate vg0 /dev/sdb1 /dev/sdc1
+lvcreate -L 2G -n lv0
+/dev/vg0/lv0
+
+change partition system id (t dans fdisk)
+
+Utilisation de la valeur 16777215 par défaut
+La partition 1 de type Linux et de taille 8 GiB est configurée
+
+Commande (m pour l'aide) : t
+Partition 1 sélectionnée
+Code Hexa (taper L pour afficher tous les codes) :8E
+Type de partition « Linux » modifié en « Linux LVM »
+
+[root@poste nheim]# pvcreate /dev/sd[b-f]1
+WARNING: ext2 signature detected on /dev/sdb1 at offset 1080. Wipe it? [y/n]: y
+  Wiping ext2 signature on /dev/sdb1.
+WARNING: dos signature detected on /dev/sdc1 at offset 510. Wipe it? [y/n]: y
+  Wiping dos signature on /dev/sdc1.
+WARNING: ext2 signature detected on /dev/sdd1 at offset 1080. Wipe it? [y/n]: y
+  Wiping ext2 signature on /dev/sdd1.
+  Physical volume "/dev/sdb1" successfully created.
+  Physical volume "/dev/sdc1" successfully created.
+  Physical volume "/dev/sdd1" successfully created.
+  Physical volume "/dev/sde1" successfully created.
+  Physical volume "/dev/sdf1" successfully created.
+[root@poste nheim]# 
+[root@poste nheim]# pvs
+  PV         VG     Fmt  Attr PSize  PFree 
+  /dev/sda2  centos lvm2 a--  19,95g  4,00m
+  /dev/sdb1         lvm2 ---  <8,00g <8,00g
+  /dev/sdc1         lvm2 ---  <8,00g <8,00g
+  /dev/sdd1         lvm2 ---  <8,00g <8,00g
+  /dev/sde1         lvm2 ---  <8,00g <8,00g
+  /dev/sdf1         lvm2 ---  <8,00g <8,00g
+[root@poste nheim]# 
+
+
+vgcreate vbnico0 /dev/sdb1 /dev/sdc1
+
+[root@poste nheim]# pvdisplay
+...
+"/dev/sdf1" is a new physical volume of "<8,00 GiB"
+  --- NEW Physical volume ---
+  PV Name               /dev/sdf1
+  VG Name               
+  PV Size               <8,00 GiB
+  Allocatable           NO
+  PE Size               0   
+  Total PE              0
+  Free PE               0
+  Allocated PE          0
+  PV UUID               1LWsB6-o0cx-LtWB-gXI2-56oc-S6ns-ptBhhe
+
+root@poste nheim]# vgdisplay
+  --- Volume group ---
+  VG Name               centos
+  System ID             
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  3
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               2
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               19,95 GiB
+  PE Size               4,00 MiB
+  Total PE              5108
+  Alloc PE / Size       5107 / <19,95 GiB
+  Free  PE / Size       1 / 4,00 MiB
+  VG UUID               sqO3Ga-I1oY-BQJY-nzsu-1BoI-xa8q-gLDdUx
+   
+  --- Volume group ---
+  VG Name               vbnico0
+  System ID             
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               15,99 GiB
+  PE Size               4,00 MiB
+  Total PE              4094
+  Alloc PE / Size       0 / 0   
+  Free  PE / Size       4094 / 15,99 GiB
+  VG UUID               aa2up1-cFr9-oQRN-QlEG-qdjc-wpfc-scf5gi
+
+[root@poste nheim]# 
+[root@poste nheim]# lvcreate -L+4G -nlvv /dev/vbnico0
+  Logical volume "lvv" created.
+[root@poste nheim]# lvs
+  LV   VG      Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root centos  -wi-ao---- <17,95g                                                    
+  swap centos  -wi-ao----   2,00g                                                    
+  lvv  vbnico0 -wi-a-----   4,00g                                                    
+[root@poste nheim]# 
+
+v
+
+lvextend ...
+lvextend -l +100%FREE
+lvextend -L +100%FREE  
+
+resize2fs
+
+pour l'ext2 obligé de demonter mais sinon à chaud
+vgextend vg disque1 disque2
+vgreduce vg disque1
+
+EXO LVM
+
+
+
+
+dd if=/dev/zero of=/dev/sd[b-f] bs=512 count=1
+
+root@poste nheim]# vgremove --removemissing vbnico0
+vgremove : option non reconnue « --removemissing »
+  Error during parsing of command line.
+[root@poste nheim]# vgremove vbnico0
+  WARNING: Device for PV XoSdB5-WSBh-N1Bp-g4Ap-4VZH-WFYK-DDlIPd not found or rejected by a filter.
+  Couldn't find device with uuid XoSdB5-WSBh-N1Bp-g4Ap-4VZH-WFYK-DDlIPd.
+  Volume group "vbnico0" not found, is inconsistent or has PVs missing.
+  Consider vgreduce --removemissing if metadata is inconsistent.
+[root@poste nheim]# ^C
+[root@poste nheim]# vgreduce --removemissing vbnico0
+  WARNING: Device for PV XoSdB5-WSBh-N1Bp-g4Ap-4VZH-WFYK-DDlIPd not found or rejected by a filter.
+  Couldn't find device with uuid XoSdB5-WSBh-N1Bp-g4Ap-4VZH-WFYK-DDlIPd.
+  Wrote out consistent volume group vbnico0.
+[root@poste nheim]# 
+[root@poste nheim]# vgremove vbnico0
+  Volume group "vbnico0" successfully removed
+
+xfs_growfs /dev/myvol/lv1
+
+pour eviter d'avoir à redimensioner à la main le filesystem ne pas oublier l'option r de lvextend :
+
+[root@poste nheim]# lvextend -rL +500M /dev/myvol/lv2
+  Size of logical volume myvol/lv2 changed from 2,00 GiB (512 extents) to <2,49 GiB (637 extents).
+  Logical volume myvol/lv2 successfully resized.
+resize2fs 1.42.9 (28-Dec-2013)
+Le système de fichiers de /dev/mapper/myvol-lv2 est monté sur /lv2 ; le changement de taille doit être effectué en ligne
+old_desc_blocks = 1, new_desc_blocks = 1
+
+Le système de fichiers /dev/mapper/myvol-lv2 a maintenant une taille de 652288 blocs.
+
+[root@poste nheim]# pvmove /dev/sdc1 /dev/sdd1
+  WARNING: Device for PV oNize6-ZOeW-Nk39-Mp7O-t5mq-ObcK-W7OjTM not found or rejected by a filter.
+  WARNING: Device for PV 1LWsB6-o0cx-LtWB-gXI2-56oc-S6ns-ptBhhe not found or rejected by a filter.
+  No data to move for myvol.
+[root@poste nheim]# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    
+
+
+
+
+
+
+
+ 
+
+
+
+

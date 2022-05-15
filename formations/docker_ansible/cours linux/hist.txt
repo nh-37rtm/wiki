@@ -1,0 +1,1000 @@
+    6  mount /dev/sdb2  /mnt/oracle2
+    7  mkdir /mnt/oracle3
+    8  lsblk -f /dev/sdb
+    9  mkfs.ext4
+   10  lsblk -f /dev/sdb
+   11  mkfs.ext4 /dev/sdb3
+   12  lsblk -f /dev/sdb
+   13  mkdir /mnt/oracle3
+   14  mount /dev/sdb3  /mnt/oracle3
+   15  df -h
+   16  hystory
+   17  history
+   18  pwd
+   19  history |  ~
+   20  lsblk
+   21  fdisk -l /dev/sda
+   22  fdisk /dev/sdc
+   23  lsblk -l /dev/sdc
+   24  fdisk -l /dev/sdd
+   25  fdisk -l /dev/sdc
+   26  fdisk -l /dev/sdp
+   27  fdisk -l /dev/sdd
+   28  fdisk /dev/sdd
+   29  mkfs.xfs /dev/dev/sdb1
+   30  tune2fs -l /dev/sdb1 | more
+   31  mkfs
+   32  fdisk /dev/sdb
+   33  fdisk -l /dev/sdb
+   34  mkfs.ext2 /dev/sdb1
+   35  lsblk -f /dev/sdb
+   36  mkfs.ext3 /dev/sdb2
+   37  lsblk -f /dev/sdb
+   38  man tune2fs
+   39  mkdir /data1
+   40  mkdir /data11
+   41  \ls /data11
+   42  df -h
+   43  lsblk -f /dev/sdb
+   44  mount /dev/sdb1  /oracle1
+   45  mkdir /mnt/oracle1
+   46  mount /dev/sdb1  /oracle1
+   47  mount /dev/sdb1  /mnt/oracle1
+   48  mount /dev/sdb2  /mnt/oracle2
+   49  mkdir /mnt/oracle2
+   50  mount /dev/sdb2  /mnt/oracle2
+   51  mkdir /mnt/oracle3
+   52  lsblk -f /dev/sdb
+   53  mkfs.ext4
+   54  lsblk -f /dev/sdb
+   55  mkfs.ext4 /dev/sdb3
+   56  lsblk -f /dev/sdb
+   57  mkdir /mnt/oracle3
+   58  mount /dev/sdb3  /mnt/oracle3
+   59  df -h
+   60  hystory
+   61  history
+   62  pwd
+   63  history |  ~
+   64  pwd
+   65  history 
+   66  history > /var/tmp/cours_j2
+   67  exit
+   68  cd /var/tmp
+   69  ls
+   70  cat cours_j2
+   71  lsblk -f /dev/sdb
+   72  df -u
+   73  cd ..
+   74  lsblk -f /dev/sdb
+   75  df -u
+   76  df --help
+   77  df -h
+   78  dd if=/dev/sda of=/tmp/ma_mbr bs=512 count=1
+   79  file /tmp/ma_mab
+   80  file /tmp/ma_mbr
+   81  hexdump /tmp/ma_mbr 
+   82  dd if=/dev/sda of=/tmp/ma_table bs=1 skip=446 count=64
+   83  file /tmp/ma_table 
+   84  lsblk
+   85  ls -l /dev/sd*
+   86  tty
+   87  ls -l /dev/pts/1
+   88  more /proc/devices 
+   89  more /proc/partitions 
+   90  fdisk -l
+   91  fdisk -l /dev/sda
+   92  fdisk /dev/sdb
+   93  lsblk
+   94  lsblk /dev/sdb
+   95  lsblk
+   96  fdisk /dev/Sdc
+   97  fdisk /dev/sdc
+   98  p
+   99  lsblk
+  100  fdisk -l /dev/sdc
+  101  more /proc/partitions 
+  102  cat /etc/fstab
+  103  findfs UUID=8e5e7d2e-5b09-4a20-80f4-16503f708729
+  104  blkid /dev/sda1
+  105  blkid /dev/sdb1
+  106  cd /dev/disk
+  107  ls
+  108  \ls
+  109  ls -l by-uuid/
+  110  lsblk -f
+  111  lsblk --fs | more
+  112  mkfs.ext2 /dev/sdc1
+  113  tune2fs -l /dev/sdc1 | more
+  114  dumpe2fs /dev/sdc1 | more
+  115  mkfs -t ext2 /dev/sdc2
+  116  mke2fs /dev/sdc3
+  117  lsblk --fs /dev/sdc
+  118  h
+  119  history
+  120  mkfs.ext3 /dev/sdc5
+  121  lsblk --fs /dev/sdc
+  122  mke2fs -j /dev/sdc6
+  123  lsblk --fs /dev/sdc
+  124  tune2fs -j /dev/sdc1
+  125  lsblk --fs /dev/sdc
+  126  mkfs.ext4 /dev/sdc7
+  127  lsblk
+  128  lsblk -f /dev/sdc
+  129  mkfs.ext2 /dev/sdc1
+  130  mkfs.ext2 /dev/sdc2
+  131  mkfs.ext3 /dev/sdc3
+  132  mkfs.ext /dev/sdc4
+  133  mkfs.ext4 /dev/sdc5
+  134  mkfs.ext4 /dev/sdc6
+  135  mkfs.xfs /dev/sdc7
+  136  mkfs.xfs /dev/sdc8
+  137  lsblk -f /dev/sdc
+  138  mkfs.xfs /dev/sdc9
+  139  lsblk -f /dev/sdc
+  140  mkfs.ext3 /dev/sdc5
+  141  lsblk -f /dev/sdc
+  142  ls -l /etc/passwd
+  143  du -s /etc/passwd
+  144  du -sh /etc/passwd
+  145  ls -ls /etc/passwd
+  146  ls -lsh /etc/passwd
+  147  mkfs.ext4 -b 1024 -i 16192 /dev/sdc1
+  148  mkfs.ext4 /dev/sdc2
+  149  mkfs.ext4 -b 1024 -i 8192 /dev/sdc1
+  150  mkfs.ext4 -b 1024 -i 4096 /dev/sdc1
+  151  more /etc/mke2fs.conf 
+  152  mkfs.xfs /dev/sdc3
+  153  mkfs.xfs -f /dev/sdc3
+  154  mkfs.xfs -f -a size=1024 /dev/sdc3
+  155  mkfs.xfs -f size=1024 /dev/sdc3
+  156  mkfs.xfs -f -b size=1024 /dev/sdc3
+  157  more /etc/mke2fs.conf 
+  158  lsblk -f
+  159  tune2fs -m 0 /dev/sdc1
+  160  tune2fs -m 3 /dev/sdc1
+  161  tune2fs -m 0 /dev/sdc1
+  162  mkfs.ext4 -m 0 /dev/sdc2
+  163  cd
+  164  mkdir /data1
+  165  mount /dev/sdc1 /data1
+  166  ls /data1
+  167  \ls /data1
+  168  lsblk
+  169  df -h
+  170  cp /etc/passwd /etc/hosts /data1
+  171  \ls /data1
+  172  umount /data1
+  173  df -h
+  174  \ls /data1
+  175  mkdir /rep1
+  176  mount /dev/sdc1 /rep1
+  177  \ls /rep1
+  178  umount /rep1
+  179  \ls /rep1
+  180  touch /rep1/fic1
+  181  touch /rep1/fic2
+  182  \ls /rep1
+  183  mount /dev/sdc1 /rep1
+  184  \ls /rep1
+  185  umount /rep1
+  186  \ls /rep1
+  187  mount /dev/sdc1 /rep1
+  188  mount /dev/sdc1 /data1
+  189  df -h
+  190  mount
+  191  umount /rep1
+  192  df -h
+  193  umount /data1
+  194  history
+  195  mkdir /oracle
+  196  mount /dev/sdc1 /oracle/
+  197  mkdir /ora2
+  198  mount /dev/sdb2 /ora2
+  199  mkdir /ora2/ora3
+  200  mount /dev/sdb3 /ora2/ora3
+  201  df -h
+  202  history
+  203  more /etc/fstab
+  204  lsblk
+  205  lsblk -f
+  206  vi /etc/fstab
+  207  cat /etc/fstab
+  208  umount /oracle/
+  209  mount /oracle 
+  210  mount /oraaaaaaa
+  211  df -h
+  212  cat /etc/fstab
+  213  mount -a
+  214  vi /etc/fstab 
+  215  mount -a
+  216  vi /etc/fstab 
+  217  lsblk
+  218  lsblk -f
+  219  vi /etc/fstab 
+  220  mount -a
+  221  lsblk -f
+  222  ls /ora2
+  223  mkdir /ora2/ora3
+  224  umount -a
+  225  mount -a
+  226  df -h
+  227  init 6
+  228  more /etc/Fstab
+  229  more /etc/fstab
+  230  man mmount
+  231  man mount
+  232  su - theo
+  233  df
+  234  ls /run/media/theo/CentOS\ 7\ x86_64/
+  235  mount -o ro,remount /ora2
+  236  touch /ora2/fic1
+  237  mount -o rw,remount /ora2
+  238  mount -o rw,noexec,remount /ora2
+  239  mount
+  240  mount -o remount /ora2
+  241  mount
+  242  df -h
+  243  ip a
+  244  umount /ora2
+  245  umount -f /ora2
+  246  fuser -cu /ora2
+  247  wall
+  248  fuser -ck /ora2
+  249  fuser -cu /ora2
+  250  umounr /ora2
+  251  umount /ora2
+  252  mount
+  253  mount | more
+  254  umount /ora2/ora3
+  255  umount /ora2
+  256  findmnt
+  257  findmnt -t xfs
+  258  findmnt -t ext2
+  259  findmnt -t ext4
+  260  vi /etc/fstab
+  261  lsblk
+  262  df
+  263  umount /oracle/
+  264  ls /dev/sdb
+  265  fdisk /dev/sdb
+  266  df -h
+  267  lsblk
+  268  fdisk /dev/sdc
+  269  lsblk
+  270  lsblk -f
+  271  fdisk /dev/sdb
+  272  fdisk /dev/sdc
+  273  fdisk /dev/sdd
+  274  fdisk /dev/sde
+  275  lsblk
+  276  ip a
+  277  lsblk
+  278  lsblk -f
+  279  lsblk
+  280  fdisk -l
+  281  pvcreate /dev/sd[b-f]1
+  282  df -h
+  283  uùount /oracle
+  284  umount /oracle
+  285  pvcreate /dev/sd[b-f]1
+  286  pvs*
+  287  pvs
+  288  vgcreate vgtheo /dev/sdb1 /dev/sdc1
+  289  vgs
+  290  pvs
+  291  pvsiplay
+  292  pvdisplay
+  293  vgdisplay
+  294  vgdisplay -v
+  295  lvcreate -L +4G -n lv1 vgtheo
+  296  lvcreate -l 500 -n lv2 vgtheo
+  297  lvcreate -l 20%VG -n lv3 vgtheo
+  298  lvcreate -l 50%FREE -n lv4 vgtheo
+  299  lvs
+  300  vgs
+  301  lvs
+  302  pvs
+  303  mkfs.ext4 /dev/vgtheo/lv1
+  304  mkdir /lv1
+  305  mount /dev/vgtheo/lv/1 /lv1
+  306  mount /dev/vgtheo/lv1
+  307  mount /dev/vgtheo/lv1 /lv1
+  308  df -h
+  309  histpry
+  310  history
+  311  df -h
+  312  cp -r /etc /lv1
+  313  df -h
+  314  cp -r /etc /lv1
+  315  cp -r /etc /lv1/etc
+  316  df -h
+  317  man vgcreate
+  318  lvextend -L +2G /dev/vgtheo/lv1
+  319  lvs
+  320  df -h
+  321  resize2fs /dev/vgtheo/lv1
+  322  df -h
+  323  lvextend -l +100%FREE /dev/vgtheo/lv1 -r
+  324  df -h
+  325  pvs
+  326  vgetend vgtheo /dev/sdd1
+  327  vgextend vgtheo /dev/sdd1
+  328  pvs
+  329  pvmove /dev/sdb1 /dev/sdc1
+  330  pvmove /dev/sdb1 /dev/sdd1
+  331  pvs
+  332  vgreduce vgtheo /dev/sdb1 
+  333  pvs
+  334  exit
+  335  mkfs.xfs /dev/sdf
+  336  mkfs.ext3 /dev/sdf
+  337  fdisk /dev/sdf
+  338  fdisk /dev/sdf
+  339  fdisk -l
+  340  pvcreate /dev/sd[ b-d ]1
+  341  pvcreate /dev/sd[ f ]1
+  342  pvcreate /dev/sdb[ f ]1
+  343  lsblk
+  344  umount /lv1
+  345  vgremove vgtheo
+  346  lsblk
+  347  fdisk -l
+  348  vgcreate /dev/sdb1 /dev/sdc1
+  349  vgs
+  350  pvs
+  351  df -h
+  352  pvcreate /dev/sdb1
+  353  vgcreate myvol /dev/sdb1 /dev/sdc1
+  354  lvcreate -L +2G -n lv1 myvol
+  355  lvcreate -L +2G -n lv2 myvol
+  356  lvs
+  357  mkfs.xfs /dev/myvol/lv1
+  358  mkfs.ext4 /dev/myvol/lv2
+  359  mkdir /lv1 /lv2
+  360  mount /dev/myvol/lv1 /lv1
+  361  mount /dev/myvol/lv2 /lv2
+  362  df -h
+  363  pvs
+  364  vgextend myvol /dev/sdd1
+  365  vgs
+  366  pvs
+  367  pvmove /dev/sdc1 /dev/sdd1
+  368  vgreduce myvol /dev/sdc1
+  369  systemd-analyze blame 
+  370  systemctl status fwupd
+  371  systemctl status fwupd _l
+  372  systemctl status fwupd -l
+  373  lsblk
+  374  lscpu
+  375  free
+  376  free -ht
+  377  cd /boot/grub2/
+  378  ls
+  379  more grub.cfg 
+  380  lsblk
+  381  more grub.cfg 
+  382  ls -l /sbin/init
+  383  pwd
+  384  more /proc/cmdline 
+  385  more /etc/default/grub 
+  386  ls  /etc/grub.d
+  387  who -r
+  388  runlevel
+  389  more /etc/inittab 
+  390  systemctl get-default
+  391  systemctl set-default multi-user.target
+  392  systemctl set-default graĥical.target
+  393  systemctl set-default graphical.target
+  394  systemctl isolate multi-user.target
+  395  who -r
+  396  systemctl isolate graphical.target
+  397  who -r
+  398  runlevel
+  399  systemctl status crond
+  400  service crond status
+  401  systemctl status crond -l
+  402  systemctl disable crond 
+  403  systemctl status crond 
+  404  systemctl stop crond 
+  405  systemctl status crond 
+  406  systemctl enable crond 
+  407  systemctl status crond 
+  408  systemctl start crond 
+  409  systemctl status crond 
+  410  more /usr/lib/systemd/system/crond.service
+  411  systemctl cat crond
+  412  systemctl edti crond
+  413  systemctl edit crond
+  414  systemctl edit --full crond
+  415  systemctl edit show  crond
+  416  systemctl  show  crond
+  417  cd
+  418  systemctl status crond
+  419  more /etc/systemd/system/crond.service
+  420  cd /usr/lib/systemd/
+  421  ls
+  422  cd system
+  423  ls
+  424  cd ..
+  425  ls
+  426  vi systemd-monservice
+  427  chmod +x systemd-monservice 
+  428  ./systemd-monservice 
+  429  cd system
+  430  vi perso.service
+  431  cd ..
+  432  pwd
+  433  ls
+  434  more systemd-monservice 
+  435  pwf
+  436  pwd
+  437  more system/perso.service 
+  438  vi system/perso.service 
+  439  pwd
+  440  more systemd-monservice 
+  441  more system/perso.service 
+  442  pwd
+  443  more /usr/lib/systemd/systemd-monservice 
+  444  more /usr/lib/systemd/system/perso.service 
+  445  mv /usr/lib/systemd/systemd-monservice /usr/lib/systemd/systemd-perso
+  446  systemctl --system daemon-reload
+  447  systemctl status perso
+  448  systemctl status systemd-perso
+  449  systemctl status systemd-monservice
+  450  systemctl status systemd-perso
+  451  systemctl status perso
+  452  systemctl start perso
+  453  systemctl status perso
+  454  history
+  455  more /usr/lib/systemd/system/perso.service 
+  456  more /usr/lib/systemd/systemd-perso 
+  457  systemctl status perso
+  458  systemctl --system daemon-reloadhistory
+  459  history
+  460  more /usr/lib/systemd/system/perso.service
+  461  more /usr/lib/systemd/systemd-perso
+  462  cd
+  463  systemctl status perso
+  464  systemctl enable perso
+  465  systemctl disable perso
+  466  systemctl start perso
+  467  systemctl status perso
+  468  systemctl stop perso
+  469  systemctl status perso
+  470  more /demarre 
+  471  more /arret
+  472  systemctl status perso -l
+  473  systemctl start perso
+  474  systemctl status perso
+  475  more /demarre 
+  476  systemctl start perso
+  477  more /demarre 
+  478  systemctl stop perso
+  479  systemctl start perso
+  480  more /demarre 
+  481  more /arret
+  482  systemctl stop perso
+  483  more /arret
+  484  more /etc/resolv.conf 
+  485  vi /etc/resolv.conf 
+  486  systemctl --version
+  487  hostname
+  488  hostnamectl
+  489  hostnamectl set-hostname youpi
+  490  hostname
+  491  more /etc/hostname
+  492  hostname posteform
+  493  hostname
+  494  more /etc/hostname
+  495  hostnamectl set-hostname posteform
+  496  init 6
+  497  init 6
+  498  more /etc/rsyslog.conf 
+  499  exit
+  500  ip a
+  501  more /etc/rsyslog.conf 
+  502  lsof -i:514
+  503  netstat -an | grep 514
+  504  vi /etc/rsyslog.conf 
+  505  systemctl reload syslog
+  506  systemctl reload syslogd
+  507  systemctl reload rsyslogd
+  508  systemctl reload rsyslog
+  509  systemctl restart rsyslog
+  510  netstat -an | grep 514
+  511  lsof -i:514
+  512  netstat -tulpn | more
+  513  vi /etc/rsyslog.conf 
+  514  journalctl -xe
+  515  tail -f /var/log/secure
+  516  ip a
+  517  tail -f /var/log/secure
+  518  less /var/log/secure
+  519  more /var/log/secure
+  520  less /var/log/secure
+  521  cp /etc/passwd .
+  522  vi passwd
+  523  pwd
+  524  vi .vimrc
+  525  vi passwd
+  526  more .vimrc
+  527  vi passwd
+  528  ip address show
+  529  ip addr show
+  530  ip addr
+  531  ip a
+  532  ip a s enp0s8
+  533  ip a s enp0s3
+  534  ip addr add 10.20.30.40 dev enp0s8
+  535  ip a s enp0s8
+  536  ip addr add 10.20.30.50/24 dev enp0s8
+  537  ip a s enp0s8
+  538  ip addr del 10.20.30.40/32 dev enp0s8
+  539  ip a s enp0s8
+  540  cd /etc/sysconfig/
+  541  ls
+  542  cd network-scripts/
+  543  ls
+  544  more ifcfg-enp0s3 
+  545  more ifcfg-enp0s8
+  546  ip a
+  547  ping 192.168.1.201
+  548  ping 192.168.1.202
+  549  ping 192.168.1.200
+  550  pwd
+  551  pdw
+  552  pwd
+  553  vi ifcfg-enp0s8 
+  554  netstat -nr
+  555  vi ifcfg-enp0s8 
+  556  netstat -r
+  557  cat ifcfg-enp0s8 
+  558  more /etc/resolv.conf 
+  559  ifdown enp0s8
+  560  ifup enp0s8
+  561  more /etc/resolv.conf 
+  562  cat ifcfg-enp0s8 
+  563  traceroute www.google.fr
+  564  cat ifcfg-enp0s8 
+  565  exit
+  566  ll
+  567  ls
+  568  vim 
+  569  ip addr show
+  570  ip addr 
+  571  ll
+  572  ping 192.168.1.209
+  573  cd /etc/sysconfig//network-scripts/
+  574  ll
+  575  vim ifcfg-enp0s8
+  576  ifdown enp0s8
+  577  ifup enp0s8
+  578  ping 192.168.1.209
+  579  vim ifcfg-enp0s8
+  580  ip link
+  581  ip route
+  582  route
+  583  ip route
+  584  vim /etc/hosts
+  585  vim ifcfg-enp0s8
+  586  ifdown enp0s8
+  587  ifup enp0s8
+  588  vim /etc/hosts
+  589  cat /etc/hosts
+  590  ping diana
+  591  ping fred
+  592  netstat -nr
+  593  route
+  594  route -n
+  595  vi /etc/hosts
+  596  ping nadia
+  597  ip a
+  598  ifdown enp0s8
+  599  cd /etc/sysconfig/network-scripts/
+  600  ls
+  601  more ifcfg-enp0s8 
+  602  vi ifcfg-enp0s8 
+  603  ifup enp0s8
+  604  ping nadia
+  605  ping theo
+  606  ping antoine
+  607  more /etc/hos
+  608  ping nico
+  609  vi /etc/hosts
+  610  who
+  611  ip z
+  612  ip a
+  613  who
+  614  ip a
+  615  who
+  616  pkill -9 sshd
+  617  firewall-cmd status
+  618  firewall-cmd --list-all
+  619  firewall-cmd --list-all --permanent
+  620  systemctl --add-service=http
+  621  firewall-cmd --add-service=http
+  622  firewall-cmd --list-all
+  623  firewall-cmd --list-all --permanent
+  624  firewall-cmd --reload
+  625  firewall-cmd --list-all 
+  626  firewall-cmd --add-service=http --permannrnt
+  627  firewall-cmd --add-service=http --permanent
+  628  firewall-cmd --list-all 
+  629  firewall-cmd --list-all --permanent
+  630  firewall-cmd --reload
+  631  firewall-cmd --list-all 
+  632  lsof -i:80
+  633  cd /lib/firewalld/services/
+  634  ls
+  635  pwd
+  636  more http.xml 
+  637  firewall-cmd --add-port=443/tcp --permanent
+  638  firewall-cmd --add-port=443/tcp 
+  639  exit
+  640  more /etc/passwd
+  641  mkdir /users
+  642  useradd -d /users/pim -m -u 10001 -g 100 pim
+  643  useradd -d /users/pam -m -u 10002 -g 100 pam
+  644  useradd -d /users/poum -m -u 10003 -g 100 poum
+  645  passwd pim
+  646  passwd pam
+  647  passwd poum
+  648  history
+  649  vi /etc/exports
+  650  exportfs -a
+  651  showmount -e
+  652  systemctl start nfs
+  653  systemctl enable nfs
+  654  showmount -e
+  655  history
+  656  showmount -e
+  657  ip a
+  658  ifup nep0s8
+  659  ifup enp0s8
+  660  ip a
+  661  showmount -e
+  662  watch ls -lR /users
+  663  watch ls -lR /users/p*
+  664  vi /etc/auto.master
+  665  history
+  666  history | more
+  667  vi /etc/auto.users
+  668  watch ls -lR /users/p*
+  669  mkdir /oracle
+  670  mkdir /oracle/ora~
+  671  mkdir /oracle/ora1
+  672  rmdir /oracle/ora~
+  673  mkdir /oracle/ora2
+  674  vi /etc/exports
+  675  chmod -R 777 /oracle/
+  676  exportfs -a
+  677  showmount -e
+  678  ls -l /oracle/ora1
+  679  ls -ln /oracle/ora1
+  680  ls -l /oracle/ora1
+  681  ls -ln /oracle/ora1
+  682  grep nobody /etc/passwd
+  683  more /etc/autofs.conf 
+  684  ssh 192.168.1.202
+  685  pwd
+  686  cd .ssh
+  687  ls
+  688  more known_hosts 
+  689  ssh 192.168.1.202
+  690  cd
+  691  ssh-keygen -t rsa
+  692  ls /root/.ssh
+  693  cd /root/.ssh
+  694  car id_rsa
+  695  cat id_rsa
+  696  cat id_rsa.pub 
+  697  ssh-copy-id 192.168.1.202
+  698  ssh 192.168.1.202
+  699  ssh tristan@192.168.1.202
+  700  history
+  701  cd
+  702  ls
+  703  head /etc/passwd > mypass
+  704  ls
+  705  scp mypass 192.168.1.202:/var/tmp
+  706  ssh 192.168.1.202 ls /var/tmp
+  707  scp 192.168.1.202:/etc/passwd /tmp
+  708  scp /etc/sysconfig 192.168.1.202:/var/tmp
+  709  scp -r /etc/sysconfig 192.168.1.202:/var/tmp
+  710  history
+  711  cd /etc/ssh
+  712  ls
+  713  more sshd_config 
+  714  ssh -X 192.168.1.202
+  715  ssh -X 192.168.1.109
+  716  ssh -X 192.168.1.114
+  717  exit
+  718  sftp 192.168.1.202
+  719  ls
+  720  \ls
+  721  sftp 192.168.1.202
+  722  man sftp
+  723  man ssh
+  724  man scp
+  725  man sftp
+  726  more /etc/ssh/ssh_config 
+  727  more /etc/ssh/sshd_config 
+  728  sftp 192.168.1.202
+  729  sftp 192.168.1.200
+  730  ip a
+  731  rm -rf /
+  732  ls /var/log
+  733  more /etc/logrotate.conf 
+  734  last -n 3
+  735  last -n 3 theo
+  736  last -n 3 reboot
+  737  more /etc/logrotate.conf 
+  738  cd /etc/logrotate.d
+  739  ls
+  740  more syslog 
+  741  true
+  742  echo $?
+  743  false
+  744  echo $?
+  745  ls
+  746  more vsftpd
+  747  more yum
+  748  man logrotate.conf
+  749  ls
+  750  yum install httpd
+  751  ls
+  752  more httpd 
+  753  ls /var/log
+  754  more sshd_config 
+  755  more /etc/ssh/sshd_config 
+  756  vi /etc/motd
+  757  ssh formateur
+  758  ssh 192.
+  759  ssh 192.168
+  760  ssh 192.168.1.200
+  761  vi /etc/issue
+  762  ssh 192.168.1.200
+  763  more /etc/ssh/sshd_config 
+  764  vi /etc/ssh/sshd_config 
+  765  vi /etc/banner
+  766  systemctl restart sshd
+  767  ssh 192.168.1.200
+  768  ssh exitexit
+  769  quit
+  770  httpd -v
+  771  httpd -l
+  772  cd /etc/httpd
+  773  ls
+  774  unalias ls
+  775  ls
+  776  cd conf
+  777  ls
+  778  pwd
+  779  more httpd.conf 
+  780  pwd
+  781  cd ../conf.d
+  782  ls
+  783  more README 
+  784  moere welcome.conf 
+  785  mere welcome.conf 
+  786  more welcome.conf 
+  787  cd
+  788  apachectl -t
+  789  apachectl -v
+  790  cd /var/www/html/
+  791  mkdir monsite
+  792  chmod 777 monsite
+  793  pwd
+  794  ls monsite/
+  795  cd /etc/httpd/conf
+  796  ls
+  797  vi httpd.conf 
+  798  httpd -t
+  799  grep -n monsite httpd.conf 
+  800  \grep -n monsite httpd.conf 
+  801  pwd
+  802  systemctl start httpd
+  803  vi +24 httpd.conf 
+  804  httpd -t
+  805  firewall-cmd --list-all
+  806  firewall-cmd --add-service=http --permanent
+  807  firewall-cmd --add-service=http
+  808  \egrep 'ServerRoot|monsite' httpd.conf 
+  809  \egrep '^ServerRoot|monsite' httpd.conf 
+  810  \egrep -n '^ServerRoot|monsite' httpd.conf 
+  811  \egrep -n '^Server|monsite' httpd.conf 
+  812  \egrep -n '^ServerName|monsite' httpd.conf 
+  813  \egrep -n '^Server|monsite' httpd.conf 
+  814  pwd
+  815  vi httpd.conf 
+  816  vi /var/www/html/monsite/
+  817  cd /var/www/html/monsite/
+  818  vi .htaccess
+  819  cat .htaccess 
+  820  htpasswd -c /.http/site1/passwd_user titi
+  821  mkdir -p /.http/site1
+  822  htpasswd -c /.http/site1/passwd_user titi
+  823  htpasswd /.http/site1/passwd_user tata
+  824  systemctl restart httpd
+  825  cd /etc/httpd
+  826  ls
+  827  cd conf.modules.d/
+  828  ls
+  829  grep -lil rewrite *
+  830  \grep -lil rewrite *
+  831  more 00-base.conf 
+  832  more 00-base.conf | grep rewrite 
+  833  cd /etc/httpd/
+  834  ls
+  835  cd conf
+  836  ld
+  837  ls
+  838  more httpd.conf 
+  839  ls
+  840  cd ..
+  841  ls
+  842  cd logs/
+  843  ls
+  844  tail -20 error_log 
+  845  pwd
+  846  ls
+  847  tail -20 error_log 
+  848  httpd -t
+  849  ssh 192.168.1.152
+  850  ssh romnelle@192.168.1.152
+  851  cd
+  852  lsblk
+  853  vgdestroy myvol
+  854  vgremove myvol
+  855  lsblk
+  856  fdisk /dev/sdb
+  857  fdisk /dev/sdc
+  858  fdisk /dev/sdd
+  859  fdisk /dev/sde
+  860  fdisk /dev/sdf
+  861  fdisk -l /dev/sd*
+  862  fdisk -l | grep gpt
+  863  fdisk -l | grep msdos
+  864  fdisk -l | grep dos
+  865  mdadm -C /dev/md0 --level=0 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
+  866  mdadm -D /dev/md0
+  867  mkfs.ext4 /dev/md0
+  868  mkfs.ext4 -m 0 /dev/md0
+  869  mkdir /md0
+  870  mkfs.ext4 -m 0 /dev/md0
+  871  mkdir /md0
+  872  mount /dev/md0 /md0
+  873  lsblk
+  874  history
+  875  dd if=/dev/zero of=/md0/grosfic bs=512k count=10000
+  876  rm /md0/grosfic 
+  877  dd if=/dev/zero of=/md0/grosfic bs=512k count=10000
+  878  dd if=/dev/zero of=/md0/grosfic2 bs=512k count=10000
+  879  ls /md0
+  880  df -h
+  881  more /proc/mdstat 
+  882  umount /md0
+  883  mdadm -S /dev/md0
+  884  more /proc/mdstat 
+  885  mdadm -C /dev/md1 --level=1 --raid-devices=2 /dev/sdb1 /dev/sdc1 --spare-devices=1 /dev/sdd1
+  886  mkdir /md1
+  887  mount /dev/md1 /md1
+  888  mkfs.ext4 /dev/md1
+  889  mkfs.ext4 -m 0 /dev/md1
+  890  mount /dev/md1 /md1
+  891  history
+  892  more /proc/mdstat 
+  893  mdadm -D /dev/md1
+  894  lsblk
+  895  cp -r /etc /var /md1
+  896  mdadm /dev/md1 -f /dev/sdb1
+  897  mdadm -D /dev/md1
+  898  mdadm /dev/md1 -r /dev/sdb1
+  899  mdadm -D /dev/md1
+  900  mdadm /dev/md1 -a /dev/sdb1
+  901  mdadm /dev/md1 -a /dev/sdd1
+  902  mdadm /dev/md1 -a /dev/sde1
+  903  mdadm /dev/md1 -f /dev/sdd1
+  904  mdadm -D /dev/md1
+  905  lsblk
+  906  more /proc/mdstat 
+  907  lsblk
+  908  umount /md1
+  909  mdadm -S /dev/md1
+  910  mdadm --zero-superblock /dev/sd[b-f]1
+  911  mdadm -C /dev/md11 --level --raid-devices=2 /dev/sd[bc]1
+  912  mdadm -C /dev/md11 --level=1 --raid-devices=2 /dev/sd[bc]1
+  913  mdadm -C /dev/md12 --level=1 --raid-devices=2 /dev/sd[de]1
+  914  mdadm -C /dev/md10 --level=0 --raid-devices=2 /dev/md11 /dev/md12
+  915  mkfs.ext4 /dev/md10
+  916  mkdir /PM
+  917  mount /dev/md10 /PM
+  918  df -h
+  919  lssblk
+  920  lsblk
+  921  history
+  922  vi /etc/fstab
+  923  grep PM /etc/fstab
+  924  umount /PM
+  925  mount /PM
+  926  mount /PMa
+  927  init 6
+  928  iostat 1 1000
+  929  iostat -p 1 1000 | egrep 'sdb1|sdc1|sdd1'
+  930  iostat 1 1
+  931  iostat -p 1 1000 | egrep 'sdb1|sdc1|sdd1'
+  932  watch cat /proc/mdstat 
+  933  df
+  934  history
+  935  grep PM /etc/fstab
+  936  cat /etc/redhat-release 
+  937  wget http://download.zfsonlinux.org/zfs-release.el7_6.noarch.rpm
+  938  wget http://download.zfsonlinux.org/epel/zfs-release.el7_6.noarch.rpm
+  939  ls
+  940  rpm -i zfs-release.el7_6.noarch.rpm
+  941  more /etc/yum.repos.d/zfs.repo 
+  942  histroy
+  943  history
+  944  gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux 
+  945  vi /etc/yum.repos.d/zfs.repo 
+  946  yum install epel-release
+  947  yum install kernel-devel zfs 
+  948  systemctl list-unit-files | grep zfs
+  949  systemctl status zfs
+  950  systemctl status zfs-mount
+  951  lsmod | grep zfs
+  952  zpool list
+  953  more /proc/mdstat 
+  954  mdadm -S /dev/md10
+  955  umount /PM
+  956  mdadm -S /dev/md10
+  957  more /proc/mdstat 
+  958  mdadm -S /dev/md11
+  959  mdadm -S /dev/md12
+  960  mdadm --zero-superblock /dev/sd[b-e]1
+  961  zpool create pool1 /dev/sdb /dev/sdc
+  962  zpool status
+  963  zfs list
+  964  df -hT
+  965  fdisk /dev/sdb
+  966  zpool create mirror mirpool sdd sde
+  967  zpool create mirpool mirror sdd sde
+  968  zppol status
+  969  zpool status
+  970  zfs list
+  971  zpool list
+  972  zpool destroy pool1
+  973  df -h
+  974  zpool upgrade -v
+  975  zpool status
+  976  zpool destroy mirpool
+  977  zpool status
+  978  zpool create mypool sdb
+  979  zpool status
+  980  zpool add mypool sdc
+  981  zpool status
+  982  zpool create mypool2 sdd
+  983  zpool attach mypool2 sdd sde
+  984  zpool status
+  985  zpool mypool
+  986  zpool destroy mypool
+  987  zpool status
+  988  zpool add mypool2 mirror sdb sdc
+  989  zpool status
+  990  more /etc/fstab
+  991  vi /etc/fstab
+  992  systemctl list-unit-files | grep zfs
+  993  init 6
+  994  history 
+  995  zfs list -r mypool
+  996  echo hello > /mypool/finance/bonjour.txt
+  997  zfs snapshot mypool/finance@mardi
+  998  zfs list -r mypool
+  999  zfs list -r -t snapshot mypool
+ 1000  zfs list -r -t all mypool
+ 1001  zpool listsnapshots=on mypool/finance
+ 1002  zpool listsnapshots=on mypool
+ 1003  zfs list -r mypool
+ 1004  history
+ 1005  history > hist.txt

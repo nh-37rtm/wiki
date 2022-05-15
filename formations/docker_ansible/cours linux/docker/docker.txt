@@ -1,0 +1,641 @@
+
+Mardi 9
+
+docker se base sur LXC mais permet d'avoir pleins d'outils, de simplifier
+container => instance d'exécution de l'image
+
+boot2docker
+
+p18 install docker centos
+
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum makecache fast
+
+[root@centos ~]# yum list docker-ce* --showduplicates | sort -r
+ * updates: mirrors.ircam.fr
+Paquets disponibles
+Modules complémentaires chargés : fastestmirror, langpacks
+Loading mirror speeds from cached hostfile
+ * extras: distrib-coffee.ipsl.jussieu.fr
+docker-ce.x86_64                3:18.09.7-3.el7                 docker-ce-stable
+docker-ce.x86_64                3:18.09.6-3.el7                 docker-ce-stable
+docker-ce.x86_64                3:18.09.5-3.el7                 docker-ce-stable
+docker-ce.x86_64                3:18.09.4-3.el7                 docker-ce-stable
+
+
+[root@centos ~]# yum install -y docker-ce
+
+[root@centos ~]# docker search debian --filter stars=500
+docker search debian --filter="is-official=true"
+
+p36 options changement nom container
+
+docker create
+
+run = pull + create + start
+docker attach
+
+se reconnecte sur un container, fonctionnement si lancé avec option ti 
+[root@centos ~]# docker attach jolly_bhaskara
+~ # 
+~ # 
+
+
+suppression p40
+docker kill -s TERM container
+
+[root@centos ~]# ls /var/lib/docker
+builder   containers  network   plugins   swarm  trust
+buildkit  image       overlay2  runtimes  tmp    volumes
+[root@centos ~]# 
+
+nétoyage de printemps
+docker system prune --volumes
+
+docker inspect
+docker log
+docker stats
+socker events
+[root@centos ~]# docker stats sol
+
+par defaut toute les ressources de la machine physique sont utilisés
+
+[root@centos ~]# docker run ubuntu cat /etc/passwd
+
+Run 'docker image COMMAND --help' for more information on a command.
+[root@centos ~]# docker images nginx
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+nginx               latest              f68d6e55e065        7 days ago          109MB
+
+
+
+EXO
+
+[root@centos ~]# docker create --name web1 nginx
+4459d5a6ba07d54bc701e032a0139b786b7fbdd1db58f4887d6764657cd24dc3
+[root@centos ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+
+
+web1
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# docker ps -a
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS                      PORTS               NAMES
+4459d5a6ba07        nginx               "nginx -g 'daemon of…"   44 seconds ago      Up 8 seconds                80/tcp              web1
+
+[root@centos ~]# ls /var/lib/docker/containers/
+10e28b765338b44fa0ed19d30fe6c09cd2c657e5b0c0c139fcb4ef7297989abb
+1385c2d7b032073e43fc42a02e02217951dd4d6a8302f218e8d0fb544ab98d5c
+a6c32d324ff5915192cda88c3e7ee5dc3453d62efce0315b22dd79c903e3feb8
+ef8b4f0cfaff76e0fb4a878b57008a92f4d42dc578fc340a33c0fba7f129db4a
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# docker system prune
+WARNING! This will remove:
+        - all stopped containers
+        - all networks not used by at least one container
+        - all dangling images
+        - all dangling build cache
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+10e28b765338b44fa0ed19d30fe6c09cd2c657e5b0c0c139fcb4ef7297989abb
+1385c2d7b032073e43fc42a02e02217951dd4d6a8302f218e8d0fb544ab98d5c
+ef8b4f0cfaff76e0fb4a878b57008a92f4d42dc578fc340a33c0fba7f129db4a
+a6c32d324ff5915192cda88c3e7ee5dc3453d62efce0315b22dd79c903e3feb8
+
+Total reclaimed space: 8B
+[root@centos ~]# ls /var/lib/docker/containers/
+
+[root@centos ~]# docker inspect 3e22c31858a1
+
+[root@centos ~]# docker inspect 3e22c31858a1 -f '{{.Config.Hostname}}' monweb
+3e22c31858a1
+3e22c31858a1
+
+[root@centos ~]# docker inspect 3e22c31858a1 -f '{{.NetworkSettings.Networks.bridge.Gateway}}' monweb 
+172.17.0.1
+172.17.0.1
+
+[root@centos ~]# curl http://172.17.0.2
+<html><body><h1>It works!</h1></body></html>
+[root@centos ~]# 
+
+
+docker stats perso
+
+[root@centos ~]# docker rm -f $(docker ps -qa)
+07f968d0cf65
+3e22c31858a1
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# docker rm -f $(docker ps -qa)
+"docker rm" requires at least 1 argument.
+
+[root@centos ~]# docker rm -f $(docker ps -qa)
+07f968d0cf65
+3e22c31858a1
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# 
+[root@centos ~]# docker rm -f $(docker ps -qa)
+"docker rm" requires at least 1 argument.
+
+[root@centos ~]# docker run -h toto -ti --rm --name perso debian '/bin/sh'
+# 
+# 
+# echo $HOSTNAME
+toto
+# 
+
+p51
+
+docker cp
+docker pause/unpause
+docker wait => attend la fin d'un container passé en argument
+
+
+p54
+
+avec l'option -v on monte des dossiers, les dossiers montés sur la machine "physique" sont conservé
+facile de partager une ressource entre plusieurs containeurs
+
+docker run xxx -v 
+
+-p port_hote:port_container
+docker run -itd -p90:80 nginx
+
+docker run -P port efemere (random port!?)
+
+docker run --name bdd1 -d -v /var/local/mariadb:/var/lib/mysql \ 
+             --env-file ~/Sources/base.connec mariadb
+
+
+docker run --name autrebdd -d -v /var/local/mariadb:/var/lib/mysql \ 
+             --env-file ~/Sources/base.connec mariadb
+
+# docker inspect -f '{{.HostConfig.Binds}}'  autrebdd
+
+[root@centos ~]# docker port site5
+80/tcp -> 0.0.0.0:96
+
+insert into annuaire (nom, prenom, age, ville) values ('Nicolas', 'Heim', 35, 'Strasbourg') ;
+
+
+mysql -u user1 -h 172.17.0.2 -p db1 < ~/Sources/annuaire.sql
+
+docker inspect -f '{{.Mounts}}' sql3
+
+mysql -u user1 -h 172.17.0.2 -p db1
+
+docker run --rm --name sql2 -dit --env-file=/root/Sources/base.connec -v /root/db:/var/local/mariadb mariadb
+
+docker run --rm --name sql1 -dit --env-file=/root/Sources/base.connec -v /root/db:/var/lib/mysql mariadb 
+
+
+docker --cpuset-cpus="0" => core 0
+pas possible de reset une fois le container lancé!?
+
+p62
+--cpus="1.5"
+
+--cpu-shares genre de priorité CPU
+
+p63 gestion des I/O disques
+
+docker run --device-write-bps /dev/sda;1mb
+docker run -it --blkio-weigth 100
+gestion de priorité au niveau IO
+
+
+p68
+docker commit
+
+docker tag ubuntu_theo:xxx tag ubuntu_theo:lastest
+
+docker rmi supprime les liens associés à une image, si plus de liens (TAG) existent suppression de l'image
+
+
+DOCKERFILE
+
+FROM centos:lastest
+RUN => lance une commande
+ENTRYPOINT["commande", "argument1", "argument2"] => commande à exécuter (p76) et/ou force la commane
+
+
+CMD[""] lancer une commande mais reparamétrable par l'appel à docker
+
+liste des commandes p79
+EXPOSE => exposer un port
+
+COPY copie simple
+ADD  copie avec archive ou url
+ENV
+
+
+docker build -t bonjour
+
+minimiser les layer pour réduire au maximum la taille
+
+
+.dockerignore
+
+docker save sauvegarde d'images
+
+docker build -t bonjour:1.1 -f newDockerfile
+
+--no-cache : rebuild entierement l'image
+
+
+
+RESEAU
+
+[root@centos d_exercice7]# docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+74f8490dfcfc        bridge              bridge              local
+91753827087f        host                host                local
+2aed3ee9307f        none                null                local
+[root@centos d_exercice7]# docker network inspect 74f8490dfcfc
+
+docker run ??? --network reseauxxx ... container
+docker network connect reaseau1 container
+docker network inspect
+docker network rm 
+
+[root@centos d_reseau]# docker network connect reseau2 alp1 
+[root@centos d_reseau]# 
+[root@centos d_reseau]# 
+[root@centos d_reseau]# docker run -dti --network reseau1 -h alp1 --name alp1 alpine
+docker: Error response from daemon: Conflict. The container name "/alp1" is already in use by container "23741728ec48ce0b61225215e4daa2b272d83a61ebf7a914e1121a32f9179786". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+[root@centos d_reseau]# docker exec -ti alp2 /bin/sh^C
+[root@centos d_reseau]# docker exec -ti alp1 /bin/sh
+/ # 
+/ # 
+/ # ping alp3
+PING alp3 (172.19.0.2): 56 data bytes
+64 bytes from 172.19.0.2: seq=0 ttl=64 time=0.263 ms
+64 bytes from 172.19.0.2: seq=1 ttl=64 time=0.194 ms
+^C
+--- alp3 ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 0.194/0.228/0.263 ms
+/ # ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+268: eth0@if269: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 02:42:ac:12:00:03 brd ff:ff:ff:ff:ff:ff
+    inet 172.18.0.3/16 brd 172.18.255.255 scope global eth0
+       valid_lft forever preferred_lft forever
+272: eth1@if273: <BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN> mtu 1500 qdisc noqueue state UP 
+    link/ether 02:42:ac:13:00:03 brd ff:ff:ff:ff:ff:ff
+    inet 172.19.0.3/16 brd 172.19.255.255 scope global eth1
+       valid_lft forever preferred_lft forever
+/ # 
+
+
+[root@centos ~]# docker network inspect reseau1 reseau2
+[
+    {
+        "Name": "reseau1",
+        "Id": "01c28a94bf86de210755094c24a0559fcc58867acbb99ed8e091034d817473af",
+        "Created": "2019-07-11T10:07:06.785470044+02:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "8ae2d6d40a82254dd3fae9040d8782b6bec2a3868bffcd2735e81a88d2875531": {
+                "Name": "alp2",
+                "EndpointID": "edb14bc7ff2c2ee976bb97128ce650a04ac1e0cb4ae8daa6b9b953929e4296cb",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    },
+    {
+        "Name": "reseau2",
+        "Id": "0a702845c0037652bb5c373cc5c02ce3ee5e920dc2d4ef8d5663890d2091b9a9",
+        "Created": "2019-07-11T10:07:18.571548824+02:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "3ce1a291f5bb15df50cd386ac6fb2505a0acd357c50644cf071e59d740183997": {
+                "Name": "alp3",
+                "EndpointID": "3e5c413ffe9bf423621c32750cd864fa1321849e9bed861b9225250b2ebb4609",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+
+docker run -it --mount src=`pwd`,target=/test_container,type=bind k3_s3
+
+docker --volume-from container
+
+
+docker volume create
+--driver local
+--opt type=tmpfs
+--opt device=tmpfs
+--opt o=size=100m,uid=1000
+data_tmp
+
+
+# docker volume create --driver local --opt type=nfs --opt o=addr=192.168.1.1,rw --opt device=:/path/to/dir volume_nfs
+
+docker volume create --driver local --opt type=nfs --opt o=addr=127.0.0.1,rw --opt device=:/export/data sauvegardes
+
+docker
+run
+-d --name test \
+--mount source=datas,target=/usr/share/html \
+nginx:latest
+
+
+REPO PRIVé
+
+
+le registry est un container image registry:2
+
+
+docker run -d --name registre -p 5000:5000 registry:2
+
+docker tag centos localhost:5000/salut
+docker push localhost:5000/salut
+docker pull localhost:5000/salut
+
+docker run -d -p 5000:5000 --restart=always --name registry -v stockage:/var/lib/registry registry:2
+
+v2 pour version 2 du registry
+
+on accède au détail sur le registry par :
+http://localhost:5000/v2/salut/tags/list
+http://localhost:5000/v2/_catalog
+
+paramétrer les clients avec 
+
+# vi /etc/docker/daemon.json
+{ "insecure-registries": ["192.168.1.12:5000"] }
+Utiliser l'adresse IP du host du registry
+
+serveur :
+
+dans le container registry :
+/var/lib/registry => images
+/certs => certificats
+/auth => 
+
+[root@centos ~]# docker run --entrypoint htpasswd registry:2 -Bbn admin admin1234
+admin:$2y$05$HV82jpNX4UEn1LpPGhjW3uL/1bl8/kaZXppOW.0XIWJxK5iRwhZi2
+
+docker run --entrypoint htpasswd registry:2 -Bbn admin admin1234  > /opt/jmb/auth/htpasswd
+
+clients
+
+positionner le certificat dans /etc/docker.d/certxxx
+[client]# ls /etc/docker/certs.d/centos:5000
+[client]# docker login centos:5000
+
+
+[root@centos ~]# curl localhost:5000/v2/salut/tags/list
+{"name":"salut","tags":["latest"]}
+
+
+DOCKER COMPOSE
+
+
+depends_on:
+ - dep1
+ - dep2
+
+
+docker-compose -f fichier.yml1 -f fichier.yml2 up -d
+
+
+services:
+ bdd:
+ wordpress:
+ volumes:
+ xx:
+   build: ./nginx => dans le dossier ou on trouve le Dockerfile
+   ports:
+     - "80:80"
+ 
+
+docker-compose down
+
+
+
+
+DOCKER MACHINE
+
+
+
+eval "$(docker-machine env poste_distant)"
+manage des vbox
+
+
+DOCKER SWARM
+
+équivalent de kubernates
+
+docker swarm init => master, 
+join => slave
+promote, slave => master
+
+scalling => répliquation
+
+service global => 1 service par machine physique
+join => ajout auto d'un service
+
+p151
+
+--contraint associer une contrainte à un service => obligation
+--preference prioriser mais  pas d'obligation
+
+
+docker swarm init
+docker swarm joint-token worker
+docker info
+
+docker swarm xxxxx ip_master
+
+
+(ssh master
+ou eval "$(docker-machine env poste_distant)"
+)
+docker node ls
+
+docker swarm leave
+
+docker service inspect --pretty service1
+docker service scale service1
+docker service ls
+
+docker service create --name service1 alpine ping docker.com
+
+swarm ingress network overlay
+
+network create --attachable -d overlay
+rendre disponible le network pour swarm
+
+services:
+ web:
+   image: utilisateur/depot:tag
+   deploy:
+    replicas: 5
+    restart_policy:
+     condition: on-failure
+    resources:
+     limits:
+      cpus: "0.1"
+      memory: 50M
+ visualizer:
+   deploy:
+     placement:
+      constraints: [node.role == manager]
+
+constraints: [node.role != manager]
+
+descripteur de stack
+
+docker stack deploy -c viz.yml viz
+docker stack 
+
+
+stagiaire@cm-15:~$ docker swarm join --token $token 192.168.99.100:2377
+This node joined a swarm as a worker.
+stagiaire@cm-15:~$ 
+stagiaire@cm-15:~$ docker-machine ls
+NAME      ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER     ERRORS
+master    -        virtualbox   Running   tcp://192.168.99.100:2376           v18.09.7   
+worker1   -        virtualbox   Running   tcp://192.168.99.101:2376           v18.09.7   
+worker2   *        virtualbox   Running   tcp://192.168.99.102:2376           v18.09.7   
+worker3   -        virtualbox   Running   tcp://192.168.99.103:2376           v18.09.7   
+stagiaire@cm-15:~$ 
+
+
+
+docker service create --name=viz --publish=8080:8080 --constraint=node.role==manager --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock dockersamples/visualizer
+
+
+stagiaire@cm-15:~$ docker service ps web
+ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS
+5qdcc571m784        web.1               nginx:latest        worker2             Running             Running 17 minutes ago                       
+ib85wl6do4ii        web.2               nginx:latest        worker2             Running             Running 13 minutes ago                       
+vbkney7q9brf        web.3               nginx:latest        worker2             Running             Running 13 minutes ago  
+
+
+stagiaire@cm-15:~$ docker service scale web=1
+web scaled to 1
+overall progress: 1 out of 1 tasks 
+1/1: running   
+verify: Service converged 
+stagiaire@cm-15:~$ 
+                     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

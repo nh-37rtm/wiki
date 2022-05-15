@@ -1,0 +1,149 @@
+
+
+
+grub
+stage1 -> stage2
+partition hd0,msdos1
+
+/boot/grub.cfg
+
+
+hd
+0 -> (/dev/sda -> /boot)
+
+msdos
+1 -> (/dev/sda1 -> boot)
+
+quel est image noyau ? /proc/cmdline
+
+/etc/default/grub
+
+après les modifications il faut recharger grub 
+
+SYSINIT
+
+voir niveaux p148 Linux_Admin
+savoir dans quel niveau on se trouve :
+runlevel
+who -r
+
+
+shutdown 
+création du fichier /etc/nologin automatique pour ne pas autoriser le login
+
+pour la gestion auto des level
+
+fichier /etc/inittab
+
+systemctl set-default/get-default (gestion via des liens)
+setdefault => prochaiin reboot
+isolate => immediat
+
+voir doc equivalence systemd/init
+
+
+systemctl status
+CEST (Summer Time)
+
+more /usr/lib/systemd/system/xxx.service
+
+p157 contenus utilisable pour les fichiers de configuration
+
+getty sont des services
+
+
+systemctl list-units --type target
+systemctl list-units --type service
+
+un service est un type d'unit
+
+systemctl --version
+systemctl --list-dependencies
+systemd-analyze
+systemd-analyze blame => temps de demarrage des services par ordre de durée de lancement
+systemctl -H serveur@1.2.3.4 => modification d'une machine distante
+
+hostname =>
+hostnamectl => standard systemd
+xxctl
+
+
+EXO 
+
+timeout
+mkconfig -o fichier
+
+
+EXO2 
+
+Passer arguments au noyau (S)
+
+
+EXO3
+grub2-setpassword
+
+EXO4
+
+gestion des logs
+
+kernel =>
+daemon =>
+ps user =>
+logger =>
+rsyslogd
+
+voir page 264 pour le fichier
+
+
+
+OUTILS 
+jira => trello => wekan
+chat => mattermost
+
+
+[root@localhost ~]# vi /etc/rsyslog.conf 
+[root@localhost ~]# 
+[root@localhost ~]# less -S /var/log/secure 
+
+.=info => log du niveau et pas des supérieurs
+
+EXO
+
+
+lsof -i:514
+netstat -ap
+
+journalctl
+
+voir page 275
+
+journalctl est juste un cache et perdu au redemarrage
+
+journalctl -xe
+
+[root@centos7 ~]# journalctl -t passwd
+-- Logs begin at mar. 2019-06-25 09:01:02 CEST, end at mar. 2019-06-25 09:28:56 CEST. --
+juin 25 09:28:22 centos7 passwd[6059]: pam_unix(passwd:chauthtok): password changed for nheim
+juin 25 09:28:22 centos7 passwd[6059]: gkr-pam: couldn't update the login keyring password: no old password was entered
+
+
+parenthèse vi
+
+:set all
+pour lister les options de vi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

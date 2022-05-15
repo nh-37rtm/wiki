@@ -1,0 +1,236 @@
+
+Hassan Admin
+Nadia developpeuse web
+Catherine Admin
+Andjib php mysql
+
+Yves 
+Said developpeur microsoft
+tristan php html
+diana débutante
+frederic
+julie
+hammed
+
+
+Migration de Solaris vers d'autres systemes
+BSD => Berkley
+
+Docker =>
+RED HAT (IBM) => version linux payante (CentOS version gratuite)
+
+kernel => programme
+
+cshell => Berkley
+ksh => ATT
+
+version fédératrice => bash (linux)
+
+/proc/meminfo
+
+
+tty
+free
+
+lien physique => même inode
+lien symbolique => inode différente
+
+paste associer ligne a ligne des fichiers
+
+sort -t: -k3n /etc/passwd
+
+proxmox
+nutanix
+
+setfacl
+getfacl
+
+
+find /home \( -user user1 -a -perm 777 \) -print -exec '{}' \;
+
+
+vi
+
+
+5d supprime 5 lignes
+cw change word, modif du mot sans toucher autour
+J supprime le saut de ligne de la ligne courante
+yy copie une ligne
+
+/ recherche n N pour se positionner sur les occurence
+i avant curseur
+a après curseur
+
+:w fichier
+:! lance une commande
+:r inserer contenu d'un fichier
+:r! inserer contenu de l'execution de la commande
+
+:set nu => affiche les lignes
+:set nonu => plus de ligne
+:set list => espaces
+:set nolist
+:set showmode
+
+sauvegarde :
+bacula
+pax
+
+
+.profile chaque login
+.bashrc chaque lancement de shell
+
+les alias ne sont valables que dans le shell courant, vu que le .profile est sourcé avant de lancer le shell les alias doivent apparaitre dans le .bashrc sui lui est sourcé à chaque lancement de shell
+
+
+
+
+GREP
+
+-i pas de casse
+-c compte
+-v inverse expression reguliaire
+-q retourne au moins une ligne ? (pas de sortie sauf code retour)
+-w mot seulement
+
+\< marqueur debut de mot
+\> marqueur de fin de mot
+
+
+ou logique : 
+
+egrep 'chaine1|chiane2'
+
+et logique :
+
+grep 'chaine1' | grep 'chaine2'
+
+SED
+
+sed '3s/Oranges/KIWIS/g' ./fichier_sed 
+sed '1,10 s/Oranges/KIWIS/g'
+sed '/Oranges/Oranges/KIWIS/g'
+sed '3d'
+sed '/4/d' => suppression ligne
+sed /CONTEXTE/ACTION/
+
+sed -n  => ne pas afficher le reste du fichier
+
+sed -f fichier => execute le fichier avec actions 
+
+sed -e action1
+    -e action2
+    -e action3
+
+cat -evt => espaces visibles
+
+
+STATS
+
+vmstat
+sar
+
+
+DEBUG
+
+bash -x
+set -x
+CODE A DEBUGGER
+set +x
+
+set -o xtrace
+
+replacer les espaces par un seul espaces : tr -s ' '
+
+variable avec valeur par defaut :
+
+${VAR:=20}
+
+
+set
+shift
+
+interactivité
+
+read -n, -t
+
+read -p "Votre nom ? :" nom prenom junk
+
+echo -e "votre nom\c" 
+read name pname junk(bidon)
+
+
+SCRIPT
+
+$0 nom du script
+${n} nième argument du script
+$# nombre d'arguments
+$@ liste arguments
+$* liste arguments
+
+
+
+stagiaire@cm-15:~/Labs/scripts/exos$ echo {a..l}
+a b c d e f g h i j k l
+stagiaire@cm-15:~/Labs/scripts/exos$ echo {1..10..2}
+1 3 5 7 9
+stagiaire@cm-15:~/Labs/scripts/exos$ echo {1..10}
+1 2 3 4 5 6 7 8 9 10
+stagiaire@cm-15:~/Labs/scripts/exos$ 
+
+stagiaire@cm-15:~/Labs/scripts/exos$ seq -s" " 2 1 10
+2 3 4 5 6 7 8 9 10
+
+
+dans une boucle do .. done ..
+break n  sors de n niveau
+
+opérations arithmétiques
+
+expr, let, bc (calculette scientifique)
+
+stagiaire@cm-15:~/Labs/scripts/exos$ o=0
+stagiaire@cm-15:~/Labs/scripts/exos$ (( o++ ))
+stagiaire@cm-15:~/Labs/scripts/exos$ echo $?
+1
+stagiaire@cm-15:~/Labs/scripts/exos$ (( o++ ))
+stagiaire@cm-15:~/Labs/scripts/exos$ echo $?
+0
+
+# substr
+expr substr $var 5 3
+
+# afficher la position de la prémière occurence
+expr index
+
+# extraction regexp
+expr match $surnom '\(xxx\)'
+
+[[ $nom != +([a-z][A-Z]) ]]
+
+function fonc {
+	local var=10
+}
+
+
+$!
+pid du processus lancé en arrière plan
+
+
+cat > sol.bash <<FIN
+sssdf
+sdf
+sdf
+FIN
+
+
+while read ligne
+do
+	echo $ligne
+done < fic
+
+
+
+
+
+

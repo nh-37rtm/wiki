@@ -1,0 +1,339 @@
+LIVRET EXERCICES ADMINISTRATION SYSTEME LINUX
+
+Installation du Système
+Dans VirtualBox créer une machine Virtuelle avec les caractéristiques suivantes :
+
+-Taille Disque Dur : 30Go
+
+- Nbre de CPU (ou cœurs) :2
+
+- Taille RAM : 2Go
+
+- Réseau : Par Pont
+
+Installer CentOS 7.X
+
+Type d’Installation : Installation Minimale
+
+Reseau : DHCP, A activer au démarrage
+
+Partitionnement : Automatique
+
+Nom de la machine : Nom au choix
+
+Effectuer une mise à jour du système avec la commande yum update.
+
+La Gestion des Logiciels
+
+Avec RPM 
+
+A quel package appartient le fichier /etc/crontab
+
+Quels fichiers sont contenus dans le package
+
+Quand a été développé le package
+
+Lister les dépendances du package
+
+Afficher le nombre de paquetages installés
+
+Installer la commande lsof depuis le CDROM
+
+Avec YUM
+
+Lister tous les dépôts YUM
+
+Lister tous les dépôts YUM actifs
+
+Activer le dépôt du CDROM 
+
+Lister les groupes de paquetages 
+
+Lister les paquetages installés
+
+Installer le dépôt EPEL
+
+Installer le Groupe de packages « outils de développement »
+
+Rechercher quel package contient la commande ifconfig. Installer le package correspondant.
+
+Rechercher quel package contient la commande sar. Installer le package correspondant.
+
+Depuis les sources
+
+Télécharger le fichier webmin_XX_YY.tar.gz
+
+Décompresser l’archive et lire le fichier README
+
+Installer WEBMIN 
+
+Télécharger sur le site de GNU le fichier hello.
+
+Suivre les instructions de compilation du fichier README
+
+Gestion du stockage
+
+Ajouter trois disques dur de 8GO dans VirtualBOX
+
+Partitionner le premier disque DUR (/dev/sdb) en créant 5 partitions de 1Go
+
+Typer les 4 premières partitions en LVM la dernière en SWAP
+
+Partitionner le second disque DUR avec une table GPT et en créant 5 partitions de 1Go.
+La Gestion des systèmes de fichiers
+Créer les systèmes de fichiers suivants :
+
+Ext2 sur /dev/sdb1
+
+Ext3 sur /dev/sdb2
+
+Ext4 sur /dev/sdb3
+
+Xfs sur /dev/sdb5
+
+Monter les systèmes de fichiers sur les répertoire /data1, /data2, /data3, /data5
+
+Automatiser le montage pour /data3 et /data5. Vérifiez que c’est persistent au reboot.
+
+Transformer /dev/sdb1 en ext3. Monter /dev/sdb1 sur /projet et /dev/sdb2 sur /projet/proj1
+
+Sur /dev/sdb3 et /dev/sdb5 mettez en place les quotas en limitant l’espace disque à 100 Mo pour 
+user1 et user2 (faites useradd userX pour créer les utilisateurs inexistants). Copiez le quota de user1 
+vers user3.
+
+Vérifier la cohérence de systèmes de fichiers.
+
+LVM
+Supprimer toutes les parititions sur /dev/sdb et /dev/sdc (mettez à jour le fichier /etc/fstab)
+
+Créer sur les disques C,D et E une partition qui fait la totalité du disque. Typer la partition en LVM.
+
+Créer un groupe de volume appelé myvol sur /dev/sdb1 et /dev/sdc1.
+
+Créer deux lv : lv1 et lv2 de 2GO chacun. Installer un système de fichiers xfs sur le 1er et ext4 sur le 
+second. Les points de montage respectifs sont /lv1 et /lv2
+
+Ajoutez 2 GO à lv1 Ajouter tout l’espace restant à lv2.
+
+Etendre le groupe de volume en ajoutant le disque D.
+
+Deplacez toutes les données du disque C vers l e disque D.
+
+Retirez le disque C du groupe de volume.
+
+ Le démarrage du système et des services.
+
+Modifier le timeout pour que le menu s’affiche 30 secondes.
+
+Afficher l’etat du service crond. 
+
+Afficher l’etat du service crond de la machine formateur
+
+Afficher le temps de demarrage des services du système
+
+Demarrer le service sysstat.
+
+Faites en sorte que le service démarre au prochain reboot
+
+REMARQUE : Pour le TP ci-dessous il faut avoir accès à la console.
+
+Redemarrer le système et editer GRUB. Passer le paramètre S au noyau qui est chargé au démarrage.
+(linux16 …. ).  Le système demarre en mode single-user.
+
+Redemarrer le système, editer GRUB et passer le paramètre init=/bin/bash au noyau. 
+
+Sécuriser GRUB en positionnant un mot de passe au noyau.
+
+Le noyau et les modules
+
+1/ Compilation d’un noyau depuis les sources
+
+Allez sur www.kernel.org et télécharger un noyau assez proche de celui que vous avez actuellement
+
+Décompressez le noyau dans /usr/src
+
+Lancer la compilation.
+
+Ajouter le support NTFS dans le noyau
+
+2/Installation d’un nouveau noyau via rpm
+
+Télécharger le rpm du nouveau noyau  à  partir du site rpmfind
+
+Installer le rpm
+
+Administration des utilisateurs
+Créer les groupes compta (gid=400) et web (gid=500)
+
+Créer les utilisateurs suivants :
+
+Login
+
+User10
+User20
+User30
+
+Uid
+
+1010
+1020
+1030
+
+Groupe 
+primaire 
+users
+Users
+Users
+
+Groupes 
+secondaires
+Compta, web
+Web
+compta
+
+Mot de passe
+
+Shell
+
+User10
+User20
+User30
+
+/bin/bash
+/bin/bash
+/bin/ksh
+
+Ajouter le groupe compta à l’utilisateur user20
+
+Obliger user30 à modifier son mot de passe à la prochaine connexion 
+
+Paramétrer les fichiers de configurations des utilisateurs pour 
+
+que les alias suivants soient présents :
+
+ll=ls –lrt
+
+h=history
+
+que les fichiers soient protégés contre l’écrasement avec la redirection.
+
+Créer un répertoire /projet1 qui appartient au groupe compta. Tous les fichiers créés à l’interieur 
+doivent appartenir au groupe compta. Il n’y a que le propriétaire du fichier qui a le droit de 
+supprimer le fichier.
+
+Sauvegarde et Restauration
+Créer une archive tar du contenu de /home
+
+Créer le repertoire /users. Restaurer l’archive dans /users.
+
+Créer un sauvegarde totale de la partition /dev/myvol/lv& avec la commande xfsdump
+
+Installer un nouveau système de fichiers sur /dev/myvol/lv1
+
+Restaurer la sauvegarde
+
+Gestion des Logs
+Afficher les informations générés par le boot
+
+Consultez le fichier /var/log/boot.log 
+
+Consultez le fichier /var/log/dmesg
+
+Utiliser la commande dmesg 
+
+Ajouter le service local4 de niveau notice pour logger des informations dans le fichier 
+/var/log/local4.log.
+
+Sur La machine 1 
+
+Ajouter le service local1.log pour que cela envoie les informations à la machine2 
+
+Sur la machine 2
+
+Ajouter le service local1.log pour logger dans le fichier /var/log/local2.log. 
+
+Activer le module pour la réception de la part d’un syslogd distant
+
+Ouvrir les ports correspondants sur le firewall
+
+Gestion des processus
+Afficher tous les processus tournant sur le système
+
+Avec top :
+
+Afficher les processus de l’utilisateur user1
+
+Afficher les informations sur les processus systemd et kthreadd
+En tant que user1 tapez la commande suivante (C’est une fork bomb)
+
+Dans une autre fenêtre terminale surveiller le nombre de processus générés. 
+
+Tuez tous les processus qui appartiennent à user1 
+
+Executer la commande suivante :
+
+ yes > /dev/null &
+
+Surveillez le taux de disponibilité du CPU
+
+Arreter le processus yes
+
+Lancer la commande suivant en arrière plan 
+
+# sleep 5000 &
+
+Arreter le processus en utilsant le numéro de job renvoyé par la commande jobs.
+
+SURVEILLANCE SYSTEME
+
+Avec SAR 
+
+Vérifier que le service sysstat est bien demarré.
+
+Consultez le fichier /etc/cron.d/sysstat. A quel intervalle fait-il des prélèvements ? Où sont stockés 
+les fichiers générés chaque jour.
+
+Afficher toutes les 2 secondes  la charge CPU
+
+La même chose mais limité à 10 affichages
+
+Afficher la charge CPU d’hier 
+
+Avec iostat
+
+Ouvrez un terminal et surveiller la charge disque grace à iostat en faisant un affichage par seconde
+
+Créez un gros fichier de 2Go  sur lv1 avec la commande suivante
+
+# dd if=/dev/zero of=/lv1/grosfic1 bs=1M count=2048
+
+Administration du réseau
+Ajouter une interface réseau dans VirtualBox
+
+En ligne de commande ajouter une adresse ip.
+
+Créer le fichier de configuration de la nouvelle carte d’abord en DHCP puis en statique.
+
+Afficher la table de routage
+
+Afficher les serveurs DNS
+
+Quel serveur DNS vous répond lorsqu’on va sur le site www.google.fr?
+
+Installer un serveyr ftp (vsftpd).
+
+Démarrer le service et ouvrir le port sur le pare-feu
+
+Rendre la règle persistante au démarrage
+
+PRESENTATION DES SERVICES RESEAUX
+En tant que root, créer une paire de clefs SSH de type RSA
+
+Faites en sorte d’envoyer la clef sur une machine distante pour pouvoir vous connecter en tant que 
+root et user1 en utilisant l’authentification par clefs.
+
+Installer un serveur web. Faites en sorte de pouvoir y accéder depuis l’extérieur.
+
+Créer un partage SAMBA. Vérifier l’accès au partage.
+
+

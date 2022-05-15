@@ -1,0 +1,1109 @@
+RAID
+
+
+MTF ? => middle time before failure
+PRA => préparation reprise d'activité
+
+Redondant Array of Independend/Inflexible Disks
+
+
+Raid0 (Stripping)
+améliore la vitesse mais un disque perdu = tout le volume perdu
+/dev/md0
+
+
+Raid1 (Mirorring)
+minimum 2 disques
+Idéalement sur des contrôleurs différents (évite panne de contrôleur)
+doubler disques pour sécurité données, 
+onéreux
+hotpare possible pour éviter l'indisponibilité (espace perdu)
+/dev/md1
+
+LVM permet de faire du RAID
+
+Raid5 (Parité distribuée)
+3 disques minimum
+/dev/md5
+Catherine : éviter raid5 avec le fs pour beacoup de petits fichiers
+reconstruction du disque de spare à peine plus long que en mode Mirroring
+
+
+
+fdisk -l
+
+[root@nicolas ~]# lsblk -af
+
+NAME            FSTYPE      LABEL UUID                                   MOUNTPOINT
+sda                                                                      
+├─sda1          vfat              F7B7-FAB2                              /boot/efi
+├─sda2          xfs               a70ab7c5-c415-4494-977b-263172aca5e4   /boot
+└─sda3          LVM2_member       ERRwQD-pIrO-UqtC-KqIv-72sn-HPWW-mbSBDC 
+  ├─centos-root xfs               a666d4df-265c-4d1d-9858-ccdaea6b259a   /
+  └─centos-swap swap              bb36f901-6bb4-4b32-9369-252aa14a6c68   [SWAP]
+sdb                                                                      
+└─sdb1                                                                   
+sdc                                                                      
+└─sdc1          LVM2_member       VsN6sO-7fCh-qNj4-jPUm-L82i-2arV-Z0chL4 
+sdd                                                                      
+└─sdd1          LVM2_member       I0mju3-fxVk-zMRz-5mYH-3mD4-jAwv-LoER3r 
+sde                                                                      
+└─sde1          LVM2_member       oNize6-ZOeW-Nk39-Mp7O-t5mq-ObcK-W7OjTM 
+sdf                                                                      
+└─sdf1          LVM2_member       1LWsB6-o0cx-LtWB-gXI2-56oc-S6ns-ptBhhe 
+
+------
+
+
+mdadm (métadevice administration)
+
+
+[root@nicolas ~]# mdadm -C /dev/md0 --level=0 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md0 started.
+[root@nicolas ~]# less /dev/md0 
+/dev/md0 is not a regular file (use -f to see it)
+[root@nicolas ~]# madam -D
+-bash: madam : commande introuvable
+[root@nicolas ~]# mdadm -D
+mdadm: No devices given.
+[root@nicolas ~]# mdadm -D /dev/md0
+/dev/md0:
+           Version : 1.2
+     Creation Time : Mon Jul  1 04:17:05 2019
+        Raid Level : raid0
+        Array Size : 25146880 (23.98 GiB 25.75 GB)
+      Raid Devices : 3
+     Total Devices : 3
+       Persistence : Superblock is persistent
+
+       Update Time : Mon Jul  1 04:17:05 2019
+             State : clean 
+    Active Devices : 3
+   Working Devices : 3
+    Failed Devices : 0
+     Spare Devices : 0
+
+        Chunk Size : 512K
+
+Consistency Policy : none
+
+              Name : nicolas:0  (local to host nicolas)
+              UUID : 2a3ff359:fea27876:60fa8fca:f8a255c3
+            Events : 0
+
+    Number   Major   Minor   RaidDevice State
+       0       8       17        0      active sync   /dev/sdb1
+       1       8       33        1      active sync   /dev/sdc1
+       2       8       49        2      active sync   /dev/sdd1
+[root@nicolas ~]# 
+
+
+spare devices => devices de hot spare
+
+[root@nicolas ~]# mkfs.ext4 -m 0 /dev/md0
+mke2fs 1.42.9 (28-Dec-2013)
+Étiquette de système de fichiers=
+Type de système d'exploitation : Linux
+Taille de bloc=4096 (log=2)
+Taille de fragment=4096 (log=2)
+« Stride » = 128 blocs, « Stripe width » = 384 blocs
+1572864 i-noeuds, 6286720 blocs
+0 blocs (0.00%) réservés pour le super utilisateur
+Premier bloc de données=0
+Nombre maximum de blocs du système de fichiers=2153775104
+192 groupes de blocs
+32768 blocs par groupe, 32768 fragments par groupe
+8192 i-noeuds par groupe
+Superblocs de secours stockés sur les blocs : 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000
+
+Allocation des tables de groupe : complété                        
+Écriture des tables d'i-noeuds : complété                        
+Création du journal (32768 blocs) : complété
+Écriture des superblocs et de l'information de comptabilité du système de
+fichiers : complété
+
+[root@nicolas ~]# iostat -p 1 1000 | egrep 'sdb1|sdc1|sdd1'
+
+c1              0,00         0,00         0,00          0          0
+sdd1              0,00         0,00         0,00          0          0
+sdb1              0,00         0,00         0,00          0          0
+sdc1              0,00         0,00         0,00          0          0
+sdd1              0,00         0,00         0,00          0          0
+sdb1            695,71        11,43    354742,86          8     248320
+sdc1            692,86         0,00    354742,86          0     248320
+sdd1            694,29         0,00    355474,29          0     248832
+sdb1           1598,04         0,00    818196,08          0     417280
+sdc1           1598,04         0,00    818196,08          0     417280
+sdd1           1594,12         0,00    816188,24          0     416256
+sdb1           1554,55         0,00    795927,27          0     437760
+sdc1           1554,55         7,27    794996,36          4     437248
+sdd1           1556,36         0,00    796858,18          0     438272
+sdb1           1562,26         0,00    799879,25          0     423936
+sdc1           1562,26         0,00    799879,25          0     423936
+sdd1           1562,26         0,00    799879,25          0     423936
+sdb1            386,75         0,00    198014,46          0     164352
+sdc1            386,75         0,00    198014,46          0     164352
+sdd1            390,36         9,64    198631,33          8     164864
+sdb1              2,00         0,00       148,00          0        148
+sdc1              0,00         0,00         0,00          0          0
+
+en stripping (par defaut) tout les disques ecrivent
+il est possible de parametrer le device pour que l'ecriture se fasse de façon contigue
+
+MX => serveur de mail
+protomail
+
+[root@nicolas ~]# cat /proc/mdstat 
+Personalities : [raid0] 
+md0 : active raid0 sdd1[2] sdc1[1] sdb1[0]
+      25146880 blocks super 1.2 512k chunks
+      
+unused devices: <none>
+
+unused devices: <none>
+[root@nicolas ~]# ^C
+[root@nicolas ~]# ^C
+[root@nicolas ~]# ^C
+[root@nicolas ~]# ^C
+[root@nicolas ~]# umount /md0/
+[root@nicolas ~]# mdadm -S /dev/md0 
+mdadm: stopped /dev/md0
+[root@nicolas ~]# cat /dev/m
+mapper/ mcelog  mem     mqueue/ 
+[root@nicolas ~]# cat /dev/m
+mapper/ mcelog  mem     mqueue/ 
+[root@nicolas ~]# cat /dev/mdstat
+cat: /dev/mdstat: Aucun fichier ou dossier de ce type
+[root@nicolas ~]# 
+[root@nicolas ~]# mdadm -C /dev/md1 --level=1 --raid-devices=2 /dev/sdb1 /dev/sdc1 --spare-devices=1 /dev/sdd1
+mdadm: /dev/sdb1 appears to be part of a raid array:
+       level=raid0 devices=3 ctime=Mon Jul  1 04:17:05 2019
+mdadm: Note: this array has metadata at the start and
+    may not be suitable as a boot device.  If you plan to
+    store '/boot' on this device please ensure that
+    your boot-loader understands md/v1.x metadata, or use
+    --metadata=0.90
+mdadm: /dev/sdc1 appears to be part of a raid array:
+       level=raid0 devices=3 ctime=Mon Jul  1 04:17:05 2019
+mdadm: /dev/sdd1 appears to be part of a raid array:
+       level=raid0 devices=3 ctime=Mon Jul  1 04:17:05 2019
+Continue creating array? y
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md1 started.
+
+
+[root@nicolas ~]# mkdir /md1
+[root@nicolas ~]# mkfs.ext4 -m0 /dev/md1 ## m0 eviter de garder 5% pour root !?
+mke2fs 1.42.9 (28-Dec-2013)
+Étiquette de système de fichiers=
+Type de système d'exploitation : Linux
+Taille de bloc=4096 (log=2)
+Taille de fragment=4096 (log=2)
+« Stride » = 0 blocs, « Stripe width » = 0 blocs
+524288 i-noeuds, 2095600 blocs
+0 blocs (0.00%) réservés pour le super utilisateur
+Premier bloc de données=0
+Nombre maximum de blocs du système de fichiers=2147483648
+64 groupes de blocs
+32768 blocs par groupe, 32768 fragments par groupe
+8192 i-noeuds par groupe
+Superblocs de secours stockés sur les blocs : 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632
+
+Allocation des tables de groupe : complété                        
+Écriture des tables d'i-noeuds : complété                        
+Création du journal (32768 blocs) : complété
+Écriture des superblocs et de l'information de comptabilité du système de
+fichiers : complété
+
+
+[root@nicolas ~]# cat /proc/mdstat 
+Personalities : [raid0] [raid1] 
+md1 : active raid1 sdd1[2](S) sdc1[1] sdb1[0]
+      8382400 blocks super 1.2 [2/2] [UU]
+      
+unused devices: <none>
+
+
+mdadm /dev/md1 -f /dev/sdb1 # forcer un dev en erreur
+a chaud 
+mdadm /dev/md1 -f /dev/sdb1
+
+mdadm -D /dev/md1
+/dev/md1:
+           Version : 1.2
+     Creation Time : Mon Jul  1 05:09:23 2019
+        Raid Level : raid1
+        Array Size : 8382400 (7.99 GiB 8.58 GB)
+     Used Dev Size : 8382400 (7.99 GiB 8.58 GB)
+      Raid Devices : 2
+     Total Devices : 3
+       Persistence : Superblock is persistent
+
+       Update Time : Mon Jul  1 05:31:45 2019
+             State : clean 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 1
+     Spare Devices : 0
+
+Consistency Policy : resync
+
+              Name : nicolas:1  (local to host nicolas)
+              UUID : 94016ec7:421b14f7:d46b8822:08a269d6
+            Events : 38
+
+    Number   Major   Minor   RaidDevice State
+       2       8       49        0      active sync   /dev/sdd1
+       1       8       33        1      active sync   /dev/sdc1
+
+       0       8       17        -      faulty   /dev/sdb1
+
+
+[root@nicolas /]# mdadm /dev/md1 -r /dev/sdb1
+mdadm: hot removed /dev/sdb1 from /dev/md1
+[root@nicolas /]# 
+
+           Events : 39
+
+    Number   Major   Minor   RaidDevice State
+       2       8       49        0      active sync   /dev/sdd1
+       1       8       33        1      active sync   /dev/sdc1
+[root@nicolas /]# 
+
+[root@nicolas /]# mdadm /dev/md1 -a /dev/sdb1
+mdadm: added /dev/sdb1
+
+   Number   Major   Minor   RaidDevice State
+       2       8       49        0      active sync   /dev/sdd1
+       1       8       33        1      active sync   /dev/sdc1
+
+       3       8       17        -      spare   /dev/sdb1
+
+
+
+
+EXO
+
+
+[root@nicolas /]# mdadm -S /D^C
+[root@nicolas /]# umount /md1
+[root@nicolas /]# 
+[root@nicolas /]# mdadm -S /dev/md1
+mdadm: stopped /dev/md1
+[root@nicolas /]# 
+[root@nicolas /]# mdadm -C /dev/md5 --level=5 --raid-devices=3 /dev/sdb1 /dev/sdc1 /dev/sdd1 --spare-devices=1 /dev/sde1
+mdadm: /dev/sdb1 appears to be part of a raid array:
+       level=raid1 devices=2 ctime=Mon Jul  1 05:09:23 2019
+mdadm: /dev/sdc1 appears to be part of a raid array:
+       level=raid1 devices=2 ctime=Mon Jul  1 05:09:23 2019
+mdadm: /dev/sdd1 appears to be part of a raid array:
+       level=raid1 devices=2 ctime=Mon Jul  1 05:09:23 2019
+Continue creating array? y
+mdadm: Defaulting to version 1.2 metadata
+mdadm: array /dev/md5 started.
+[root@nicolas /]# 
+
+
+
+
+    Number   Major   Minor   RaidDevice State
+       0       8       17        0      active sync   /dev/sdb1
+       1       8       33        1      active sync   /dev/sdc1
+       4       8       49        2      active sync   /dev/sdd1
+
+       3       8       65        -      spare   /dev/sde1
+[root@nicolas /]# 
+
+[root@nicolas /]# mkfs.ext4 /dev/md5
+mke2fs 1.42.9 (28-Dec-2013)
+Étiquette de système de fichiers=
+Type de système d'exploitation : Linux
+Taille de bloc=4096 (log=2)
+Taille de fragment=4096 (log=2)
+« Stride » = 128 blocs, « Stripe width » = 256 blocs
+1048576 i-noeuds, 4190976 blocs
+209548 blocs (5.00%) réservés pour le super utilisateur
+Premier bloc de données=0
+Nombre maximum de blocs du système de fichiers=2151677952
+128 groupes de blocs
+32768 blocs par groupe, 32768 fragments par groupe
+8192 i-noeuds par groupe
+Superblocs de secours stockés sur les blocs : 
+	32768, 98304, 163840, 229376, 294912, 819200, 884736, 1605632, 2654208, 
+	4096000
+
+Allocation des tables de groupe : complété                        
+Écriture des tables d'i-noeuds : complété                        
+Création du journal (32768 blocs) : complété
+Écriture des superblocs et de l'information de comptabilité du système de
+fichiers : complété
+
+[root@nicolas /]# 
+
+[root@nicolas /]# mdadm /dev/md1 -f /dev/sdb1
+mdadm: error opening /dev/md1: No such file or directory
+[root@nicolas /]# mdadm /dev/md5 -f /dev/sdb1
+mdadm: set /dev/sdb1 faulty in /dev/md5
+[root@nicolas /]# 
+
+Every 2,0s: cat /proc/mdstat                                 Mon Jul  1 05:44:23 2019
+
+Personalities : [raid0] [raid1] [raid6] [raid5] [raid4]
+md5 : active raid5 sdd1[4] sde1[3] sdc1[1] sdb1[0](F)
+      16763904 blocks super 1.2 level 5, 512k chunk, algorithm 2 [3/2] [_UU]
+      [=====>...............]  recovery = 25.0% (2100864/8381952) finish=1.1min speed
+=91341K/sec
+
+unused devices: <none>
+
+    Number   Major   Minor   RaidDevice State
+       3       8       65        0      active sync   /dev/sde1
+       1       8       33        1      active sync   /dev/sdc1
+       4       8       49        2      active sync   /dev/sdd1
+
+       0       8       17        -      faulty   /dev/sdb1
+[root@nicolas /]# 
+
+
+[root@nicolas /]# mdadm --zero-superblock /dev/sd[b-e]1 
+
+mdadm /dev/md1 -a /dev/sdb1
+
+[root@nicolas /]# lsblk
+NAME            MAJ:MIN RM  SIZE RO TYPE  MOUNTPOINT
+sda               8:0    0    8G  0 disk  
+├─sda1            8:1    0  200M  0 part  /boot/efi
+├─sda2            8:2    0    1G  0 part  /boot
+└─sda3            8:3    0  6,8G  0 part  
+  ├─centos-root 253:0    0    6G  0 lvm   /
+  └─centos-swap 253:1    0  820M  0 lvm   [SWAP]
+sdb               8:16   0    8G  0 disk  
+└─sdb1            8:17   0    8G  0 part  
+  └─md11          9:11   0    8G  0 raid1 
+    └─md10        9:10   0   16G  0 raid0 
+sdc               8:32   0    8G  0 disk  
+└─sdc1            8:33   0    8G  0 part  
+  └─md11          9:11   0    8G  0 raid1 
+    └─md10        9:10   0   16G  0 raid0 
+sdd               8:48   0    8G  0 disk  
+└─sdd1            8:49   0    8G  0 part  
+  └─md12          9:12   0    8G  0 raid1 
+    └─md10        9:10   0   16G  0 raid0 
+sde               8:64   0    8G  0 disk  
+└─sde1            8:65   0    8G  0 part  
+  └─md12          9:12   0    8G  0 raid1 
+    └─md10        9:10   0   16G  0 raid0 
+sdf               8:80   0    8G  0 disk  
+└─sdf1            8:81   0    8G  0 part  
+sr0              11:0    1 1024M  0 rom   
+
+[root@nicolas /]# mdadm /dev/md10 -a /dev/sdf1
+mdadm: add new device failed for /dev/sdf1 as 2: Invalid argument
+
+on ne peux pas car le raid est au niveau 0 (RAID0)
+
+protocoles pour disque : FCoE, ISCSI
+
+
+ZFS
+
+Zfs on linux Zole
+
+
+[root@nicolas /]# cat /etc/redhat-release 
+CentOS Linux release 7.6.1810 (Core) 
+
+wget http://download.zfsonlinux.org/epel/zfs-release.el7_6.noarch.rpm
+
+[root@nicolas /]# rpm -i ./zfs-release.el7_6.noarch.rpm 
+attention : ./zfs-release.el7_6.noarch.rpm: Entête V4 RSA/SHA256 Signature, clé ID f14ab620: NOKEY
+
+[root@nicolas /]# cat /etc/yum.repos.d/zfs.repo 
+[zfs]
+name=ZFS on Linux for EL7 - dkms
+
+
+suivre la procédure https://github.com/zfsonlinux/zfs/wiki/RHEL-and-CentOS
+
+
+[root@nicolas ~]# systemctl list-unit-files | grep zfs
+zfs-import-cache.service                      enabled 
+zfs-import-scan.service                       disabled
+zfs-mount.service                             enabled 
+zfs-share.service                             enabled 
+zfs-zed.service                               enabled 
+zfs-import.target                             enabled 
+zfs.target                                    enabled 
+
+
+zpool status
+zpool destroy
+zpool create mypool sdb
+raid0 par defaut
+zpool attach [pool] object-source objet-cible
+
+
+autoextend on => systeme redimensionné au maximum de la taille
+
+[root@nicolas ~]# zpool set listsnapshots=on mypool
+
+
+filesystem avec espace mutualisé 
+=> ca fait genre des dossiers !!?
+
+zfs create -p mypool/fs10/fs20
+
+df
+mypool/fs1                  8062720       0    8062720   0% /mypool/fs1
+mypool/fs10                 8062720       0    8062720   0% /mypool/fs10
+mypool/fs10/fs20            8062720       0    8062720   0% /mypool/fs10/fs20
+
+
+[root@nicolas ~]# df
+Sys. de fichiers        blocs de 1K Utilisé Disponible Uti% Monté sur
+/dev/mapper/centos-root     6281216 2030752    4250464  33% /
+devtmpfs                     495416       0     495416   0% /dev
+tmpfs                        507216       0     507216   0% /dev/shm
+tmpfs                        507216    6940     500276   2% /run
+tmpfs                        507216       0     507216   0% /sys/fs/cgroup
+/dev/sda2                   1038336  157472     880864  16% /boot
+/dev/sda1                    204580   11360     193220   6% /boot/efi
+mypool                      8062720       0    8062720   0% /mypool
+tmpfs                        101444       0     101444   0% /run/user/0
+mypool/fs1                  8062720       0    8062720   0% /mypool/fs1
+mypool/fs10                 8062720       0    8062720   0% /mypool/fs10
+mypool/fs10/fs20            8062720       0    8062720   0% /mypool/fs10/fs20
+[root@nicolas ~]# zfs set mountpoint=/tata mypool
+[root@nicolas ~]# zfs get -r mountpoint mypool
+NAME              PROPERTY    VALUE            SOURCE
+mypool            mountpoint  /tata            local
+mypool/fs1        mountpoint  /tata/fs1        inherited from mypool
+mypool/fs10       mountpoint  /tata/fs10       inherited from mypool
+mypool/fs10/fs20  mountpoint  /tata/fs10/fs20  inherited from mypool
+[root@nicolas ~]# 
+
+[root@nicolas ~]# dd if=/dev/zero of=/tata/grosfic bs=512k count=1000
+1000+0 enregistrements lus
+1000+0 enregistrements écrits
+524288000 octets (524 MB) copiés, 4,02112 s, 130 MB/s
+[root@nicolas ~]# 
+
+mypool                    7,7G    501M  7,3G   7% /tata
+mypool/fs1                7,3G       0  7,3G   0% /tata/fs1
+mypool/fs10               7,3G       0  7,3G   0% /tata/fs10
+mypool/fs10/fs20          7,3G       0  7,3G   0% /tata/fs10/fs20
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs set mountpoint=/tiiti mypool/fs10
+[root@nicolas ~]# 
+[root@nicolas ~]# zfs get -r mountpoint mypool
+NAME              PROPERTY    VALUE        SOURCE
+mypool            mountpoint  /tata        local
+mypool/fs1        mountpoint  /tata/fs1    inherited from mypool
+mypool/fs10       mountpoint  /tiiti       local
+mypool/fs10/fs20  mountpoint  /tiiti/fs20  inherited from mypool/fs10
+
+[root@nicolas ~]# zfs inherit mountpoint mypool
+
+[root@nicolas ~]# zfs inherit mountpoint mypool/fs10
+[root@nicolas ~]# zfs get -r mountpoint mypool
+NAME              PROPERTY    VALUE              SOURCE
+mypool            mountpoint  /mypool            default
+mypool/fs1        mountpoint  /mypool/fs1        default
+mypool/fs10       mountpoint  /mypool/fs10       default
+mypool/fs10/fs20  mountpoint  /mypool/fs10/fs20  default
+[root@nicolas ~]# 
+
+[root@nicolas mypool]# zfs get compression,compressratio mypool
+NAME    PROPERTY       VALUE     SOURCE
+mypool  compression    off       default
+mypool  compressratio  1.00x     -
+[root@nicolas mypool]# 
+
+[root@nicolas mypool]# zfs set compression=on mypool
+
+par defaut gzip6
+possible : lz4
+
+activation de la compression : uniquement pour les fichiers ajoutés après activation de la compression
+
+[root@nicolas mypool]# ls -lh /mypool/fs10/fs20/var2.tar 
+fs1/     fs10/    fs20/    grosfic  var.tar  
+[root@nicolas mypool]# ls -lh /mypool/fs10/fs20/var2.tar 
+-rw-r--r--. 1 root root 771M  1 juil. 10:25 /mypool/fs10/fs20/var2.tar
+[root@nicolas mypool]# du -h /mypool/fs10/fs20/var2.tar 
+103M	/mypool/fs10/fs20/var2.tar
+[root@nicolas mypool]# 
+
+[root@nicolas mypool]# zfs list -r mypool
+NAME               USED  AVAIL  REFER  MOUNTPOINT
+mypool            5,34G  2,35G  1,24G  /mypool
+mypool/fs1          24K  6,35G    24K  /mypool/fs1
+mypool/fs10        102M  2,35G  25,5K  /mypool/fs10
+mypool/fs10/fs20   102M  2,35G   102M  /mypool/fs10/fs20
+[root@nicolas mypool]# ^C
+[root@nicolas mypool]# ^C
+[root@nicolas mypool]# ^C
+[root@nicolas mypool]# zfs get -r reservation mypool
+NAME              PROPERTY     VALUE   SOURCE
+mypool            reservation  none    default
+mypool/fs1        reservation  4G      local
+mypool/fs10       reservation  none    default
+mypool/fs10/fs20  reservation  none    default
+
+[root@nicolas mypool]# zfs set reservation=2G mypool
+[root@nicolas mypool]# zfs get -r reservation mypool
+NAME              PROPERTY     VALUE   SOURCE
+mypool            reservation  2G      local
+mypool/fs1        reservation  4G      local
+mypool/fs10       reservation  none    default
+mypool/fs10/fs20  reservation  none    default
+
+btrfs
+
+
+en ce qui comcerne la compression, du affiche l'espace disque utilisé (taille du fichier compression)
+avec ls on voit la taille réelle du fichier
+
+
+[root@nicolas ~]# zfs destroy -r mypool
+
+
+UberBlock
+
+méta données, protégé par un checksum
+
+cow -> copy on write
+
+[root@nicolas ~]# zdb mypool | less
+
+metaslab -> block de 128Mo
+lors d'une modificatio d'un bloc => copie sur un nouveau block puis
+
+
+[root@nicolas ~]# zpool create -f mypool mirror sdb sdc spare sdd
+[root@nicolas ~]# 
+[root@nicolas ~]# 
+[root@nicolas ~]# zpool status
+  pool: mypool
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	mypool      ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdb     ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+	spares
+	  sdd       AVAIL   
+
+errors: No known data errors
+
+différence zpool/zfs
+
+pool : ressource de stockage
+zpool create créé aussi un fislesystem zfs automatiquement
+
+[root@nicolas ~]# zfs list -r mypool
+NAME                 USED  AVAIL  REFER  MOUNTPOINT
+mypool               272K  7,69G  26,5K  /mypool
+mypool/finance        26K  7,69G    26K  /mypool/finance
+mypool/marketing      24K  7,69G    24K  /mypool/marketing
+mypool/pub            74K  7,69G    26K  /mypool/pub
+mypool/pub/projet1    24K  7,69G    24K  /mypool/pub/projet1
+mypool/pub/projet2    24K  7,69G    24K  /mypool/pub/projet2
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs snapshot mypool/finance@mardi
+[root@nicolas ~]# zfs list -r mypool
+NAME                 USED  AVAIL  REFER  MOUNTPOINT
+mypool               100M  7,59G  26,5K  /mypool
+mypool/finance       100M  7,59G   100M  /mypool/finance
+mypool/marketing      24K  7,59G    24K  /mypool/marketing
+mypool/pub            74K  7,59G    26K  /mypool/pub
+mypool/pub/projet1    24K  7,59G    24K  /mypool/pub/projet1
+mypool/pub/projet2    24K  7,59G    24K  /mypool/pub/projet2
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs list -r -t all mypool
+NAME                   USED  AVAIL  REFER  MOUNTPOINT
+mypool                 100M  7,59G  26,5K  /mypool
+mypool/finance         100M  7,59G   100M  /mypool/finance
+mypool/finance@mardi     0B      -   100M  -                              <= le snapshot apparait
+mypool/marketing        24K  7,59G    24K  /mypool/marketing
+mypool/pub              74K  7,59G    26K  /mypool/pub
+mypool/pub/projet1      24K  7,59G    24K  /mypool/pub/projet1
+mypool/pub/projet2      24K  7,59G    24K  /mypool/pub/projet2
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zpool listsnapshot=on /mypool
+cannot open '/mypool': invalid character '/' in pool name
+[root@nicolas ~]# zpool listsnapshot=on mypool
+cannot set property for 'mypool': invalid property 'listsnapshot'
+[root@nicolas ~]# zpool listsnapshots=on mypool
+[root@nicolas ~]# zfs list -r mypool
+NAME                   USED  AVAIL  REFER  MOUNTPOINT
+mypool                 100M  7,59G  26,5K  /mypool
+mypool/finance         100M  7,59G   100M  /mypool/finance
+mypool/finance@mardi     0B      -   100M  -				<= suite au parametrage le 											snaptshot apparait
+mypool/marketing        24K  7,59G    24K  /mypool/marketing
+mypool/pub              74K  7,59G    26K  /mypool/pub
+mypool/pub/projet1      24K  7,59G    24K  /mypool/pub/projet1
+mypool/pub/projet2      24K  7,59G    24K  /mypool/pub/projet2
+[root@nicolas ~]# 
+
+le snapshot est vide mais il va être créé lors de la modification du FS
+c'est un snapshot differenciel
+
+[root@nicolas finance]# ls -a
+.  ..  bonjour.txt  monfic  monfic2
+[root@nicolas finance]# zfs set snapdir=visible mypool/finance
+[root@nicolas finance]# ls -a
+.  ..  bonjour.txt  monfic  monfic2  .zfs
+[root@nicolas finance]# 
+
+[root@nicolas finance]# zfs snapshot mypool/finance@now
+[root@nicolas finance]# ls ./.zfs/s
+shares/   snapshot/ 
+[root@nicolas finance]# ls ./.zfs/snapshot/
+mardi  now
+[root@nicolas finance]# 
+
+[root@nicolas finance]# zfs rollback mypool/finance@mardi
+cannot rollback to 'mypool/finance@mardi': more recent snapshots or bookmarks exist
+use '-r' to force deletion of the following snapshots and bookmarks:
+mypool/finance@now
+[root@nicolas finance]# ^Cs rollback mypool/finance@mardi
+[root@nicolas finance]# cd
+[root@nicolas ~]# zfs rollback mypool/finance@mardi -r
+[root@nicolas ~]# zfs list -r mypool
+NAME                   USED  AVAIL  REFER  MOUNTPOINT
+mypool                 100M  7,59G  26,5K  /mypool
+mypool/finance         100M  7,59G   100M  /mypool/finance
+mypool/finance@mardi     0B      -   100M  -
+mypool/marketing        24K  7,59G    24K  /mypool/marketing
+mypool/pub              74K  7,59G    26K  /mypool/pub
+mypool/pub/projet1      24K  7,59G    24K  /mypool/pub/projet1
+mypool/pub/projet2      24K  7,59G    24K  /mypool/pub/projet2
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs snapshot -r mypool@snap00
+[root@nicolas ~]# 
+[root@nicolas ~]# zfs list -r mypool
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+mypool                      100M  7,59G  26,5K  /mypool
+mypool@snap00                 0B      -  26,5K  -
+mypool/finance              100M  7,59G   100M  /mypool/finance
+mypool/finance@mardi          0B      -   100M  -
+mypool/finance@snap00         0B      -   100M  -
+mypool/marketing             24K  7,59G    24K  /mypool/marketing
+mypool/marketing@snap00       0B      -    24K  -
+mypool/pub                   74K  7,59G    26K  /mypool/pub
+mypool/pub@snap00             0B      -    26K  -
+mypool/pub/projet1           24K  7,59G    24K  /mypool/pub/projet1
+mypool/pub/projet1@snap00     0B      -    24K  -
+mypool/pub/projet2           24K  7,59G    24K  /mypool/pub/projet2
+mypool/pub/projet2@snap00     0B      -    24K  -
+[root@nicolas ~]# 
+[root@nicolas ~]# zfs snapshot -r mypool@snap01
+[root@nicolas ~]# zfs diff mypool/pub/projet1@snap00 mypool/pub/projet1@snap01
++	/mypool/pub/projet1/fic1
++	/mypool/pub/projet1/fic1/<xattrdir>
++	/mypool/pub/projet1/fic1/<xattrdir>/security.selinux
+M	/mypool/pub/projet1/
+[root@nicolas ~]# 
+
+dans .zfs/snapshot on a le contenu du snapshot en temps réel
+
+[root@nicolas ~]# cd /mypool/pub/projet1/.zfs/
+[root@nicolas .zfs]# ls
+shares  snapshot
+[root@nicolas .zfs]# cd snapshot/snap0
+snap00/ snap01/ 
+[root@nicolas .zfs]# cd snapshot/snap00/
+[root@nicolas snap00]# ls
+[root@nicolas snap00]# cd ../snap01/
+[root@nicolas snap01]# ls
+fic1
+[root@nicolas snap01]# cat ./fic1 
+[root@nicolas snap01]# 
+
+un clone est un snapshot en lecture/ecriture
+
+[root@nicolas snap01]# zfs clone mypool/pub/projet1@snap00 mypool/pub/projet_clone
+[root@nicolas snap01]# 
+[root@nicolas snap01]# zfs list -r mypool
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+mypool                      100M  7,59G  26,5K  /mypool
+mypool@snap00                13K      -  26,5K  -
+mypool@snap01                13K      -  26,5K  -
+mypool/finance              100M  7,59G   100M  /mypool/finance
+mypool/finance@mardi          0B      -   100M  -
+mypool/finance@snap00         0B      -   100M  -
+mypool/finance@snap01         0B      -   100M  -
+mypool/marketing             24K  7,59G    24K  /mypool/marketing
+mypool/marketing@snap00       0B      -    24K  -
+mypool/marketing@snap01       0B      -    24K  -
+mypool/pub                  139K  7,59G  26,5K  /mypool/pub
+mypool/pub@snap00            13K      -    26K  -
+mypool/pub@snap01            13K      -    26K  -
+mypool/pub/projet1         60,5K  7,59G  25,5K  /mypool/pub/projet1
+mypool/pub/projet1@snap00    22K      -    24K  -
+mypool/pub/projet1@snap01    13K      -  25,5K  -
+mypool/pub/projet2           24K  7,59G    24K  /mypool/pub/projet2
+mypool/pub/projet2@snap00     0B      -    24K  -
+mypool/pub/projet2@snap01     0B      -    24K  -
+mypool/pub/projet_clone       0B  7,59G    24K  /mypool/pub/projet_clone
+
+promote => rendre indépendant l'élement
+
+[root@nicolas projet_clone]# zfs list -r mypool
+NAME                        USED  AVAIL  REFER  MOUNTPOINT
+mypool                      264M  7,43G  26,5K  /mypool
+mypool@snap00                13K      -  26,5K  -
+mypool@snap01                13K      -  26,5K  -
+mypool/finance              200M  7,43G   200M  /mypool/finance
+mypool/finance@mardi          0B      -   100M  -
+mypool/finance@snap00         0B      -   100M  -
+mypool/finance@snap01         0B      -   100M  -
+mypool/marketing             24K  7,43G    24K  /mypool/marketing
+mypool/marketing@snap00       0B      -    24K  -
+mypool/marketing@snap01       0B      -    24K  -
+mypool/pub                 63,4M  7,43G  26,5K  /mypool/pub                      <=
+mypool/pub@snap00            13K      -    26K  -
+mypool/pub@snap01            13K      -    26K  -
+mypool/pub/projet1         60,5K  7,43G  25,5K  /mypool/pub/projet1
+mypool/pub/projet1@snap00    22K      -    24K  -
+mypool/pub/projet1@snap01    13K      -  25,5K  -
+mypool/pub/projet2           24K  7,43G    24K  /mypool/pub/projet2
+mypool/pub/projet2@snap00     0B      -    24K  -
+mypool/pub/projet2@snap01     0B      -    24K  -
+mypool/pub/projet_clone    63,3M  7,43G  63,3M  /mypool/pub/projet_clone	<=
+[root@nicolas projet_clone]# zfs promote mypool/pub/ptojet_clone
+cannot open 'mypool/pub/ptojet_clone': dataset does not exist
+[root@nicolas projet_clone]# zfs promote mypool/pub/projet_clone
+[root@nicolas projet_clone]# zfs list -r mypool
+NAME                             USED  AVAIL  REFER  MOUNTPOINT
+mypool                           301M  7,40G  26,5K  /mypool
+mypool@snap00                     13K      -  26,5K  -
+mypool@snap01                     13K      -  26,5K  -
+mypool/finance                   200M  7,40G   200M  /mypool/finance
+mypool/finance@mardi               0B      -   100M  -
+mypool/finance@snap00              0B      -   100M  -
+mypool/finance@snap01              0B      -   100M  -
+mypool/marketing                  24K  7,40G    24K  /mypool/marketing
+mypool/marketing@snap00            0B      -    24K  -
+mypool/marketing@snap01            0B      -    24K  -
+mypool/pub                       100M  7,40G  26,5K  /mypool/pub		<=
+mypool/pub@snap00                 13K      -    26K  -
+mypool/pub@snap01                 13K      -    26K  -
+mypool/pub/projet1              36,5K  7,40G  25,5K  /mypool/pub/projet1
+mypool/pub/projet1@snap01         13K      -  25,5K  -
+mypool/pub/projet2                24K  7,40G    24K  /mypool/pub/projet2
+mypool/pub/projet2@snap00          0B      -    24K  -
+mypool/pub/projet2@snap01          0B      -    24K  -
+mypool/pub/projet_clone          100M  7,40G   100M  /mypool/pub/projet_clone	<= 
+mypool/pub/projet_clone@snap00    22K      -    24K  -
+[root@nicolas projet_clone]# 
+
+possibilité de renomer un systeme de fichier
+
+dataset entités :
+	snapshot
+	clone
+
+zfs rename <= utilisé de pair avec zfs promote
+
+root@nicolas ~]# zfs -r list mypool^C
+[root@nicolas ~]# zfs send -v mypool/pub/projet1@snap01 > /sauve/projet1.bak
+full send of mypool/pub/projet1@snap01 estimated size is 13,6K
+total estimated size is 13,6K
+TIME        SENT   SNAPSHOT
+[root@nicolas ~]# 
+
+[root@nicolas ~]# file /sauve/projet1.bak 
+/sauve/projet1.bak: ZFS shapshot (little-endian machine), version 17, type: ZFS, destination GUID: 43 72 2A 9D E9 05 65 F4, name: 'mypool/pub/projet1@snap01'
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs destroy mypool/pub/projet1 -r
+[root@nicolas ~]# zfs destroy mypool/pub/projet1
+cannot open 'mypool/pub/projet1': dataset does not exist
+[root@nicolas ~]# zfs destroy mypool/pub/projet2
+cannot destroy 'mypool/pub/projet2': filesystem has children
+use '-r' to destroy the following datasets:
+mypool/pub/projet2@snap00
+mypool/pub/projet2@snap01
+[root@nicolas ~]# zfs destroy mypool/pub/projet2 -r
+[root@nicolas ~]# zfs destroy mypool/pub/projet1^C
+[root@nicolas ~]# zfs receive mypool/pub/projet1 < /sauve/projet1.bak 
+[root@nicolas ~]# zfs list -r mypool
+NAME                             USED  AVAIL  REFER  MOUNTPOINT
+mypool                           300M  7,40G  26,5K  /mypool
+mypool@snap00                     13K      -  26,5K  -
+mypool@snap01                     13K      -  26,5K  -
+mypool/finance                   200M  7,40G   200M  /mypool/finance
+mypool/finance@mardi               0B      -   100M  -
+mypool/finance@snap00              0B      -   100M  -
+mypool/finance@snap01              0B      -   100M  -
+mypool/marketing                  24K  7,40G    24K  /mypool/marketing
+mypool/marketing@snap00            0B      -    24K  -
+mypool/marketing@snap01            0B      -    24K  -
+mypool/pub                       100M  7,40G    26K  /mypool/pub
+mypool/pub@snap00                 13K      -    26K  -
+mypool/pub@snap01                 13K      -    26K  -
+mypool/pub/projet1              24,5K  7,40G  24,5K  /mypool/pub/projet1
+mypool/pub/projet1@snap01          0B      -  24,5K  -
+mypool/pub/projet_clone          100M  7,40G   100M  /mypool/pub/projet_clone
+mypool/pub/projet_clone@snap00    22K      -    24K  -
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs list -r mypool^C
+[root@nicolas ~]# zfs receive -o compression=on -o mountpoint=projet1_ mypool/pub/projet1 < /sauve/projet1.bak 
+cannot receive new filesystem stream: 'mountpoint' must be an absolute path, 'none', or 'legacy'
+cannot receive new filesystem stream: invalid property value
+[root@nicolas ~]# 
+[root@nicolas ~]# zfs receive -o compression=on -o mountpoint=/projet1_ mypool/pub/projet1 < /sauve/projet1.bak 
+
+[root@nicolas ~]# zfs list mypool -r
+NAME                             USED  AVAIL  REFER  MOUNTPOINT
+mypool                           301M  7,40G  26,5K  /mypool
+mypool@snap00                     13K      -  26,5K  -
+mypool@snap01                     13K      -  26,5K  -
+mypool/finance                   200M  7,40G   200M  /mypool/finance
+mypool/finance@mardi               0B      -   100M  -
+mypool/finance@snap00              0B      -   100M  -
+mypool/finance@snap01              0B      -   100M  -
+mypool/marketing                  24K  7,40G    24K  /mypool/marketing
+mypool/marketing@snap00            0B      -    24K  -
+mypool/marketing@snap01            0B      -    24K  -
+mypool/pub                       100M  7,40G  25,5K  /mypool/pub
+mypool/pub@snap00                 13K      -    26K  -
+mypool/pub@snap01                 13K      -    26K  -
+mypool/pub/projet1                24K  7,40G    24K  /projet1_			<= utilisation de la nouvelle option
+mypool/pub/projet1@snap01          0B      -    24K  -
+mypool/pub/projet_clone          100M  7,40G   100M  /mypool/pub/projet_clone
+mypool/pub/projet_clone@snap00    22K      -    24K  -
+[root@nicolas ~]# 
+
+
+TP
+[root@nicolas ~]# zfs create -p mypool/nicolas
+
+[root@nicolas ~]# dd if=/dev/zero of=/mypool/big_guy1 bs=10M count=10
+10+0 enregistrements lus
+10+0 enregistrements écrits
+104857600 octets (105 MB) copiés, 0,192408 s, 545 MB/s
+[root@nicolas ~]# dd if=/dev/zero of=/mypool/big_guy1 bs=10M count^C0
+[root@nicolas ~]# mkdir /mypool/nicolas/aDir
+[root@nicolas ~]# dd if=/dev/zero of=/mypool/aDir/big_guy2 bs=10M count=10
+dd: impossible d'ouvrir « /mypool/aDir/big_guy2 »: Aucun fichier ou dossier de ce type
+[root@nicolas ~]# dd if=/dev/zero of=/mypool/nicolas/aDir/big_guy2 bs=10M count=10
+10+0 enregistrements lus
+10+0 enregistrements écrits
+104857600 octets (105 MB) copiés, 0,168015 s, 624 MB/s
+[root@nicolas ~]# 
+[root@nicolas ~]# ^C
+[root@nicolas ~]# ^C
+[root@nicolas ~]# zfs snapshot mypool/nicolas@today_snapshot
+[root@nicolas ~]# zfs send mypool/nicolas@today_snapshot > /sauve/nicolas.back
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs send -v mypool/nicolas@today_snapshot > /sauve/nicolas.back
+full send of mypool/nicolas@today_snapshot estimated size is 100M
+total estimated size is 100M
+TIME        SENT   SNAPSHOT
+[root@nicolas ~]# 
+
+[root@nicolas ~]# cat /sauve/nicolas.back | ssh root@antoine zfs recv -o mountpoint=/nico mypool
+cannot receive new filesystem stream: destination 'mypool' exists
+must specify -F to overwrite it
+[root@nicolas ~]# cat /sauve/nicolas.back | ssh root@antoine zfs recv -o mountpoint=/nicomp mypool/nico
+[root@nicolas ~]# zfs list
+NAME                             USED  AVAIL  REFER  MOUNTPOINT
+mypool                           501M  7,20G   100M  /mypool
+mypool@snap00                     13K      -  26,5K  -
+mypool@snap01                     13K      -  26,5K  -
+mypool/antoine                    27K  7,20G    27K  /mypool/antoine
+mypool/antoine@today               0B      -    27K  -
+mypool/finance                   200M  7,20G   200M  /mypool/finance
+mypool/finance@mardi               0B      -   100M  -
+mypool/finance@snap00              0B      -   100M  -
+mypool/finance@snap01              0B      -   100M  -
+mypool/marketing                  24K  7,20G    24K  /mypool/marketing
+mypool/marketing@snap00            0B      -    24K  -
+mypool/marketing@snap01            0B      -    24K  -
+mypool/nicolas                   100M  7,20G   100M  /mypool/nicolas
+mypool/nicolas@today_snapshot      0B      -   100M  -
+mypool/pub                       100M  7,20G  25,5K  /mypool/pub
+mypool/pub@snap00                 13K      -    26K  -
+mypool/pub@snap01                 13K      -    26K  -
+mypool/pub/projet1                24K  7,20G    24K  /projet1_
+mypool/pub/projet1@snap01          0B      -    24K  -
+mypool/pub/projet_clone          100M  7,20G   100M  /mypool/pub/projet_clone
+mypool/pub/projet_clone@snap00    22K      -    24K  -
+mypool/theo                       41K  7,20G    28K  /mypool/theo
+mypool/theo@today                 13K      -    28K  -
+[root@nicolas ~]# ls /mypool/antoine/
+fic  fic2  fic3
+[root@nicolas ~]# 
+
+[root@nicolas ~]# zfs destroy -r mypool
+[root@nicolas ~]# 
+[root@nicolas ~]# zpool destroy mypool
+[root@nicolas ~]# 
+[root@nicolas ~]# 
+[root@nicolas ~]# zpool create mypool mirpool sdb sdc
+cannot open 'mirpool': no such device in /dev
+must be a full path or shorthand device name
+[root@nicolas ~]# zpool create mypool mirror sdb sdc
+invalid vdev specification
+use '-f' to override the following errors:
+/dev/sdb1 contains a filesystem of type 'linux_raid_member'
+/dev/sdc1 contains a filesystem of type 'linux_raid_member'
+[root@nicolas ~]# zpool create mypool mirror sdb sdc -f
+[root@nicolas ~]# zpool split mypool newpool
+[root@nicolas ~]# zpool status
+  pool: mypool
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	mypool      ONLINE       0     0     0
+	  sdb       ONLINE       0     0     0
+
+errors: No known data errors
+[root@nicolas ~]# 
+
+root@nicolas ~]# zpool create mypool mirror sdb sdc sdd
+invalid vdev specification
+use '-f' to override the following errors:
+/dev/sdb1 contains a filesystem of type 'linux_raid_member'
+/dev/sdc1 contains a filesystem of type 'linux_raid_member'
+/dev/sdd1 contains a filesystem of type 'linux_raid_member'
+[root@nicolas ~]# zpool create mypool mirror sdb sdc sdd -f
+[root@nicolas ~]# 
+[root@nicolas ~]# 
+[root@nicolas ~]# zpool split mypool sdd
+[root@nicolas ~]# 
+[root@nicolas ~]# zpool status
+  pool: mypool
+ state: ONLINE
+  scan: none requested
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	mypool      ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdb     ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+
+errors: No known data errors
+[root@nicolas ~]# zpool attach mypool sdb sdd
+invalid vdev specification
+use '-f' to override the following errors:
+/dev/sdd1 contains a filesystem of type 'linux_raid_member'
+[root@nicolas ~]# zpool attach mypool sdb sdd -f
+[root@nicolas ~]# zpool status
+  pool: mypool
+ state: ONLINE
+  scan: resilvered 84K in 0h0m with 0 errors on Mon Jul  1 15:34:03 2019
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	mypool      ONLINE       0     0     0
+	  mirror-0  ONLINE       0     0     0
+	    sdb     ONLINE       0     0     0
+	    sdc     ONLINE       0     0     0
+	    sdd     ONLINE       0     0     0
+
+errors: No known data errors
+[root@nicolas ~]# 
+
+
+EXO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+

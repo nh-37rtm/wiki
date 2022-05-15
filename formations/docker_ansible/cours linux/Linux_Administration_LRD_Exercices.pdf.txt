@@ -1,0 +1,1821 @@
+Linux Administration LRD  Exercices
+
+LINUX ADMINISTRATION
+LINUX ADMINISTRATION
+
+LRDLRD
+
+EXERCICES
+EXERCICES
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 1/43
+
+Linux Administration LRD  Exercices
+
+SOMMAIRE
+INSTALLATION DU SYSTÈME...................................................................................................................6
+Exercice 1 : Création d'une machine virtuelle.................................................................................6
+Exercice 2 : Installation de CentOS avec un bureau GNOME........................................................6
+Exercice 3 : Mise à jour du système................................................................................................6
+LA GESTION DES LOGICIELS.................................................................................................................7
+Exercice 1 : Gestion avec RPM.......................................................................................................7
+Exercice 2 : Gestion avec YUM......................................................................................................7
+Exercice 3 : Compilation depuis une archive..................................................................................7
+Exercice 4 : Installation de webmin depuis les sources...................................................................7
+GESTION DU STOCKAGE.........................................................................................................................8
+Exercice 1 : Partitionnement avec fdisk..........................................................................................8
+Exercice 2 : Gestion des systèmes de fichiers ext et xfs..................................................................8
+Exercice 3 : Quotas ext et xfs..........................................................................................................8
+Exercice 4 : Gestion de la swap.......................................................................................................8
+LOGICAL VOLUME MANAGER...............................................................................................................9
+Exercice 1 : Création de volumes physiques...................................................................................9
+Exercice 2 : Création de groupes de volumes..................................................................................9
+Exercice 3 : Création de volumes logiques......................................................................................9
+Exercice 4 : Extension à chaud........................................................................................................9
+Exercice 5 : Suppression de la configuration...................................................................................9
+LE DÉMARRAGE DU SYSTÈME ET DES SERVICES...................................................................................10
+Exercice 1 : Paramétrage de GRUB..............................................................................................10
+Exercice 2 : Passer des arguments au noyau via GRUB................................................................10
+Exercice 3 : Sécurisation de GRUB...............................................................................................10
+Exercice 4 : Gestion des services avec systemd............................................................................10
+LE NOYAU ET LES MODULES.................................................................................................................11
+Exercice 1 : Compilation d’un noyau depuis les sources..............................................................11
+Exercice 2 : Installation d’un nouveau noyau via rpm..................................................................11
+Exercice 3 : Installation d'un nouveau noyau avec yum................................................................11
+ADMINISTRATION DES UTILISATEURS...................................................................................................12
+Exercice 1 : Gestion des groupes...................................................................................................12
+Exercice 2 : Gestion des utilisateurs .............................................................................................12
+Exercice 3 : Configuration de l'environnement.............................................................................12
+Exercice 4 : Gestion des droits spéciaux.......................................................................................12
+SAUVEGARDE ET RESTAURATION.........................................................................................................13
+Exercice 1 : Sauvegarde / Restauration avec tar............................................................................13
+Exercice 2 : Sauvegarde / Restauration avec dump.......................................................................13
+GESTION DES LOGS.............................................................................................................................14
+Exercice 1 : Consultation des logs.................................................................................................14
+Exercice 2 : Personnalisation des logs sur une machine................................................................14
+Exercice 3 : Centralisation des logs sur une machine....................................................................14
+Exercice 3 : Utilisation de l'utilitaire de systemd : journalctl........................................................14
+GESTION DES PROCESSUS.....................................................................................................................15
+Exercice 1 : Afficher les informations relatives au processus.......................................................15
+Exercice 2 : Exécution avec nohup................................................................................................15
+Exercice 3 : Manipulation des signaux..........................................................................................15
+SURVEILLANCE SYSTÈME.....................................................................................................................16
+Exercice 1 : Surveillance avec SAR..............................................................................................16
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 2/43
+
+Linux Administration LRD  Exercices
+
+Exercice 2 : Surveillance avec iostat.............................................................................................16
+ADMINISTRATION DU RÉSEAU..............................................................................................................17
+Exercice 1 : Affichage et paramétrage d'une adresse réseau..........................................................17
+Exercice 2 : Paramétrage de la carte réseau...................................................................................17
+Exercice 3 : Commandes informatives diverses............................................................................17
+Exercice 4 : Pare-feu firewalld .....................................................................................................17
+PRÉSENTATION DES SERVICES RÉSEAUX...............................................................................................18
+Exercice 1 : Création de clefs SSH................................................................................................18
+Exercice 2 : Utilisation de SSH.....................................................................................................18
+Exercice 3 : Installation d'apache...................................................................................................18
+Exercice 4 : Création d'un partage SAMBA..................................................................................18
+CORRECTIONS DES EXERCICES.............................................................................................19
+CORRECTION - INSTALLATION DU SYSTÈME.........................................................................................20
+Exercice 1 : Création d'une Machine Virtuelle..............................................................................20
+Exercice 2 : Installation de CentOS avec un bureau GNOME......................................................20
+Exercice 3 : Mise à jour du système..............................................................................................20
+CORRECTION - LA GESTION DES LOGICIELS.......................................................................................21
+Exercice 1 : Gestion avec RPM.....................................................................................................21
+Exercice 2 : Gestion avec YUM....................................................................................................21
+Exercice 3 : Compilation depuis une archive................................................................................22
+Exercice 4 : Installation de webmin depuis les sources.................................................................22
+CORRECTION - GESTION DU STOCKAGE...............................................................................................23
+Exercice 1 : Partitionnement avec fdisk........................................................................................23
+Exercice 2 : Gestion des systèmes de fichiers ext et xfs................................................................23
+Exercice 3 : Quotas ext et xfs........................................................................................................24
+Exercice 4 : Gestion de la swap.....................................................................................................25
+CORRECTION - LOGICAL VOLUME MANAGER.....................................................................................26
+Exercice 1 : Création de volumes physiques.................................................................................26
+Exercice 2 : Création de groupes de volumes................................................................................26
+Exercice 3 : Création de volumes logiques....................................................................................27
+Exercice 4 : Extension à chaud......................................................................................................27
+Exercice 5 : Suppression de la configuration.................................................................................27
+ CORRECTION - LE DÉMARRAGE DU SYSTÈME ET DES SERVICES..........................................................28
+Exercice 1 : Paramétrage de GRUB..............................................................................................28
+Exercice 2 : Passer des arguments au noyau via GRUB................................................................28
+Exercice 3 : Sécurisation de GRUB...............................................................................................28
+Exercice 4 : Gestion des services avec systemd............................................................................28
+CORRECTION - LE NOYAU ET LES MODULES........................................................................................29
+Exercice 1 : Compilation d’un noyau depuis les sources..............................................................29
+Exercice 2 : Installation d’un nouveau noyau via rpm..................................................................29
+Exercice 3 : Installation d'un nouveau noyau avec yum................................................................29
+CORRECTION - ADMINISTRATION DES UTILISATEURS...........................................................................30
+Exercice 1 : Gestion des groupes...................................................................................................30
+Exercice 2 : Gestion des utilisateurs .............................................................................................30
+Exercice 3 : Configuration de l'environnement.............................................................................30
+Exercice 4 : Gestion des droits spéciaux.......................................................................................30
+CORRECTION - SAUVEGARDE ET RESTAURATION.................................................................................31
+Exercice 1 : Sauvegarde / Restauration avec tar............................................................................31
+Exercice 2 : Sauvegarde / Restauration avec dump.......................................................................31
+CORRECTION - GESTION DES LOGS.....................................................................................................32
+Exercice 1 : Consultation des logs.................................................................................................32
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 3/43
+
+Linux Administration LRD  Exercices
+
+Exercice 2 : Personnalisation des logs sur une machine................................................................32
+Exercice 3 : Centralisation des logs sur une machine....................................................................32
+Exercice 3 : Utilisation de l'utilitaire de systemd : journalctl........................................................32
+CORRECTION - GESTION DES PROCESSUS............................................................................................33
+Exercice 1 : Afficher les informations relatives au processus.......................................................33
+Exercice 2 : Exécution avec nohup................................................................................................33
+Exercice 3 : Manipulation des signaux..........................................................................................33
+CORRECTION - SURVEILLANCE SYSTÈME.............................................................................................34
+Exercice 1 : Surveillance avec SAR..............................................................................................34
+Exercice 2 : Surveillance avec iostat.............................................................................................34
+CORRECTION - ADMINISTRATION DU RÉSEAU......................................................................................35
+Exercice 1 : affichage et paramétrage d'une adresse réseau..........................................................35
+Exercice 2 : paramétrage de la carte réseau...................................................................................35
+Exercice 3 : commandes informatives diverses.............................................................................35
+Exercice 4 : le pare-feu firewalld ..................................................................................................35
+CORRECTION - PRÉSENTATION DES SERVICES RÉSEAUX.......................................................................36
+Exercice 1 : Création de clefs SSH................................................................................................36
+Exercice 2 : Utilisation de SSH.....................................................................................................36
+Exercice 3 : Installation d'apache...................................................................................................36
+Exercice 4 : Création d'un partage SAMBA..................................................................................36
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 4/43
+
+Linux Administration LRD  Exercices
+
+Ce document est sous Copyright :
+Toute reproduction ou diffusion, même partielle, à un tiers est interdite sans autorisation écrite 
+de Sphérius. Pour nous contacter, veuillez consulter le site web http://www.spherius.fr. 
+Les logos, marques et marques déposées sont la propriété de leurs détenteurs.
+Les auteurs de ce document sont :
+
+- Monsieur Baranger Jean-Marc,
+- Monsieur Schomaker Theo. 
+
+ 
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 5/43
+
+Linux Administration LRD  Exercices
+
+Installation du système
+
+Exercice 1 : Création d'une machine virtuelle 
+
+Dans Virtualbox créer une machine virtuelle avec les caractéristiques suivantes :
+
+–
+–
+–
+–
+
+Taille Disque Dur : 
+Nombre de CPU (ou cœurs) :
+Taille RAM : 
+Réseau : 
+
+30Go
+2
+2Go
+Par Pont
+
+Exercice 2 : Installation de CentOS avec un bureau GNOME 
+
+Installer CentOS 7.X
+Installation Avec un Bureau GNOME 
+Type d’Installation: 
+Demander l''adressage IP au  formateur 
+Réseau:
+Partitionnement: 
+Automatique
+Nom de la machine:  Nom au choix
+
+Exercice 3 : Mise à jour du système
+
+Effectuer une mise à jour du système avec la commande yum update.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 6/43
+
+Linux Administration LRD  Exercices
+
+La Gestion des Logiciels
+
+Exercice 1 : Gestion avec RPM 
+
+A quel package appartient le fichier /etc/crontab.
+Quels fichiers sont contenus dans le package.
+Quand a été développé le package.
+Lister les dépendances du package.
+Afficher le nombre de paquetages installés.
+Installer la commande lsof depuis le CDROM.
+
+Exercice 2 : Gestion avec YUM
+
+Lister tous les dépôts YUM.
+Lister tous les dépôts YUM actifs.
+Activer le dépôt du CDROM.
+Lister les groupes de paquetages.
+Lister les paquetages installés.
+Installer le dépôt EPEL.
+Installer  un bureau KDE et les outils de développement.
+Lister les groupes de paquetages installés.
+Rechercher quel package contient la commande sar. Installer le package correspondant.
+Vérifier que ksh est installé. Si ksh n'est pas installé, installer le programme.
+
+Exercice 3 : Compilation depuis une archive 
+
+Télécharger sur le site de GNU le fichier hello.
+Suivre les instructions de compilation du fichier README.
+
+Exercice 4 : Installation de webmin depuis les sources 
+
+Télécharger le fichier webmin_XX_YY.tar.gz.
+Décompresser l’archive et lire le fichier README.
+Installer WEBMIN.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 7/43
+
+Linux Administration LRD  Exercices
+
+Gestion du stockage
+
+Ajouter trois disques dur de 8GO dans Virtualbox.
+
+Exercice 1 : Partitionnement avec fdisk
+
+Partitionner le premier disque DUR (/dev/sdb) en créant 5 partitions de 1Go.
+Partitionner le second disque DUR avec une table GPT et en créant 5 partitions de 1Go.
+
+Exercice 2 : Gestion des systèmes de fichiers ext et xfs
+
+Créer les systèmes de fichiers suivants :
+–
+–
+–
+–
+
+ext2 sur /dev/sdb1
+ext3 sur /dev/sdb2
+ext4 sur /dev/sdb3
+xfs sur /dev/sdb5
+
+Vérifier la cohérence des systèmes de fichiers.
+Monter les systèmes de fichiers respectivement sur les répertoires /data1, /data2, /data3, /data5.
+Automatiser le montage pour /data3 et /data5. Vérifiez que c’est persistent au reboot.
+
+Transformer /dev/sdb1 en ext3. Monter /dev/sdb1 sur /projet et /dev/sdb2 sur /projet/proj1.
+
+Exercice 3 : Quotas ext et xfs
+
+Sur /dev/sdb3 et /dev/sdb5 mettez en place les quotas en limitant l’espace disque à 100 Mo pour 
+user1 et user2 (faites useradd userX pour créer les utilisateurs inexistants). Copiez le quota de 
+user1 vers user3.
+
+Exercice 4 : Gestion de la swap
+
+Typer la partition /dev/sdb6 comme étant de la swap. Initialiser l'espace de swap et activez la. 
+Vérifier avec les commandes appropriés que de la swap a été ajouté. Quelle est sa priorité ? 
+Modifiez la priorité pour rendre le nouvel espace de swap prioritaire par rapport à celui d'origine. 
+Ajouter une entrée dans le fichier /etc/fstab pour qu'elle soit active au démarrage avec une 
+priorité précise.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 8/43
+
+Linux Administration LRD  Exercices
+
+Logical Volume Manager
+
+Exercice 1 : Création de volumes physiques
+
+Supprimer toutes les partitions sur /dev/sdb et /dev/sdc (mettez à jour le fichier /etc/fstab).
+
+Créer sur les disques C,D et E une partition qui fait la totalité du disque. Typer les partitions en 
+LVM.
+
+Transformer les partitions en volumes physiques.
+Afficher les informations relatives aux volumes physiques.
+
+Exercice 2 : Création de groupes de volumes
+
+Créer un groupe de volume appelé myvol sur /dev/sdb1.
+Créer un groupe de volume appelé vol1 sur /dev/sdc1.
+Afficher les informations relatives aux groupes de volumes.
+Fusionner les deux groupes de volumes ensemble. Quel est le nom du groupe de volume 
+résultant ?
+
+Exercice 3 : Création de volumes logiques
+
+Créer lv1 et lv2 de 2GO chacun. 
+Installer un système de fichiers xfs sur lv1 le 1er et ext4 sur lv2. Monter les systèmes de fichiers sur 
+leur points de montage qui sont /lv1 et /lv2. Affichez les informations relatives au volumes 
+logiques.
+
+Exercice 4 : Extension à chaud
+
+Ajoutez 2 GO à lv1. Ajouter tout l’espace restant à lv2. Vérifiez que les systèmes de fichiers ont bien
+été agrandis.
+Étendre le groupe de volume en ajoutant le disque D.
+Déplacez toutes les données du disque C vers le disque D.
+Retirez le disque C du groupe de volume.
+
+Exercice 5 : Suppression de la configuration.
+
+Démonter les volumes logiques. Mettez à jour le fichier /etc/fstab si nécessaire.
+Supprimer les volumes logiques, les groupes volumes et les volumes physiques.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 9/43
+
+Linux Administration LRD  Exercices
+
+ Le démarrage du système et des services
+
+Exercice 1 : Paramétrage de GRUB
+
+Modifier le fichier /etc/sysconfig/grub pour que le menu s'affiche durant 30 secondes.
+Régénérer le fichier de configuration de GRUB.
+Rebooter et vérifier que le timeout est bien de 30 secondes.
+
+Exercice 2 : Passer des arguments au noyau via GRUB
+
+Rebooter la machine. Éditer GRUB et passer l'argument S au noyau. Cse connecter et vérifier le 
+niveau d'initialisation de la machine
+Rebooter la machine et passer l'argument init=/bin/bash au noyau. Booter la machine avec cet 
+argument. Que  s'est-il passé ?
+Éteindre la machine virtuelle et la redémarrer.
+
+Exercice 3 : Sécurisation de GRUB
+
+A l'aide de la commande grub2-setpassword positionner un mot de passe à GRUB. Vérifier dans le 
+répertoire /boot/grub2 quel fichier a été créé ainsi que son contenu. Rebootez la machine. Éditer 
+GRUB et vérifier qu'un mot de passe est bien demandé.
+
+Exercice 4 : Gestion des services avec systemd
+
+Afficher l’état du service crond. 
+Arrêter le service crond. Afficher le statut. Redémarrer le service.
+Désactiver le service crond. Cela l'a-t-il arrêté ? Qu'a fait le système ?
+Afficher l’état du service crond de la machine formateur.
+Afficher le temps de démarrage des services du système.
+Démarrer le service sysstat.
+Faites en sorte que le service démarre au prochain reboot.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 10/43
+
+Linux Administration LRD  Exercices
+
+Le noyau et les modules
+
+Exercice 1 : Compilation d’un noyau depuis les sources
+
+Allez sur www.kernel.org et télécharger un noyau assez proche de celui que vous avez 
+actuellement.
+
+Décompressez le noyau dans /usr/src.
+
+Récupérer la configuration de l'ancien noyau .
+
+Modifier la configuration pour ajouter le support NTFS dans le noyau de manière modulaire.
+Compiler le noyau et les modules. Vérifiez que vous pouvez démarrer sur l'ancien noyau.
+
+ATTENTION : Redhat n'assure pas le support des systèmes avec un noyau personnalisé 
+
+Exercice 2 : Installation d’un nouveau noyau via rpm
+
+Télécharger le rpm du nouveau noyau  à  partir du site rpmfind.
+Installer le rpm.
+
+Exercice 3 : Installation d'un nouveau noyau avec yum
+
+Installer le dépôt permettant d'installer des nouveau noyaux.
+Utiliser yum pour installer ce noyau.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 11/43
+
+Linux Administration LRD  Exercices
+
+Administration des utilisateurs
+
+Exercice 1 : Gestion des groupes
+
+Créer les groupes compta (gid=400) et web (gid=500) et staff (gid=600)
+Modifier le GID de compta pour qu'il soit égale à 700.
+Modifier le nom du groupe web en apache.
+Supprimer le groupe apache 
+
+Exercice 2 : Gestion des utilisateurs 
+
+Créer les utilisateurs suivants :
+
+Login
+
+user10
+user20
+user30
+
+Uid
+
+1010
+1020
+1030
+
+Groupe 
+primaire 
+users
+users
+users
+
+Groupes 
+secondaires
+Compta, staff
+staff
+compta
+
+Mot de 
+passe
+user10
+user20
+user30
+
+Shell
+
+/bin/bash
+/bin/bash
+/bin/ksh
+
+Ajouter le groupe compta à l’utilisateur user20.
+Obliger l'utilisateur user30 à modifier son mot de passe à la prochaine connexion.
+Faites expirer le compte de l'utilisateur user20 à la fin de l'année 2020.
+Faites en sorte que l'utilisateur user10 doit changer de mot de passe tous les 30 jours, qu'il soit 
+invité à le modifier 3 jours avant et qu'il ne puisse pas le modifier avant 27 jours.
+
+Exercice 3 : Configuration de l'environnement
+
+Paramétrer les fichiers de configurations des utilisateurs pour 
+que les alias suivants soient présents :
+
+ll='ls –lrt'
+h=history
+c='chmod +x'
+
+et que les fichiers soient protégés contre l’écrasement avec la redirection.
+
+Exercice 4 : Gestion des droits spéciaux
+
+Créer un répertoire /projet1 qui appartient au groupe compta. Tous les fichiers créés à l’intérieur 
+doivent appartenir au groupe compta. Il n’y a que le propriétaire du fichier qui a le droit de 
+supprimer le fichier.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 12/43
+
+Linux Administration LRD  Exercices
+
+Sauvegarde et Restauration
+
+Exercice 1 : Sauvegarde / Restauration avec tar
+
+Créer une partition de 4 GO sur /dev/sdb. 
+Installer un système de fichiers ext4. 
+Monter la partition sur /users. Ajouter une entée dans le fichier /etc/fstab pour rendre le montage 
+permanent.
+
+Créer une archive tar du contenu de /home.
+Consulter le contenu de l'archive.
+Restaurer l’archive précédemment créée dans /users.
+
+Exercice 2 : Sauvegarde / Restauration avec dump
+
+Créer un sauvegarde totale de la partition monté sur /users avec la commande dump.
+Créer l'utilisateur user40. Effectuer une sauvegarde incrémentale de la partition monté sur /users.
+Installer un nouveau système de fichiers ext4 sur /users.
+Restaurer la sauvegarde totale.
+Restaurer la sauvegarde incrémentale.
+Créer le répertoire /var/tmp/restore et positionnez-vous dedans.
+Entrez en mode interactif dans la sauvegarde totale. Ne restaurez que les fichiers .bash_profile 
+et .bashrc de l'utilisateur user10.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 13/43
+
+Linux Administration LRD  Exercices
+
+Gestion des Logs
+
+Exercice 1 : Consultation des logs
+
+Utiliser la commande dmesg pour visualiser les messages générés par le noyau
+Consultez le fichier /var/log/boot.log pour visualiser les messages générés par le démarrage de la 
+machine.
+Grâce à l'option '-f' de tail garder le fichier /var/log/secure ouvert.
+Se connecter en ssh (ssh localhost) en indiquant un mot de passe incorrect et un mot de passe 
+correct. Les tentatives sont-elles bien apparues dans le fichier /var/log/secure ?
+Effectuer la même manipulation en demandant à votre voisin de se connecter chez-vous.
+
+Exercice 2 : Personnalisation des logs sur une machine 
+
+Ajouter le service local4 de niveau notice pour logger des informations dans le fichier 
+/var/log/local4.log. Redémarrer le service syslog. Avec la commande logger envoyer un message 
+au service local4 de niveau notice. Faites de même avec le niveau debug et le niveau crit. Cela a-t-il
+fonctionné ? Pourquoi ?
+
+Exercice 3 : Centralisation des logs sur une machine 
+
+Sur La machine poste1 :
+Ajouter le service local1.info pour que cela envoie les informations à la machine poste2.
+Ajouter le service local2.info pour que cela envoie les informations dans /var/log/local2.log. 
+
+Sur la machine poste2 :
+Ajouter le service local1.info pour logger dans le fichier /var/log/local1.log. 
+Ajouter le service local2.info pour que cela envoie les informations à la machine poste1.
+
+Sur les deux machines :
+Activer le module pour la réception de la part d’un syslogd distant.
+Ouvrir les ports correspondants sur le firewall.
+
+Tester avec la commande logger que cela fonctionne correctement.
+
+Exercice 3 : Utilisation de l'utilitaire de systemd : journalctl
+
+Utiliser la commande journalctl pour visualiser les journaux du service crond.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 14/43
+
+Linux Administration LRD  Exercices
+
+Gestion des processus
+
+Exercice 1 : Afficher les informations relatives au processus 
+
+Afficher tous les processus tournant sur le système avec la commande ps.
+Effectuer un affichage au format long pour visualiser la charge CPU et mémoire.
+
+Avec la commande top :
+Afficher les processus de l’utilisateur user1.
+Afficher les informations sur les processus systemd et kthreadd.
+
+Exercice 2 : Exécution avec nohup
+
+Créer le script suivant :
+# more script1
+#!/bin/bash
+while true
+do
+
+echo bonjour
+sleep 10
+
+done
+
+Le rendre exécutable. Fermer le terminal dans lequel le script s'exécute. La script s'est-il arrêté ?
+Exécuter script1 à l'aide de la commande nohup. Que se passe-t-il lorsque le terminal est fermé ?
+Quel fichier est utilisé pour écrire la sortie ?
+
+Exercice 3 : Manipulation des signaux
+
+En tant que user1 tapez la commande suivante :
+:  () { : | : & } ; :  
+Dans une autre fenêtre terminale surveiller le nombre de processus générés. 
+Tuer tous les processus qui appartiennent à user1.
+
+(C’est une fork bomb)
+
+Exécuter la commande suivante :
+ yes > /dev/null &
+Surveiller le taux de disponibilité du CPU. Effectuez un affichage par processeur. 
+Ré-exécuter la commande précédente une nouvelle fois. Quelle est la charge CPU ?
+Tuer les processus yes à l'aide de top, kill ou pkill .
+
+Lancer la commande suivante en arrière plan :  sleep 5000.
+
+Arrêter le processus en utilisant le numéro de tâche renvoyé par la commande jobs.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 15/43
+
+Linux Administration LRD  Exercices
+
+Surveillance système
+
+Exercice 1 : Surveillance avec SAR
+
+Vérifier que le service sysstat est bien démarré.
+Consulter le fichier /etc/cron.d/sysstat. A quel intervalle fait-il des prélèvements ? Où sont stockés 
+les fichiers générés chaque jour.
+
+Afficher toutes les 2 secondes  la charge CPU.
+
+La même chose mais limité à 10 affichages.
+
+Afficher la charge CPU d’hier.
+
+Exercice 2 : Surveillance avec iostat
+
+Ouvrez un terminal et surveiller la charge disque grâce à iostat en faisant un affichage par seconde.
+
+Créez un gros fichier de 2Go  sous la racine avec la commande suivante :
+
+# dd if=/dev/zero of=/grosfic1 bs=1M count=2048
+
+Vérifier comment les données sont écrites.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 16/43
+
+Linux Administration LRD  Exercices
+
+Administration du réseau
+
+Exercice 1 : Affichage et paramétrage d'une adresse réseau
+
+En ligne de commande affichez :
+
+- votre adresse ip
+- l'adresse de la passerelle
+- l'adresse des serveurs DNS
+
+Ajouter une adresse IP à votre carte actuelle.
+Ajouter une route par défaut.
+Supprimer la route ajoutée précédemment.
+Supprimer l'adresse IP ajoutée à la carte.
+
+Exercice 2 : Paramétrage de la carte réseau
+
+Ajouter une interface réseau à votre machine virtuelle (machine éteinte).
+
+Créer le fichier de configuration de la nouvelle  carte  avec un adressage ip en statique (recopier le 
+fichier de configuration de la première carte et adaptez le).
+
+Exercice 3 : Commandes informatives diverses.
+
+Quel serveur DNS vous répond lorsqu’on va sur le site www.google.fr?
+Votre serveur écoute-t-il sur le port 22 ? Indiquer 3 manières permettant de le savoir ?
+
+Exercice 4 : Pare-feu firewalld 
+
+Afficher la configuration actuelle de la zone par défaut.
+Afficher la configuration persistante de la zone par défaut.
+
+Installer un serveur ftp (vsftpd).
+Démarrer le service et ouvrir le port sur le pare-feu.
+Vérifier que le port est bien ouvert. 
+Vérifier que le port sera ouvert au prochain redémarrage du serveur.
+Rendre la règle persistante au démarrage.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 17/43
+
+Linux Administration LRD  Exercices
+
+Présentation des services réseaux
+
+Exercice 1 : Création de clefs SSH 
+
+En tant que root, créer une paire de clefs SSH de type RSA.
+Faitre en sorte d’envoyer la clef sur une machine distante pour pouvoir vous connecter en tant que
+root et user10 en utilisant l’authentification par clefs.
+Tester la connexion. Utilisez l'option -v de ssh pour visualiser l'échange entre le client et le serveur.
+
+Exercice 2 : Utilisation de SSH 
+
+Afficher le contenu du répertoire /home/user20 d'une machine distante. 
+Copiez le fichier /home/user20/.bashrc dans votre répertoire /var/tmp.
+Envoyez le répertoire /etc/sysconfig/network-scripts sur la machine distante dans le répertoire 
+/tmp.
+Connectez-vous sur la machine distante en déportant l'affichage graphique. Exécutez firefox. 
+Vérifiez que le processus firefox est exécutée sur la machine distante.
+
+Exercice 3 : Installation d'apache 
+
+Installer le package httpd. Paramétrer le fichier de configuration d'apache. Démarrer le service.
+Faites en sorte de pouvoir y accéder depuis l’extérieur.
+
+Exercice 4 : Création d'un partage SAMBA
+
+Créer un partage SAMBA simple en modifiant le fichier /etc/samba/smb.conf. 
+Transformer les utilisateurs user10n, user20 et root en utilisateurs SAMBA.
+Visualiser les partages d'un serveur SAMBA distant.
+Connectez-vous sur un partage SAMBA distant.
+Transférer des fichiers à l'aide de put,mput,get,mget.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 18/43
+
+Linux Administration LRD  Exercices
+
+CORRECTIONS DES
+
+EXERCICES
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 19/43
+
+Linux Administration LRD  Exercices
+
+Correction - Installation du système
+
+Exercice 1 : Création d'une Machine Virtuelle 
+
+Pas de correction. 
+
+Exercice 2 : Installation de CentOS avec un bureau GNOME 
+
+Se référer au support de cours pour les saisies d'écran.
+
+Exercice 3 : Mise à jour du système
+# yum update -y 
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 20/43
+
+Linux Administration LRD  Exercices
+
+Correction - La Gestion des Logiciels
+
+Exercice 1 : Gestion avec RPM 
+
+A quel package appartient le fichier /etc/crontab.
+# rpm -qf /etc/crontab
+
+Quels fichiers sont contenus dans le package.
+# rpm -ql crontabs-1.11-6.20121102git.el7.noarch
+
+Quand a été développé le package.
+# rpm -qi crontabs-1.11-6.20121102git.el7.noarch
+
+Lister les dépendances du package.
+# rpm -qR crontabs-1.11-6.20121102git.el7.noarch
+
+Afficher le nombre de paquetages installés.
+# rpm -qa | wc -l
+
+Installer la commande lsof depuis le CDROM.
+# cd /run/media/stage1/CentOS\ 7\ x86_64/
+# cd Packages/
+# rpm -i lsof*
+
+Exercice 2 : Gestion avec YUM
+
+Lister tous les dépôts YUM.
+# yum repolist all
+
+Lister tous les dépôts YUM actifs.
+# yum repolist
+# yum repolist enabled
+
+Activer le dépôt du CDROM.
+# grep enabled /etc/yum.repos.d/CentOS-Media.repo
+enabled=1
+# grep -A 2 baseurl /etc/yum.repos.d/CentOS-Media.repo
+baseurl=file:///media/CentOS/
+        file:///media/cdrom/
+        file:///media/cdrecorder/
+# umount /dev/sr0
+# mkdir /media/cdrom
+# mount -o ro /dev/sr0 /media/cdrom/
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 21/43
+
+Linux Administration LRD  Exercices
+
+Lister les groupes de paquetages.
+# yum grouplist
+
+Lister les paquetages installés.
+# yum list installed
+
+Installer le dépôt EPEL.
+# yum install -y epel-release
+
+Installer  un bureau KDE et les outils de développement.
+# yum install -y "KDE Plasma Workspace" "Outils de developpement"
+
+Lister les groupes de paquetages installés.
+# yum grouplist
+
+Rechercher quel package contient la commande sar. Installer le package correspondant.
+# yum provides sar
+# yum install -y sysstat
+
+Vérifier que ksh est installé. Si ksh n'est pas installé, installer le programme.
+# yum list installed | grep ksh
+# yum install -y ksh
+
+Exercice 3 : Compilation depuis une archive 
+
+Télécharger sur le site de GNU le fichier hello.
+# wget http://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz
+# tar zxf hello-2.10.tar.gz
+# cd hello-2.10
+
+Suivre les instructions de compilation du fichier README
+# more README
+# ./configure
+# make 
+# make install
+# hello
+
+Exercice 4 : Installation de webmin depuis les sources 
+
+Télécharger le fichier webmin_XX_YY.tar.gz
+# wget https://prdownloads.sourceforge.net/webadmin/webmin-1.881.tar.gz
+
+Décompresser l’archive et lire le fichier README
+# tar zxf webmin-1.881.tar.gz
+# cd webmin-1.881/
+# more README
+
+Installer WEBMIN 
+# ./setup.sh
+
+→ Sélectionner les valeurs par défaut.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 22/43
+
+Linux Administration LRD  Exercices
+
+Correction - Gestion du stockage
+
+Ajouter trois disques dur de 8GO dans Virtualbox.
+# lsblk
+
+Exercice 1 : Partitionnement avec fdisk
+
+Partitionner le premier disque DUR (/dev/sdb) en créant 5 partitions de 1Go.
+# (echo n ; echo ; echo ; echo ; echo +1G ; echo n ; echo ; echo ; echo ;
+echo +1G ;  echo n ; echo ; echo ; echo ; echo +1G ; echo n ; echo  ; 
+echo ; echo ; echo n ; echo ; echo +1G ; echo n ; echo ; echo +1G ; echo 
+w) | fdisk /dev/sdb
+
+Vérification
+# lsblk /dev/sdb
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sdb      8:16   0   8G  0 disk
+├─sdb1   8:17   0   1G  0 part
+├─sdb2   8:18   0   1G  0 part
+├─sdb3   8:19   0   1G  0 part
+├─sdb4   8:20   0   1K  0 part
+├─sdb5   8:21   0   1G  0 part
+└─sdb6   8:22   0   1G  0 part
+
+Partitionner le second disque DUR avec une table GPT et en créant 5 partitions de 1Go.
+# (echo g ; echo n ; echo ; echo ; echo +1G ; echo n ; echo ; echo ; echo
++1G ;  echo n ; echo ; echo ; echo +1G ; echo n ; echo ; echo ; echo 
++1G ; echo n ; echo ; echo ; echo +1G ; echo w) | fdisk /dev/sdc
+
+Vérification
+# lsblk /dev/sdc
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+sdc      8:32   0   8G  0 disk
+├─sdc1   8:33   0   1G  0 part
+├─sdc2   8:34   0   1G  0 part
+├─sdc3   8:35   0   1G  0 part
+├─sdc4   8:36   0   1G  0 part
+└─sdc5   8:37   0   1G  0 part
+
+Exercice 2 : Gestion des systèmes de fichiers ext et xfs
+
+ext2 sur /dev/sdb1
+
+Créer les systèmes de fichiers suivants :
+–
+# mke2fs /dev/sdb1
+ext3 sur /dev/sdb2
+–
+# mke2fs -j /dev/sdb2
+ext4 sur /dev/sdb3
+–
+# mkfs.ext4 /dev/sdb3
+xfs sur /dev/sdb5
+–
+# mkfs -t xfs /dev/sdb5
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 23/43
+
+Linux Administration LRD  Exercices
+
+Vérifier la cohérence des systèmes de fichiers.
+# fsck /dev/sdb1
+# fsck /dev/sdb2
+# fsck /dev/sdb3
+# xfs_repair /dev/sdb5
+
+Monter les systèmes de fichiers respectivement sur les répertoires /data1, /data2, /data3, /data5.
+# mkdir /data1 /data2 /data3 /data5
+# mount /dev/sdb1 /data1
+# mount /dev/sdb2 /data2
+# mount /dev/sdb3 /data3
+# mount /dev/sdb5 /data5
+
+Automatiser le montage pour /data3 et /data5. 
+# grep data /etc/fstab
+/dev/sdb3               /data3                  ext4    defaults        0 1
+/dev/sdb5               /data5                  xfs     defaults        0 0
+
+Vérifiez que c’est persistent au reboot.
+# init 6
+
+Transformer /dev/sdb1 en ext3. Monter /dev/sdb1 sur /projet et /dev/sdb2 sur /projet/proj1.
+# umount /dev/sdb1
+# umount /dev/sdb2
+# tune2fs -j /dev/sdb1
+# mkdir  /projet
+# mount /dev/sdb1 /projet
+# mkdir /projet/proj1
+# mount /dev/sdb2 /projet/proj1
+
+Exercice 3 : Quotas ext et xfs
+
+Sur /dev/sdb3 et /dev/sdb5 mettez en place les quotas en limitant l’espace disque à 100 Mo pour 
+user1 et user2 (faites useradd userX pour créer les utilisateurs inexistants). Copiez le quota de 
+user1 vers user3.
+# grep sdb /etc/fstab
+/dev/sdb3          /data3                  ext4    defaults,usrquota,grpquota      0 1
+/dev/sdb5          /data5                  xfs     defaults,uquota,gquota          0 0
+# mount -o remount /data3
+# umount /data5
+# mount /data5 
+# mount | grep data[35]
+/dev/sdb3 on /data3 type ext4 (rw,relatime,seclabel,quota,usrquota,grpquota,data=ordered)
+/dev/sdb5 on /data5 type xfs (rw,relatime,seclabel,attr2,inode64,usrquota,grpquota)
+# useradd user1
+# useradd user2
+# useradd user3
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 24/43
+
+Linux Administration LRD  Exercices
+
+# quotacheck -cug /data3
+# quotaon /data3
+# quotaon /data5
+# edquota user1
+# edquota user2
+
+# xfs_quota -x -c 'limit bsoft=100m bhard=100m user1' /data5
+# xfs_quota -x -c 'limit bsoft=100m bhard=100m user2' /data5
+# edquota -p user1 user3
+
+Exercice 4 : Gestion de la swap
+
+Typer la partition /dev/sdb6 comme étant de la swap. 
+
+# (echo t ; echo 6 ; echo 82 ; echo w ) | fdisk /dev/sdb
+
+Initialiser l'espace de swap et activez la. 
+# mkswap /dev/sdb6
+# swapon /dev/sdb6
+
+Vérifier avec les commandes appropriés que de la swap a été ajouté. Quelle est sa priorité ?
+# swapon -s
+Nom de fichier                          Type            Taille  Utilisé Priorité
+/dev/dm-1                               partition       2097148 0       -1
+/dev/sdb6                               partition       1048572 0       -2
+
+Modifiez la priorité pour rendre le nouvel espace de swap prioritaire par rapport à celui d'origine.
+# swapoff /dev/sdb6
+# swapon -p 0 /dev/sdb6
+# swapon -s
+Nom de fichier                          Type            Taille  Utilisé Priorité
+/dev/dm-1                               partition       2097148 0       -1
+/dev/sdb6                               partition       1048572 0       0
+
+Ajouter une entrée dans le fichier /etc/fstab pour qu'elle soit active au démarrage avec une 
+priorité précise.
+# grep sdb6 /etc/fstab
+/dev/sdb6               swap                    swap    defaults,pri=0        0 0
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 25/43
+
+Linux Administration LRD  Exercices
+
+Correction - Logical Volume Manager
+
+Exercice 1 : Création de volumes physiques
+
+Supprimer toutes les partitions sur /dev/sdb et /dev/sdc (mettez à jour le fichier /etc/fstab).
+# umount /data3
+# umount /data5
+# swapoff /dev/sdb6
+
+→ Mise à jour du fichier /etc/fstab
+# (echo d ; echo 6 ; echo d ; echo 5 ;  echo d ; echo 4 ; echo d ; echo 3
+; echo d ; echo 2 ; echo d ; echo 1 ;echo w) | fdisk /dev/sdb
+
+Créer sur les disques C,D et E une partition qui fait la totalité du disque. Typer les partitions en 
+LVM.
+# (echo n ; echo ; echo ; echo ; echo ;echo t ; echo 8e ; echo w) | fdisk
+/dev/sdb
+# (echo o ; echo n ; echo ; echo ; echo ; echo ;echo t ; echo 8e ; echo 
+w) | fdisk /dev/sdc
+# (echo n ; echo ; echo ; echo ; echo ;echo t ; echo 8e ; echo w) | fdisk
+/dev/sdd
+
+Transformer les partitions en volumes physiques.
+# pvcreate /dev/sd[b-d]1
+
+Afficher les informations relatives aux volumes physiques 
+# pvs
+# pvdisplay
+
+Exercice 2 : Création de groupes de volumes
+
+Créer un groupe de volume appelé myvol sur /dev/sdb1.
+# vgcreate myvol /dev/sdb1
+
+Créer un groupe de volume appelé vol1 sur /dev/sdc1.
+# vgcreate vol1 /dev/sdc1
+
+Affichez les informations relatives aux groupes de volumes.
+# vgs
+# vgdisplay
+
+Fusionnez les deux groupes de volumes ensemble. Quel est le nom du groupe de volume 
+résultant ?
+# vgmerge myvol vol1
+Le nom du vg résultant est le nom du premier vg donné en argument.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 26/43
+
+Linux Administration LRD  Exercices
+
+Exercice 3 : Création de volumes logiques
+
+Créer lv1 et lv2 de 2GO chacun. 
+# lvcreate -n lv1 -L +2G myvol
+# lvcreate -n lv2 -L +2G myvol
+
+Installer un système de fichiers xfs sur lv1 le 1er et ext4 sur lv2. 
+# mkfs.xfs /dev/myvol/lv1
+# mkfs.ext4 /dev/myvol/lv2
+
+Monter les systèmes de fichiers sur leur points de montage qui sont /lv1 et /lv2. 
+# mkdir /lv1 /lv2
+# mount /dev/myvol/lv1 /lv1
+# mount /dev/myvol/lv2 /lv2
+
+Affichez les informations relatives au volumes logiques.
+# lvs
+# lvdisplay
+
+Exercice 4 : Extension à chaud
+
+Ajoutez 2 GO à lv1. 
+# lvextend -L +2G /dev/myvol/lv1
+# xfs_growfs /dev/myvol/lv1
+
+Ajouter tout l’espace restant à lv2. 
+# lvextend -l +100%FREE -r /dev/myvol/lv2
+
+Vérifiez que les systèmes de fichiers ont bien été agrandis.
+# df -h
+
+Étendre le groupe de volume en ajoutant le disque D.
+# vgextend myvol /dev/sdd1
+
+Déplacer toutes les données du disque C vers le disque D.
+# pvmove /dev/sdc1 /dev/sdd1
+
+Retirer le disque C du groupe de volume.
+# vgreduce  myvol /dev/sdc1
+
+Exercice 5 : Suppression de la configuration.
+
+Démonter les volumes logiques. Mettez à jour le fichier /etc/fstab si nécessaire.
+# umount /lv1
+# umount /lv2
+
+Supprimer les volumes logiques, les groupes volumes et les volumes physiques.
+# lvremove -y /dev/myvol/lv1
+# lvremove -y /dev/myvol/lv2
+# vgremove myvol
+# pvremove /dev/sd[b-d]1
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 27/43
+
+Linux Administration LRD  Exercices
+
+  Correction - Le démarrage du système et
+des services
+
+Exercice 1 : Paramétrage de GRUB
+
+Modifier le fichier /etc/sysconfig/grub pour que le menu s'affiche durant 30 secondes.
+# grep -i timeout /etc/sysconfig/grub
+GRUB_TIMEOUT=30
+
+Régénérer le fichier de configuration de GRUB.
+# grub2-mkconfig -o /boot/grub2/grub.cfg
+
+Rebootez et vérifiez que le timeout est bien de 30 secondes.
+# init 6
+
+Exercice 2 : Passer des arguments au noyau via GRUB
+
+Rebooter la machine. Éditer GRUB et passer l'argument S au noyau. Se connecter et vérifier le 
+niveau d'initialisation de la machine.
+# runlevel
+N 1# who -r
+            niveau d'exécution 1 2018-07-06 14:41
+
+Rebooter la machine et passer l'argument init=/bin/bash au noyau. Booter la machine avec cet 
+argument. Que s'est-il passé ?
+
+Le système fournit un prompt avec un accès root. 
+
+Éteindre la machine virtuelle et la redémarrer.
+
+Exercice 3 : Sécurisation de GRUB
+
+A l'aide de la commande grub2-setpassword positionnez un mot de passe à GRUB. 
+# grub2-setpassword
+Enter password:XXX
+Confirm password:XXX
+
+Vérifier dans le répertoire /boot/grub2 quel fichier a été créé ainsi que son contenu. 
+# more /boot/grub2/user.cfg
+GRUB2_PASSWORD=grub.pbkdf2.sha512.10000.E30AD4695FFF6D1C4AA8F2CE676061ABACCF94D2C556F9A75
+F785DA3B1049275C7EC8ABF31DF2D3835792C4E1C822D4F70457D0E5AB
+56476D94C06FC59AC2CFF.563BCB74F3AF53EC74017AE747FEBAFBD7D3308D798C7ECC3C39304DE3A2735CF78
+54B58377E0E88917CDA74076BFA324FCA2FA70C4E7CA6AB7E073088999
+F2D
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 28/43
+
+Linux Administration LRD  Exercices
+
+Rebootez la machine. Éditer GRUB et vérifier qu'un mot de passe est bien demandé.
+# init 6
+
+Exercice 4 : Gestion des services avec systemd
+
+Afficher l’état du service crond. 
+# systemctl status crond
+
+Arrêtez le service crond. Afficher le statut. Redémarrer le service.
+# systemctl stop crond
+# systemctl status crond
+# systemctl start crond
+
+Désactiver le service crond. Cela l'a-t-il arrête ? Qu'a fait le système ?
+# systemctl disable crond
+# systemctl status crond
+
+crond fonctionne toujours car le service a été marqué pour être désactivé lors du prochain reboot.
+
+Afficher l’état du service crond de la machine formateur.
+# systemctl -H 127.0.0.1 status crond
+
+→ Remplacer l'adresse 127.0.0.1 par celle de la machine formateur.
+
+Afficher le temps de démarrage des services du système.
+# systemd-analyze blame
+
+Démarrer le service sysstat.
+# systemctl start sysstat
+
+Faitre en sorte que le service démarre au prochain reboot.
+# systemctl enable sysstat
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 29/43
+
+Linux Administration LRD  Exercices
+
+Correction - Le noyau et les modules
+
+Exercice 1 : Compilation d’un noyau depuis les sources
+
+Aller sur www.kernel.org et télécharger un noyau assez proche de celui que vous avez 
+actuellement.
+# wget https://mirrors.edge.kernel.org/pub/linux/kernel/v3.x/linux-
+3.18.114.tar.gz
+
+Décompresser le noyau dans /usr/src.
+# tar zxf linux-3.18.114.tar.gz -C /usr/src
+
+Récupérer la configuration de l'ancien noyau .
+# cd /usr/src/linux-3.18.114/
+# make oldconfig
+→ Choisir les valeurs par défaut
+
+Modifier la configuration pour ajouter le support NTFS dans le noyau de manière modulaire.
+# yum install -y  ncurses-devel
+# make menuconfig
+
+Compiler le noyau et les modules. Vérifiez que vous pouvez démarrer sur l'ancien noyau.
+# make -j2 ; make -j2 modules ; make -j2 modules_install ; make -j2 
+install
+
+ATTENTION : Redhat n'assure pas le support des systèmes avec un noyau personnalisé 
+
+Exercice 2 : Installation d’un nouveau noyau via rpm
+
+Télécharger le rpm du nouveau noyau  à  partir du site rpmfind.
+Installer le rpm.
+# rpm -i kernel-XYZ.el7.x86_64.rpm
+
+Exercice 3 : Installation d'un nouveau noyau avec yum
+
+Installer le dépôt permettant d'installer des nouveau noyaux.
+# rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+# rpm -Uvh https://www.elrepo.org/elrepo-release-7.0-
+3.el7.elrepo.noarch.rpm
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 30/43
+
+Linux Administration LRD  Exercices
+
+Utiliser yum pour installer ce noyau.
+# yum --disablerepo='*' --enablerepo=elrepo-kernel list available
+# yum --disablerepo='*' --enablerepo=elrepo-kernel install kernel-lt-
+devel.x86_64
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 31/43
+
+Linux Administration LRD  Exercices
+
+Correction - Administration des
+utilisateurs
+
+Exercice 1 : Gestion des groupes
+
+Créer les groupes compta (gid=400) et web (gid=500) et staff (gid=600)
+# groupadd -g 400 compta
+# groupadd -g 500 web
+# groupadd -g 600 staff
+Modifier le GID de compta pour qu'il soit égale à 700.
+# groupmod -g 700 compta
+Modifier le nom du groupe web en apache.
+# groupmod -n apache web
+Supprimer le groupe apache.
+# groupdel apache
+
+Exercice 2 : Gestion des utilisateurs 
+
+Créer les utilisateurs suivants :
+
+Login
+
+user10
+user20
+user30
+
+Uid
+
+1010
+1020
+1030
+
+Shell
+
+/bin/bash
+/bin/bash
+/bin/ksh
+
+Groupe 
+primaire 
+users
+users
+users
+
+Groupes 
+secondaires
+Compta, staff
+staff
+compta
+
+Mot de 
+passe
+user10
+user20
+user30
+# useradd -u 1010 -g users -G compta,staff user10
+# useradd -u 1020 -g users -G staff user20
+# useradd -u 1030 -g users -G compta -s /bin/ksh user30
+# passwd user10
+# passwd user20
+# passwd user30
+Ajouter le groupe compta à l’utilisateur user20.
+# usermod -a -G compta user20
+Obliger l'utilisateur user30 à modifier son mot de passe à la prochaine connexion.
+# chage -d 0 user30
+Faites expirer le compte de l'utilisateur user20 à la fin de l'année 2020.
+# usermod -e 2020-12-31 user20
+Faites en sorte que l'utilisateur user10 doivent changer de mot de passe tous les 30 jours, qu'il soit 
+invité à le modifier 3 jours avant et qu'il ne puisse pas le modifier avant 27 jours.
+# passwd -x 30 -n 27 -w 3 user10
+
+Exercice 3 : Configuration de l'environnement
+
+Paramétrer les fichiers de configurations des utilisateurs pour 
+que les alias suivants soient présents :
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 32/43
+
+Linux Administration LRD  Exercices
+
+ll='ls –lrt'
+h=history
+c='chmod +x'
+
+et que les fichiers soient protégés contre l’écrasement avec la redirection.
+# tail -4 $HOME/.bashrc
+alias ll='ls -lrt'
+alias h=history
+alias c='chmod+'
+set -o noclobber
+
+Exercice 4 : Gestion des droits spéciaux
+
+Créer un répertoire /projet1 qui appartient au groupe compta. Tous les fichiers créés à l’intérieur 
+doivent appartenir au groupe compta. Il n’y a que le propriétaire du fichier qui a le droit de 
+supprimer le fichier.
+# mkdir /projet1
+# chmod 3777 /projet1
+
+Correction - Sauvegarde et Restauration
+
+Exercice 1 : Sauvegarde / Restauration avec tar
+
+Créer une partition de 4 GO sur /dev/sdb. 
+# fdisk /dev/sdb
+Installer un système de fichiers ext4. 
+# mkfs.ext4 /dev/sdb1
+Monter la partition sur /users. Ajouter une entée dans le fichier /etc/fstab pour rendre le montage 
+permanent.
+# mkdir /users
+
+Créer une archive tar du contenu de /home.
+# cd /home ; tar cf /tmp/home.tar .
+Consultez le contenu de l'archive
+# tar tvf /tmp/home.tar
+Restaurer l’archive précédemment créée dans /users.
+# tar xvf /tmp/home.tar -C /users
+
+Exercice 2 : Sauvegarde / Restauration avec dump
+
+Créer un sauvegarde totale de la partition monté sur /users avec la commande dump.
+# umount /users
+# fsck /dev/sdb1
+# dump 0uf /tmp/users0.dump /users
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 33/43
+
+Linux Administration LRD  Exercices
+
+Créer l'utilisateur user40. Effectuer une sauvegarde incrémentale de la partition monté sur /users.
+# mount /users
+# useradd -d /home/user40 -m user40
+# passwd user40
+# dump 3uf /tmp/users3.dump /users
+Installer un nouveau système de fichiers ext4 sur /users.
+# umount /users
+# mkfs.ext4 /dev/sdb1
+Restaurer la sauvegarde totale.
+# mount /users
+# cd /users
+# restore -rf /tmp/users0.dump
+Restaurer la sauvegarde incrémentale.
+# restore -rf /tmp/users3.dump
+Créer le répertoire /var/tmp/restore et positionnez-vous dedans.
+# mkdir /var/tmp/restore ; cd _$
+Entrez en mode interactif dans la sauvegarde totale. Ne restaurez que les fichiers .bash_profile 
+et .bashrc de l'utilisateur user10.
+# restore -rf /tmp/users0.dump
+restore> cd user10
+restore> add .bashrc
+restore> add .bash_profile
+restore> extract
+...
+Specify next volume # (none if no more volumes) : 1
+set owner/mode for '.' ? [yn] n
+restore> quit
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 34/43
+
+Linux Administration LRD  Exercices
+
+Correction - Gestion des Logs
+
+Exercice 1 : Consultation des logs
+
+Utiliser la commande dmesg pour visualiser les messages générés par le noyau.
+# dmesg | tail -20
+Consulter le fichier /var/log/boot.log pour visualiser les messages générés par le démarrage de la 
+machine.
+# tail -30 /var/log/boot.log
+Grâce à l'option '-f' de tail garder le fichier /var/log/secure ouvert.
+# tail -f /var/log/secure
+Se connecter en ssh (ssh localhost) en indiquant un mot de passer incorrect et un mot de passe 
+correct. 
+# ssh localhost
+Les tentatives sont-elles bien apparues dans le fichier /var/log/secure ?
+OUI
+Effectuer la même manipulation en demandant à votre voisin de se connecter chez-vous.
+# ssh 10.20.30.40
+
+Exercice 2 : Personnalisation des logs sur une machine 
+
+Ajouter le service local4 de niveau notice pour logger des informations dans le fichier 
+/var/log/local4.log.
+# grep ^local /etc/rsyslog.conf
+local7.*
+local4.info
+ Redémarrer le service syslog. 
+# systemctl restart rsyslogd
+Avec la commande logger envoyer un message au service local4 de niveau notice. 
+# logger -p local4.info  Ca fonctionne bien
+
+/var/log/boot.log
+/var/log/local4.log
+
+Faites de même avec le niveau debug et le niveau crit. Cela a-t-il fonctionné ? Pourquoi ?
+# logger -p local4.crit  Ca fonctionne toujours bien
+# logger -p local4.debug  Ca ne fonctionne plus
+
+Le niveau debug est en dessous du niveau crit donc ce n'est pas journalisé.
+
+Exercice 3 : Centralisation des logs sur une machine 
+
+Sur La machine poste1 :
+Ajouter le service local1.info pour que cela envoie les informations à la machine poste2.
+Ajouter le service local2.info pour que cela envoie les informations dans /var/log/local2.log. 
+# grep ^local /etc/rsyslog.conf
+local7.*
+local4.info
+local1.info
+
+/var/log/boot.log
+/var/log/local4.log
+@192.168.12.2
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 35/43
+
+Linux Administration LRD  Exercices
+
+local2.info
+
+/var/log/local2.log
+
+Sur la machine poste2 :
+Ajouter le service local1.info pour logger dans le fichier /var/log/local1.log. 
+Ajouter le service local2.info pour que cela envoie les informations à la machine poste1.
+# grep ^local /etc/rsyslog.conf
+local7.*
+local4.info
+local1.info
+local2.info
+Sur les deux machines :
+Activer le module pour la réception de la part d’un syslogd distant.
+→ Décommentez les lignes suivantes dans /etc/rsyslog.conf :
+
+/var/log/boot.log
+/var/log/local4.log
+/var/log/local1.log
+@192.168.12.2
+
+$Modload imudp
+$UDPServerRun 514
+$Modload imtcp
+$InputTCPServerRun 514
+
+Ouvrir les ports correspondants sur le firewall.
+# firewall-cmd –add-service=syslog --permanent
+# firewall-cmd --reload
+
+Tester avec la commande logger que cela fonctionne correctement.
+# logger -p local1.info TEST_A
+# logger -p local2.info TEST_B
+
+Exercice 3 : Utilisation de l'utilitaire de systemd : journalctl
+
+Utiliser la commande journalctl pour visualiser les journaux du service crond.
+# journalctl -u crond
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 36/43
+
+Linux Administration LRD  Exercices
+
+Correction - Gestion des processus
+
+Exercice 1 : Afficher les informations relatives au processus 
+
+Afficher tous les processus tournant sur le système avec la commande ps.
+# ps -el
+# ps -ef
+
+Effectuer un affichage au format long pour visualiser la charge CPU et mémoire
+# ps -aux
+
+Avec la commande top :
+Afficher les processus de l’utilisateur user1.
+# top -u user1
+Afficher les informations sur les processus systemd et kthreadd.
+# top -p 1,2
+
+Exercice 2 : Exécution avec nohup
+
+Créer le script suivant :
+# more script1
+#!/bin/bash
+while true
+do
+
+echo bonjour
+sleep 10
+
+done
+
+Le rendre exécutable. Fermer le terminal dans lequel le script s'exécute. La script s'est-il arreté ?
+# chmod +x script1
+# ./script1
+→ Le script s'est arreté avec la fermeture du terminal
+
+Exécuter script1 à l'aide de la commande nohup. Que se passe-t-il lorsque le terminal est fermé ?
+Quel fichier est utilisé pour écrire la sortie ?
+# nohup ./script1
+→ Le fichier nohup.out est utilisé pour écrire la sortie 
+
+Exercice 3 : Manipulation des signaux
+
+En tant que user1 tapez la commande suivante :
+:  () { : | : & } ; :  
+Dans une autre fenêtre terminale surveiller le nombre de processus générés. 
+# top
+Tuez tous les processus qui appartiennent à user1.
+
+(C’est une fork bomb)
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 37/43
+
+Linux Administration LRD  Exercices
+
+# pkill -9 -u user1
+Exécuter la commande suivante :
+ yes > /dev/null &
+Surveiller le taux de disponibilité du CPU. Effectuez un affichage par processeur. 
+# top
+→ Faire SHIFT 1 pour un affichage par proc 
+
+Ré-exécuter la commande précédente une nouvelle fois. Quelle est la charge CPU ?
+→ Deux CPU ( ou cœurs) sont utilisés à 100%
+Tuer les processus yes à l'aide de top, kill ou pkill .
+# pkill -9 -x yes
+
+Lancer la commande suivante en arrière plan :  sleep 5000.
+# sleep 5000 &
+
+Arrêter le processus en utilisant le numéro de job renvoyé par la commande jobs.
+# jobs
+# kill %1
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 38/43
+
+Linux Administration LRD  Exercices
+
+Correction - Surveillance système
+
+Exercice 1 : Surveillance avec SAR
+
+Vérifier que le service sysstat est bien démarré.
+# systemctl status sysstat
+Consultez le fichier /etc/cron.d/sysstat. A quel intervalle fait-il des prélèvements ? Où sont stockés 
+les fichiers générés chaque jour.
+→ Sar effectue des prélèvements toutes les 10 minutes. Les fichier sont stockés dans le 
+répertoire /var/log/sa et portent comme nom saXX, XX étant le jour du mois
+
+Afficher toutes les 2 secondes  la charge CPU.
+# sar 2
+
+La même chose mais limité à 10 affichages.
+# sar 2 10 
+
+Afficher la charge CPU d’hier.
+# sar -f /var/log/sa/sa10
+
+Exercice 2 : Surveillance avec iostat
+
+Ouvrez un terminal et surveiller la charge disque grâce à iostat en faisant un affichage par seconde.
+
+Créez un gros fichier de 2Go  sous la racine avec la commande suivante :
+
+# dd if=/dev/zero of=/grosfic1 bs=1M count=2048
+
+Vérifier comment les données sont écrites.
+# iostat -N -p 1
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 39/43
+
+Linux Administration LRD  Exercices
+
+Correction - Administration du réseau
+
+Exercice 1 : affichage et paramétrage d'une adresse réseau
+
+- votre adresse ip
+
+En ligne de commande affichez :
+# ip a
+# ip route  
+# more /etc/resolv.conf
+
+- l'adresse de la passerelle
+
+ou 
+
+netstat -nr         ou      route
+
+- l'adresse des serveurs DNS
+
+Ajouter une adresse IP à votre carte actuelle.
+# ip addr add 192.168.10.50/24 dev enp0s3
+
+Ajouter une route par défaut.
+# route add default gw 192.168.10.254
+
+Supprimer la route ajoutée précédemment.
+# route del default gw 192.168.10.254
+
+Supprimer l'adresse IP ajoutée à la carte.
+# ip addr del 192.168.10.50/24 dev enp0s3
+
+Exercice 2 : paramétrage de la carte réseau
+
+Ajouter une interface réseau à votre machine virtuelle (machine éteinte).
+# more /etc/sysconfig/network-scripts/enp0s8
+TYPE=Ethernet
+BOOTPROTO=static
+DEVICE=enp0s8
+NAME=enp0s8
+ONBOOT=yes
+IPADDR=192.168.X.Y
+NETMASK=255.255.255.0
+GATEWAY=192.168.X.254
+DNS1=8.8.8.8
+DNS2=8.8.4.4
+
+Créer le fichier de configuration de la nouvelle  carte  avec un adressage ip en statique (recopiez le 
+fichier de configuration de la première carte et adaptez le).
+# ifup enp0s8
+
+Exercice 3 : commandes informatives diverses.
+
+Quel serveur DNS vous répond lorsqu’on va sur le site www.google.fr?
+# nslookup www.google.fr
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 40/43
+
+Linux Administration LRD  Exercices
+
+Votre serveur écoute-t-il sur le port 22 ? Indiquez 3 manières permettant de le savoir
+# netstat -nr | grep:22
+# lsof -i:22
+# ss -lt | grep ssh
+
+Exercice 4 : le pare-feu firewalld 
+
+Afficher la configuration actuelle de la zone par défaut.
+# firewall-cmd --list-all 
+
+Afficher la configuration persistante de la zone par défaut.
+# firewall-cmd --list-all --permanent
+Installer un serveur ftp (vsftpd).
+# yum install vsftpd 
+
+Démarrer le service et ouvrir le port sur le pare-feu.
+# systemctl start vsftpd
+# firewall-cmd --add-service=ftp
+
+Vérifier que le port est bien ouvert. 
+# firewall-cmd --list-ports
+
+Vérifiez que le port sera ouvert au prochain redémarrage du serveur.
+# firewall-cmd –list-ports --permanent
+
+Rendre la règle persistante au démarrage.
+# firewall-cmd –add-service=ftp --permanent
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 41/43
+
+Linux Administration LRD  Exercices
+
+Correction - Présentation des services
+réseaux
+
+Exercice 1 : Création de clefs SSH 
+
+En tant que root, créer une paire de clefs SSH de type RSA.
+Faites en sorte d’envoyer la clef sur une machine distante pour pouvoir vous connecter en tant que
+root et user10 en utilisant l’authentification par clefs.
+Tester la connexion. Utilisez l'option -v de ssh pour visualiser l'échange entre le client et le serveur.
+
+Exercice 2 : Utilisation de SSH 
+
+Afficher le contenu du répertoire /home/user20 d'une machine distante. 
+Copiez le fichier /home/user20/.bashrc dans votre réperoire /var/tmp.
+Envoyez le répertoire /etc/sysconfig/network-scripts sur la machine distante dans le répertoire 
+/tmp.
+Connectez-vous sur la machine distante en déportant l'affichage graphique. Executez firefox. 
+Vérifiez que le processus firefox est exécutée sur la machine distante.
+
+Exercice 3 : Installation d'apache 
+
+Installer le package httpd. Paramétrer le fichier de configuration d'apache. Démarrer le service.
+Faites en sorte de pouvoir y accéder depuis l’extérieur.
+
+Exercice 4 : Création d'un partage SAMBA
+
+Créer un partage SAMBA simple en modifiant le fichier /etc/samba/smb.conf. 
+Transformer les utilisateurs user10n, user20 et root en utilisateurs SAMBA.
+Visualiser les partages d'un serveur SAMBA distant.
+Connectez-vous sur un partage SAMBA distant.
+Transférer des fichiers à l'aide de put,mput,get,mget.
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 42/43
+
+Linux Administration LRD  Exercices
+
+© 2018 Copyright Spherius – vers 1.0
+
+ 43/43
+
+
