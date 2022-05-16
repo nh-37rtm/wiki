@@ -55,6 +55,47 @@ COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Identity.API.dll"]
 ````
 
+### default networks
+
+recreate the docker bridge interface
+
+````json
+{
+  "hosts": [ "tcp://0.0.0.0:2375" ],
+  "selinux-enabled": true,
+  "default-address-pools":
+  [
+    {"base":"10.10.0.0/16","size":24}
+  ]
+}
+````
+
+````shell
+nheim@debian:~$ ip link delete docker0
+RTNETLINK answers: Operation not permitted
+nheim@debian:~$ sudo ip link delete docker0
+````
+
+it repaired the internal connectivity
+
+````shell
+nheim@debian:~$ docker run -it debian:bullseye-slim
+root@e5fb4d58503f:/#
+root@e5fb4d58503f:/#
+root@e5fb4d58503f:/# apt update
+Get:1 http://deb.debian.org/debian bullseye InRelease [116 kB]
+Get:2 http://security.debian.org/debian-security bullseye-security InRelease [44.1 kB]
+Get:3 http://deb.debian.org/debian bullseye-updates InRelease [39.4 kB]
+Get:4 http://security.debian.org/debian-security bullseye-security/main amd64 Packages [146 kB]
+Get:5 http://deb.debian.org/debian bullseye/main amd64 Packages [8182 kB]
+Get:6 http://deb.debian.org/debian bullseye-updates/main amd64 Packages [2596 B]
+Fetched 8530 kB in 2s (3781 kB/s)
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+All packages are up to date.
+
+````
 ### References
 
 - https://vsupalov.com/docker-env-vars/
