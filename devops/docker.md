@@ -96,6 +96,8 @@ Reading state information... Done
 All packages are up to date.
 
 ````
+
 ### References
 
 - https://vsupalov.com/docker-env-vars/
+- https://support.getjoan.com/knowledge/How-to-change-the-Docker-default-subnet-IP-address
