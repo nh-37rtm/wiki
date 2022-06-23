@@ -19,3 +19,39 @@ value: Development
 
 i had this error but changing this value to anything else caused the error, finally i ended in changing the value to ``Dev`` and sending a mail to matt.krebs waiting for his answer.
 
+## compiling with dotnet
+
+### set the current default sdk version (to run with)
+
+````bat
+C:\git\xperience\xperience-onexperience-api\OneXperience\API\OneXperience.API>dotnet new global.json --sdk-version 5.0.408
+Getting ready...
+Creating this template will make changes to existing files:
+  Overwrite   ./global.json
+
+Rerun the command and pass --force to accept and create.
+
+C:\git\xperience\xperience-onexperience-api\OneXperience\API\OneXperience.API>dotnet --version
+5.0.408
+
+C:\git\xperience\xperience-onexperience-api\OneXperience\API\OneXperience.API>
+
+C:\git\xperience\xperience-onexperience-api\OneXperience\API\OneXperience.API>type global.json
+{
+  "sdk": {
+    "version": "5.0.408"
+  }
+}
+
+````
+
+### build using sln file
+
+````bat
+dotnet build "OneXperience.sln" -c Release -o /app/build
+dotnet publish "OneXperience.sln" -c Release -o /app/publish
+````
+
+to not build all projects customize in visual studio (for exemple the release build in this case)
+
+
